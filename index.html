@@ -1,21 +1,15 @@
 <!DOCTYPE html>
-<!--
-  ╔══════════════════════════════════════════════════════════╗
-  ║  프롬프트 도우미 (Prompt Helper) 2026                    ║
-  ║  © 2026 i-Scream Media HR Team. All rights reserved.     ║
-  ╚══════════════════════════════════════════════════════════╝
--->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>프롬프트 도우미 (Prompt Helper) – i-Scream Media</title>
+<title>:: 프롬프트 도우미 (Prompt Helper) ::</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f0f2f5;--surf:#fff;--bdr:#e4e8ef;--bdr2:#ccd3df;--text:#1a2232;--muted:#7b8899;--faint:#f7f9fc;--acc:#3b5bdb;--acc-lt:#eef1fd;--acc-dk:#2f4ac4;--grn:#0f9d6e;--grn-lt:#e5f7f2;--grn-bdr:#34d399;--amber:#d97706;--amber-lt:#fef3c7;--red:#e03e3e;--red-lt:#fee2e2;--purple:#7c3aed;--purple-lt:#f3f0ff;--r:10px;--rs:7px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:22px 22px 0;font-size:14px;line-height:1.55;user-select:none}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:22px 22px 0;font-size:12.5px;line-height:1.55;user-select:none}
 input,textarea,select,.out-box,.out-edit{user-select:text}
 
 /* ── Header ── */
@@ -49,12 +43,12 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .ben-src a{color:var(--acc);text-decoration:none}
 
 /* ── Layout: normal flow (no sticky) ── */
-.grid{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:start}
+.grid{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start}
 .left{display:flex;flex-direction:column;gap:14px}
 .right{display:flex;flex-direction:column;gap:12px}
 
 .card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px}
-.sec{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.sec{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
 .dot{width:19px;height:19px;border-radius:50%;background:var(--acc);color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .sec-note{font-size:10px;font-weight:600;color:var(--grn);background:var(--grn-lt);padding:2px 7px;border-radius:8px;border:1px solid var(--grn-bdr);letter-spacing:0;text-transform:none}
 
@@ -104,7 +98,7 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .fwrap{display:flex;flex-direction:column;gap:5px}
 .flbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
 .ftag{font-size:9px;background:var(--acc-lt);color:var(--acc);padding:1px 6px;border-radius:6px;font-weight:800;letter-spacing:.4px}
-.field{padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:13px;color:var(--text);background:var(--surf);outline:none;width:100%;resize:none;transition:border-color .15s;font-family:'DM Sans',sans-serif;line-height:1.5;user-select:text}
+.field{padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:12.5px;color:var(--text);background:var(--surf);outline:none;width:100%;resize:none;transition:border-color .15s;font-family:'DM Sans',sans-serif;line-height:1.5;user-select:text}
 .field:focus{border-color:var(--acc)}
 .field::placeholder{color:#b5bfc9}
 .field.filled{border-color:var(--grn)}
@@ -152,7 +146,7 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 
 /* ── QP panel ── */
 .qp-panel{margin-top:10px;border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden}
-.qp-toggle{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;cursor:pointer;background:var(--faint);font-size:12px;font-weight:600;color:var(--muted);user-select:none;border:none;width:100%;font-family:'DM Sans',sans-serif;text-align:left}
+.qp-toggle{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;cursor:pointer;background:var(--faint);font-size:12.5px;font-weight:600;color:var(--muted);user-select:none;border:none;width:100%;font-family:'DM Sans',sans-serif;text-align:left}
 .qp-toggle:hover{color:var(--text)}
 .qp-toggle .arrow{font-size:10px;transition:transform .2s}
 .qp-toggle.open .arrow{transform:rotate(180deg)}
@@ -179,8 +173,8 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .opt-list{display:flex;flex-direction:column;gap:7px}
 .opt-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--surf);transition:all .13s}
 .opt-row.active{border-color:var(--acc);background:var(--acc-lt)}
-.opt-t{font-size:13px;font-weight:600}
-.opt-s{font-size:11px;color:var(--muted);margin-top:1px}
+.opt-t{font-size:12.5px;font-weight:600}
+.opt-s{font-size:12px;color:var(--muted);margin-top:1px}
 .opt-row.active .opt-t{color:var(--acc)}
 .opt-row.active .opt-s{color:rgba(59,91,219,.6)}
 .tog{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
@@ -189,7 +183,7 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .track::before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.12)}
 input:checked~.track{background:var(--acc)}
 input:checked~.track::before{transform:translateX(16px)}
-.sel{appearance:none;padding:6px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:12px;font-weight:600;color:var(--text);background:var(--surf);cursor:pointer;outline:none;font-family:'DM Sans',sans-serif;min-width:95px;transition:border-color .13s}
+.sel{appearance:none;padding:6px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:12.5px;font-weight:600;color:var(--text);background:var(--surf);cursor:pointer;outline:none;font-family:'DM Sans',sans-serif;min-width:95px;transition:border-color .13s}
 .sel:focus{border-color:var(--acc)}
 .sel-row{display:flex;gap:8px;flex-wrap:wrap}
 .file-area{display:none;margin-top:6px;padding:11px 12px;border:1px dashed var(--bdr2);border-radius:var(--rs);background:var(--faint)}
@@ -199,20 +193,21 @@ input:checked~.track::before{transform:translateX(16px)}
 .add-f:hover{background:var(--acc-lt)}
 
 /* ── Output panel ── */
-.out-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.out-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(135deg,#3b5bdb 0%,#4c6ef5 100%);border-radius:var(--rs) var(--rs) 0 0;margin:-20px -22px 14px;flex-wrap:wrap;gap:8px}
 .out-hd-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.out-hd-title{font-size:13px;font-weight:700;color:#fff;letter-spacing:-.1px}
 .qpills{display:flex;gap:5px;flex-wrap:wrap}
-.qp2{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;border:1.5px solid var(--bdr);color:var(--muted);background:var(--surf);transition:all .2s}
-.qp2.on{border-color:var(--acc);background:var(--acc-lt);color:var(--acc)}
-.guide-btn{font-size:11px;font-weight:700;padding:4px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
-.guide-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-lt)}
-.edit-btn{font-size:11px;font-weight:700;padding:4px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
-.edit-btn:hover{border-color:var(--amber);color:var(--amber)}
-.edit-btn.active{border-color:var(--amber);color:var(--amber);background:var(--amber-lt)}
+.qp2{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);transition:all .2s}
+.qp2.on{border-color:#fff;background:rgba(255,255,255,.28);color:#fff}
+.guide-btn{font-size:12.5px;font-weight:600;padding:5px 12px;border:1.5px solid rgba(255,255,255,.7);border-radius:var(--rs);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
+.guide-btn:hover{background:rgba(255,255,255,.3)}
+.edit-btn{font-size:12.5px;font-weight:600;padding:5px 12px;border:1.5px solid rgba(255,255,255,.4);border-radius:var(--rs);background:transparent;color:rgba(255,255,255,.8);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
+.edit-btn:hover{background:rgba(255,255,255,.18);color:#fff}
+.edit-btn.active{border-color:#fcd34d;color:#fcd34d;background:rgba(252,211,77,.15)}
 
 /* output tabs */
 .out-tabs{display:flex;border-bottom:1px solid var(--bdr);margin-bottom:12px}
-.out-tab{padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .13s;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
+.out-tab{padding:7px 13px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .13s;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
 .out-tab:hover{color:var(--text)}
 .out-tab.on{color:var(--acc);border-bottom-color:var(--acc)}
 .out-panel{display:none}
@@ -220,10 +215,10 @@ input:checked~.track::before{transform:translateX(16px)}
 
 /* output box with copy button inside */
 .out-wrap{position:relative}
-.out-box{background:#13192a;border-radius:var(--rs);border:1px solid #1e2740;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;white-space:pre-wrap;word-break:break-word;max-height:400px;overflow-y:auto;line-height:1.78;user-select:text}
+.out-box{background:#13192a;border-radius:var(--rs);border:1px solid #1e2740;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;white-space:pre-wrap;word-break:break-word;min-height:460px;max-height:680px;overflow-y:auto;line-height:1.78;user-select:text}
 .out-box::-webkit-scrollbar{width:4px}
 .out-box::-webkit-scrollbar-thumb{background:#2a3556;border-radius:4px}
-.out-edit{width:100%;resize:vertical;min-height:180px;max-height:400px;background:#13192a;color:#c8d5ef;caret-color:#c8d5ef;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;line-height:1.78;border-radius:var(--rs);border:1px solid #1e2740;outline:none;display:none;user-select:text}
+.out-edit{width:100%;resize:vertical;min-height:460px;max-height:680px;background:#13192a;color:#c8d5ef;caret-color:#c8d5ef;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;line-height:1.78;border-radius:var(--rs);border:1px solid #1e2740;outline:none;display:none;user-select:text}
 .out-edit:focus{border-color:var(--amber)}
 /* copy button — absolute inside out-wrap */
 .copy-fab{position:absolute;bottom:10px;right:10px;padding:6px 14px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,transform .1s;z-index:10;display:flex;align-items:center;gap:5px}
@@ -283,7 +278,8 @@ input:checked~.track::before{transform:translateX(16px)}
 .out-grade{font-weight:700;transition:color .3s}
 
 /* ── Footer ── */
-.footer{max-width:1440px;margin:24px auto 0;padding:14px 0 24px;border-top:1px solid var(--bdr);text-align:center;font-size:12px;color:var(--muted)}
+.footer{max-width:1440px;margin:24px auto 0;padding:14px 0 24px;border-top:1px solid var(--bdr);text-align:center;font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.footer strong{color:var(--acc)}
 
 /* ── Toast ── */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(70px);background:#13192a;color:#fff;padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:transform .35s cubic-bezier(.175,.885,.32,1.275);z-index:999}
@@ -327,8 +323,8 @@ input:checked~.track::before{transform:translateX(16px)}
   <span class="badge">2026</span>
   <div class="hd-spacer"></div>
   <div class="hd-actions">
-    <button class="json-btn" onclick="exportTemplates()">💾 내보내기</button>
-    <label class="json-btn" style="cursor:pointer">📂 가져오기<input type="file" id="import-file" accept=".json" style="display:none" onchange="importTemplates(this)"></label>
+    <button class="json-btn" onclick="exportTemplates()">💾 프롬프트 저장하기</button>
+    <label class="json-btn" style="cursor:pointer">📂 불러오기<input type="file" id="import-file" accept=".json" style="display:none" onchange="importTemplates(this)"></label>
     <div class="hd-div"></div>
     <button class="reset-btn" onclick="resetAll()">↺ 초기화</button>
   </div>
@@ -358,11 +354,11 @@ input:checked~.track::before{transform:translateX(16px)}
   <div class="plat-group">
     <div class="plat-cat">범용 AI (대화형)</div>
     <div class="chip-row">
-      <button class="chip on gpt"     data-m="gpt"        data-url="https://chatgpt.com"          onclick="setModel(this)"><span class="ci">🤖</span>GPT-5.4</button>
-      <button class="chip gemini"     data-m="gemini"     data-url="https://gemini.google.com"     onclick="setModel(this)"><span class="ci">✦</span>Gemini 3.1</button>
-      <button class="chip claude"     data-m="claude"     data-url="https://claude.ai"             onclick="setModel(this)"><span class="ci">◆</span>Claude Sonnet 4.6</button>
+      <button class="chip on gpt"     data-m="gpt"        data-url="https://chatgpt.com"          onclick="setModel(this)"><span class="ci">🤖</span>ChatGPT</button>
+      <button class="chip gemini"     data-m="gemini"     data-url="https://gemini.google.com"     onclick="setModel(this)"><span class="ci">✦</span>Gemini</button>
+      <button class="chip claude"     data-m="claude"     data-url="https://claude.ai"             onclick="setModel(this)"><span class="ci">◆</span>Claude</button>
       <button class="chip copilot"    data-m="copilot"    data-url="https://copilot.microsoft.com" onclick="setModel(this)"><span class="ci">🪟</span>Copilot</button>
-      <button class="chip grok"       data-m="grok"       data-url="https://grok.com"              onclick="setModel(this)"><span class="ci">𝕏</span>Grok 3</button>
+      <button class="chip grok"       data-m="grok"       data-url="https://grok.com"              onclick="setModel(this)"><span class="ci">𝕏</span>Grok</button>
     </div>
   </div>
   <div class="plat-group">
@@ -402,7 +398,7 @@ input:checked~.track::before{transform:translateX(16px)}
       <button class="chip cursor"     data-m="cursor"     data-url="https://cursor.com"           onclick="setModel(this)"><span class="ci">🖱️</span>Cursor</button>
     </div>
   </div>
-  <div class="hint" id="model-hint">💡 GPT-5.4: <code>[[SYSTEM_ROLE]]</code> 블록으로 역할·지시·제약을 분리. OpenAI 최신 플래그십 모델</div>
+  <div class="hint" id="model-hint">💡 ChatGPT (GPT-5.4): <code>[[SYSTEM_ROLE]]</code> 블록으로 역할·지시·제약을 분리. OpenAI 최신 플래그십 모델</div>
 </div>
 
 <!-- ② AI 역할 설정 -->
@@ -517,7 +513,7 @@ input:checked~.track::before{transform:translateX(16px)}
   <div class="card">
     <div class="out-hd">
       <div class="out-hd-left">
-        <div class="sec" style="margin:0">✨ 구조화 프롬프트</div>
+        <span class="out-hd-title">✨ 구조화 프롬프트</span>
         <button class="guide-btn" onclick="openGuide()">📖 사용 가이드</button>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
@@ -570,6 +566,8 @@ input:checked~.track::before{transform:translateX(16px)}
 </div><!-- /grid -->
 
 <div class="footer">
+  <span>오늘 <strong id="today-count">–</strong>명 · 누적 <strong id="total-count">–</strong>명 방문</span>
+  &nbsp;|&nbsp;
   💬 건의 및 개선 사항은 <strong>인사총무팀 오세찬 과장</strong>에게 편하게 연락 주세요.
 </div>
 
@@ -592,49 +590,65 @@ input:checked~.track::before{transform:translateX(16px)}
 <div class="overlay" id="guide-overlay">
   <div class="modal guide-modal">
     <h3>📖 프롬프트 도우미 사용 가이드</h3>
-    <div class="guide-subtitle">구조화된 프롬프트를 만드는 4단계 방법을 안내합니다.</div>
+    <div class="guide-subtitle">이 도우미의 모든 기능 사용법을 안내합니다. 처음 방문이라면 Step 1부터 따라해 보세요.</div>
+
+    <div class="guide-section">
+      <h4>🖥️ 상단 헤더 버튼 안내</h4>
+      <div class="guide-row"><div class="gkey">💾 프롬프트 저장하기</div><div class="gval">현재 설정된 플랫폼·역할·프레임워크·옵션 전체를 <b>JSON 파일</b>로 PC에 저장합니다. 자주 쓰는 프롬프트 세트를 백업하거나 동료와 공유할 때 활용하세요.</div></div>
+      <div class="guide-row"><div class="gkey">📂 불러오기</div><div class="gval">이전에 저장한 JSON 파일을 불러옵니다. 기존 템플릿과 중복을 제거한 뒤 병합되며, 최대 8개까지 관리됩니다.</div></div>
+      <div class="guide-row"><div class="gkey">↺ 초기화</div><div class="gval">모든 입력값과 설정을 처음 상태로 되돌립니다. 새로운 프롬프트를 작성할 때 사용하세요.</div></div>
+    </div>
+
+    <div class="guide-section">
+      <h4>✨ 구조화 프롬프트 패널 안내</h4>
+      <div class="guide-row"><div class="gkey">ROLE · TASK · FORMAT<br>GUARD · COT 뱃지</div><div class="gval">프롬프트에 포함된 요소를 실시간으로 표시합니다. 흰색으로 활성화될수록 완성도 높은 프롬프트입니다. GUARD = 할루시네이션 방지, COT = 단계별 추론.</div></div>
+      <div class="guide-row"><div class="gkey">✏️ 편집 버튼</div><div class="gval">생성된 프롬프트를 직접 수정할 수 있습니다. 세부 조정이 필요할 때 활용하세요. "✅ 완료"를 누르면 수정된 내용이 복사에 반영됩니다.</div></div>
+      <div class="guide-row"><div class="gkey">📋 복사 버튼</div><div class="gval">프롬프트 창 우측 하단에 위치. 클릭 시 전체 프롬프트가 클립보드에 복사됩니다. 복사 후 "↗ 플랫폼에서 열기" 링크를 클릭하면 해당 AI 서비스로 바로 이동합니다.</div></div>
+      <div class="guide-row"><div class="gkey">프롬프트 탭</div><div class="gval">완성된 구조화 프롬프트를 확인합니다. 플랫폼별로 최적화된 문법이 자동 적용됩니다.</div></div>
+      <div class="guide-row"><div class="gkey">자연어 비교 탭</div><div class="gval">구조화 전(자연어)과 후(설계된 프롬프트)를 항목별로 비교합니다. 추가된 요소와 토큰 수 차이를 확인할 수 있습니다.</div></div>
+      <div class="guide-row"><div class="gkey">품질 분석 탭</div><div class="gval">프롬프트 완성도를 6가지 항목으로 점수화합니다. 미입력 항목을 확인하고 보완하세요.</div></div>
+      <div class="guide-row"><div class="gkey">💾 현재 설정 저장</div><div class="gval">현재 입력 내용을 이름 붙여 저장합니다 (브라우저 로컬, 최대 8개). 모달 하단에서 불러오기·삭제가 가능합니다.</div></div>
+    </div>
 
     <div class="guide-section">
       <h4>🤖 Step 1. AI 플랫폼 선택</h4>
-      <div class="guide-row"><div class="gkey">GPT-5.4</div><div class="gval">복잡한 추론·긴 문서 작업. <code>[[SYSTEM_ROLE]]</code> 블록 구조 사용.</div></div>
-      <div class="guide-row"><div class="gkey">Claude Sonnet 4.6</div><div class="gval">일상 업무에 최적화. XML 태그 구조, 빠른 응답과 높은 품질.</div></div>
-      <div class="guide-row"><div class="gkey">Gemini 3.1</div><div class="gval">멀티모달·검색 연동. Google 생태계와 연결.</div></div>
-      <div class="guide-row"><div class="gkey">Perplexity</div><div class="gval">최신 정보·출처 인용이 필요할 때. RAG 기반.</div></div>
-      <div class="guide-row"><div class="gkey">NotebookLM</div><div class="gval">내 문서 업로드 후 분석·요약·Q&A. 소스 외 정보 배제.</div></div>
-      <div class="guide-row"><div class="gkey">뤼튼</div><div class="gval">국내 무료 AI 플랫폼. 한국어 특화, GPT 계열 모델 사용.</div></div>
-      <div class="guide-row"><div class="gkey">Sora</div><div class="gval">OpenAI 영상 생성. 장면·스타일·카메라 움직임 중심 프롬프트.</div></div>
-      <div class="guide-row"><div class="gkey">Midjourney</div><div class="gval">이미지 생성. 피사체·스타일·조명·화면비율 중심.</div></div>
-      <div class="guide-row"><div class="gkey">Suno</div><div class="gval">음악 생성. 장르·분위기·템포·가사 방향 중심.</div></div>
-      <div class="guide-row"><div class="gkey">Nano Banana</div><div class="gval">Google Gemini 이미지 생성 모델. 대화형 편집 지원.</div></div>
+      <div class="guide-row"><div class="gkey">ChatGPT</div><div class="gval">복잡한 추론·긴 문서 작업. <code>[[SYSTEM_ROLE]]</code> 블록 구조 자동 적용.</div></div>
+      <div class="guide-row"><div class="gkey">Claude</div><div class="gval">일상 업무에 최적화. XML 태그 구조, 빠른 응답과 높은 품질.</div></div>
+      <div class="guide-row"><div class="gkey">Gemini</div><div class="gval">멀티모달·검색 연동. Google 생태계와 연결. grounding 속성 자동 삽입.</div></div>
+      <div class="guide-row"><div class="gkey">Perplexity</div><div class="gval">최신 정보·출처 인용이 필요할 때. 인용 프로토콜 자동 삽입.</div></div>
+      <div class="guide-row"><div class="gkey">NotebookLM</div><div class="gval">내 문서를 업로드한 후 분석·요약·Q&amp;A. 소스 외 정보 배제 지시 자동 삽입.</div></div>
+      <div class="guide-row"><div class="gkey">뤼튼</div><div class="gval">국내 무료 AI 플랫폼. 한국어 특화, 무료 사용 가능.</div></div>
+      <div class="guide-row"><div class="gkey">Genspark</div><div class="gval">AI 슈퍼에이전트. 웹 검색·리서치·보고서 자동 작성까지 수행.</div></div>
+      <div class="guide-row"><div class="gkey">Sora · Midjourney<br>Suno · Nano Banana</div><div class="gval">생성형 미디어 플랫폼. 영상·이미지·음악 생성에 특화된 프롬프트가 자동 생성됩니다. <b>영어 프롬프트를 권장합니다.</b></div></div>
     </div>
 
     <div class="guide-section">
       <h4>👤 Step 2. AI 역할 설정</h4>
-      <div class="guide-row"><div class="gkey">직군 선택</div><div class="gval"><b>직무</b>(인사, 개발 등) + <b>역할</b>(기획, 운영 등)을 조합해 정밀한 역할을 설정합니다.</div></div>
-      <div class="guide-row"><div class="gkey">조합 예시</div><div class="gval">인사 + 기획 → "인사 기획 전문가 입니다"<br>개발 + 운영 → "개발 운영 전문가 입니다"<br>마케팅 + 전략 → "마케팅 전략 전문가 입니다"</div></div>
-      <div class="guide-row"><div class="gkey">직접 입력</div><div class="gval">특수한 역할은 자유 텍스트로 직접 작성. 경력·전문 분야 등 상세 설정 가능.</div></div>
+      <div class="guide-row"><div class="gkey">직군 선택</div><div class="gval"><b>직무</b>(인사, 개발 등) + <b>역할</b>(기획, 운영 등)을 조합해 정밀한 역할을 설정합니다. 여러 개 중복 선택 가능.</div></div>
+      <div class="guide-row"><div class="gkey">조합 예시</div><div class="gval">인사 + 기획 → "인사 기획 전문가 입니다"<br>개발 + 운영 → "개발 운영 전문가 입니다"</div></div>
+      <div class="guide-row"><div class="gkey">직접 입력</div><div class="gval">특수한 역할은 자유 텍스트로 직접 작성 가능.</div></div>
     </div>
 
     <div class="guide-section">
       <h4>🏗️ Step 3. 프레임워크 선택</h4>
-      <div class="guide-row"><div class="gkey">RTF</div><div class="gval">빠른 단일 작업 (이메일, 공지, 회의록 등)</div></div>
-      <div class="guide-row"><div class="gkey">CO-STAR</div><div class="gval">완성도 높은 문서 (기획서, 보고서, 제안서)</div></div>
+      <div class="guide-row"><div class="gkey">RTF</div><div class="gval">빠른 단일 작업 — 이메일, 공지, 회의록</div></div>
+      <div class="guide-row"><div class="gkey">CO-STAR</div><div class="gval">완성도 높은 문서 — 기획서, 보고서, 제안서</div></div>
       <div class="guide-row"><div class="gkey">SCQA</div><div class="gval">경영진 보고, 의사결정 자료 (결론 우선 구조)</div></div>
-      <div class="guide-row"><div class="gkey">RISEN</div><div class="gval">복잡한 프로젝트 설계 (단계·제약·목표 명시)</div></div>
+      <div class="guide-row"><div class="gkey">RISEN</div><div class="gval">복잡한 프로젝트 설계 — 단계·제약·목표 명시</div></div>
       <div class="guide-row"><div class="gkey">CARE</div><div class="gval">사례 기반 아이디어 도출, 벤치마킹</div></div>
       <div class="guide-row"><div class="gkey">STAR</div><div class="gval">성과 서술, 역량 면접 답변 (HR 특화)</div></div>
       <div class="guide-row"><div class="gkey">RACE</div><div class="gval">전략 기획, 실행 방안 수립</div></div>
       <div class="guide-row"><div class="gkey">Critique</div><div class="gval">기존 문서 검토·개선, 리스크 분석</div></div>
-      <div class="guide-row"><div class="gkey">PRD</div><div class="gval">제품/기능 요구사항 정의서 (개발팀용)</div></div>
-      <div class="guide-row"><div class="gkey">BDD</div><div class="gval">테스트 시나리오, QA 요청서 (Given-When-Then)</div></div>
-      <div class="guide-tip">💡 직군 칩을 선택하면 해당 직군에 <b>추천 프레임워크가 녹색으로 강조</b>됩니다. 프레임워크 카드의 <b>!</b> 버튼으로 활용 팁, <b>?</b> 버튼으로 출처를 확인하세요.</div>
+      <div class="guide-row"><div class="gkey">PRD / BDD</div><div class="gval">제품 요구사항 정의서 / 테스트 시나리오 (개발팀용)</div></div>
+      <div class="guide-tip">💡 직군 칩 선택 시 <b>추천 프레임워크가 녹색으로 강조</b>됩니다. 카드의 <b>!</b> = 활용 팁, <b>?</b> = 출처·검증 근거.</div>
     </div>
 
     <div class="guide-section">
       <h4>⚙️ Step 4. 고급 옵션 활용</h4>
       <div class="guide-row"><div class="gkey">🛡️ 할루시네이션 방지</div><div class="gval">사실 근거 기반 작업 시 항상 켜두는 것을 권장합니다.</div></div>
       <div class="guide-row"><div class="gkey">🔗 Chain-of-Thought</div><div class="gval">복잡한 분석·전략 수립 시 AI가 단계별로 추론하도록 유도합니다.</div></div>
-      <div class="guide-row"><div class="gkey">출력 형식</div><div class="gval">Markdown/불릿/표/보고서/JSON/슬라이드 구조 중 선택.</div></div>
+      <div class="guide-row"><div class="gkey">출력 형식·길이·언어</div><div class="gval">결과물의 형식(Markdown/표/보고서 등), 분량, 언어를 지정합니다.</div></div>
+      <div class="guide-row"><div class="gkey">답변 톤</div><div class="gval">격식체, 구어체, 분석적, 간결 등 AI의 문체를 조정합니다.</div></div>
     </div>
 
     <button class="guide-close" onclick="closeGuide()">✅ 확인했습니다</button>
@@ -943,7 +957,7 @@ const saveT=ts=>localStorage.setItem(LS_KEY,JSON.stringify(ts));
 function openSaveModal(){const r=getRole();document.getElementById('tmpl-name-input').value=`${r!=='Expert'?r.slice(0,15):''} [${S.fw.toUpperCase()}]`.trim();document.getElementById('save-overlay').classList.add('on');renderTemplates();setTimeout(()=>document.getElementById('tmpl-name-input').select(),50);}
 function closeSaveModal(){document.getElementById('save-overlay').classList.remove('on');}
 function confirmSave(){const name=document.getElementById('tmpl-name-input').value.trim();if(!name){alert('이름을 입력하세요.');return;}const ts=getT();ts.unshift({name,ts:Date.now(),model:S.model,roleMode:S.roleMode,depts:[...S.depts],desc:document.getElementById('role-desc').value,freeRole:document.getElementById('role-free').value,fw:S.fw,inputs:{...S.inputs},opts:{rag:document.getElementById('opt-rag').checked,cot:document.getElementById('opt-cot').checked,fmt:document.getElementById('opt-fmt').value,len:document.getElementById('opt-len').value,lang:document.getElementById('opt-lang').value,tone:document.getElementById('opt-tone').value}});saveT(ts.slice(0,8));renderTemplates();showToast('💾 템플릿이 저장되었습니다!');}
-function exportTemplates(){const ts=getT();if(!ts.length){showToast('⚠️ 저장된 템플릿이 없습니다.');return;}const blob=new Blob([JSON.stringify({version:'parch_v5',exported:new Date().toISOString(),templates:ts},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`prompt_templates_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);showToast('💾 내보내기 완료!');}
+function exportTemplates(){const ts=getT();if(!ts.length){showToast('⚠️ 저장된 템플릿이 없습니다.');return;}const blob=new Blob([JSON.stringify({version:'parch_v5',exported:new Date().toISOString(),templates:ts},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`prompt_templates_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);showToast('💾 프롬프트가 저장되었습니다!');}
 function importTemplates(input){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{try{const data=JSON.parse(e.target.result);let imported=Array.isArray(data)?data:data.templates||[];if(!imported.length){showToast('⚠️ 유효한 템플릿이 없습니다.');return;}const merged=[...imported,...getT()].filter((t,i,a)=>a.findIndex(x=>x.name===t.name)===i);saveT(merged.slice(0,8));renderTemplates();showToast(`📂 ${imported.length}개 가져오기 완료!`);}catch{showToast('⚠️ JSON 형식이 올바르지 않습니다.');}input.value='';};reader.readAsText(file);}
 function loadTemplate(idx){const t=getT()[idx];if(!t)return;if(editMode)toggleEdit();closeSaveModal();document.querySelectorAll('.chip').forEach(c=>c.className='chip '+(c.dataset.m||''));const mel=document.querySelector(`.chip[data-m="${t.model}"]`);if(mel){mel.classList.add('on',t.model);S.model=t.model;document.getElementById('model-hint').innerHTML=MHINTS[t.model]||'';}setRoleMode(t.roleMode||'dept');S.depts=t.depts||[];[...document.querySelectorAll('#dept-job .dchip'),...document.querySelectorAll('#dept-role .dchip')].forEach(c=>{if(S.depts.some(d=>c.textContent.trim()===d))c.classList.add('on');else c.classList.remove('on');});document.getElementById('role-desc').value=t.desc||'';document.getElementById('role-free').value=t.freeRole||'';S.fw=t.fw||'rtf';S.inputs={...t.inputs};document.querySelectorAll('#fw-grid .fwc').forEach(c=>c.classList.remove('on'));const fi=FW_ORDER.indexOf(S.fw);const cards=[...document.querySelectorAll('#fw-grid .fwc')];if(fi>=0&&cards[fi])cards[fi].classList.add('on');buildDyn();buildQEx();updateQP();const fields=document.querySelectorAll('#dyn-inputs .field');FW[S.fw].tags.forEach((tag,i)=>{if(fields[i]){fields[i].value=S.inputs[tag]||'';fields[i].classList.toggle('filled',!!S.inputs[tag]);}});if(t.opts){document.getElementById('opt-rag').checked=t.opts.rag!==false;syncRow('row-rag','opt-rag');document.getElementById('opt-cot').checked=!!t.opts.cot;syncRow('row-cot','opt-cot');document.getElementById('opt-fmt').value=t.opts.fmt||'';document.getElementById('opt-len').value=t.opts.len||'';document.getElementById('opt-lang').value=t.opts.lang||'ko';document.getElementById('opt-tone').value=t.opts.tone||'';}updateRecFW();updateComboHint();updateOpenRow();update();showToast(`📂 "${t.name}" 불러왔습니다.`);}
 function deleteTemplate(idx){const ts=getT();ts.splice(idx,1);saveT(ts);renderTemplates();showToast('🗑 삭제했습니다.');}
@@ -953,6 +967,32 @@ function renderTemplates(){const ts=getT();const list=document.getElementById('t
 document.addEventListener('DOMContentLoaded',()=>{document.getElementById('tmpl-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmSave();});});
 
 /* ── INIT ── */
+/* ── VISITOR COUNTER ── */
+async function updateVisitorCount() {
+  // Using CounterAPI (free, no signup needed)
+  // namespace: iscream-media, key: prompt-helper-visits
+  // Replace namespace with your own project name for production
+  try {
+    const [todayRes, totalRes] = await Promise.all([
+      fetch('https://api.counterapi.dev/v1/iscream-media-prompt/today/hit'),
+      fetch('https://api.counterapi.dev/v1/iscream-media-prompt/total/hit')
+    ]);
+    const todayData = await todayRes.json();
+    const totalData = await totalRes.json();
+    const todayEl = document.getElementById('today-count');
+    const totalEl = document.getElementById('total-count');
+    if(todayEl && todayData.count != null) todayEl.textContent = todayData.count.toLocaleString();
+    if(totalEl && totalData.count != null) totalEl.textContent = totalData.count.toLocaleString();
+  } catch(e) {
+    // Silently fail if counter API is unavailable
+    const todayEl = document.getElementById('today-count');
+    const totalEl = document.getElementById('total-count');
+    if(todayEl) todayEl.textContent = '–';
+    if(totalEl) totalEl.textContent = '–';
+  }
+}
+updateVisitorCount();
+
 initTooltips();
 syncRow('row-rag','opt-rag');
 buildDyn();buildQEx();updateQP();
