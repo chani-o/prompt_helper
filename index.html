@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  프롬프트 도우미 (Prompt Helper) 2026                    ║
+  ║  © 2026 i-Scream Media HR Team. All rights reserved.     ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>프롬프트 도우미 (Prompt Helper) – i-Scream Media</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f2f5;--surf:#fff;--bdr:#e4e8ef;--bdr2:#ccd3df;--text:#1a2232;--muted:#7b8899;--faint:#f7f9fc;--acc:#3b5bdb;--acc-lt:#eef1fd;--acc-dk:#2f4ac4;--grn:#0f9d6e;--grn-lt:#e5f7f2;--grn-bdr:#34d399;--amber:#d97706;--amber-lt:#fef3c7;--red:#e03e3e;--red-lt:#fee2e2;--purple:#7c3aed;--purple-lt:#f3f0ff;--r:10px;--rs:7px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:22px 22px 0;font-size:14px;line-height:1.55;user-select:none}
+input,textarea,select,.out-box,.out-edit{user-select:text}
+
+/* ── Header ── */
+.hd{max-width:1440px;margin:0 auto 4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hd h1{font-size:19px;font-weight:700;letter-spacing:-.3px}
+.hd h1 sub{font-size:12px;font-weight:400;color:var(--muted);margin-left:4px;vertical-align:middle}
+.badge{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;background:var(--acc-lt);color:var(--acc);padding:3px 8px;border-radius:20px}
+.hd-spacer{flex:1}
+.hd-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.json-btn{font-size:12px;font-weight:600;color:var(--acc);background:var(--acc-lt);border:1.5px solid var(--acc);border-radius:var(--rs);padding:6px 12px;cursor:pointer;transition:all .13s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.json-btn:hover{background:var(--acc);color:#fff}
+.reset-btn{font-size:12px;font-weight:600;color:var(--muted);background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rs);padding:6px 12px;cursor:pointer;transition:all .13s;font-family:'DM Sans',sans-serif}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+.hd-div{width:1px;height:20px;background:var(--bdr)}
+
+/* ── Tagline ── */
+.hd-tagline{max-width:1440px;margin:0 auto 6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hd-tag-text{font-size:13px;color:var(--muted)}
+.hd-tag-text span{color:var(--acc);font-weight:600}
+.benefits-btn{font-size:11.5px;font-weight:700;color:var(--grn);background:var(--grn-lt);border:1px solid var(--grn-bdr);border-radius:20px;padding:3px 11px;cursor:pointer;transition:all .13s;font-family:'DM Sans',sans-serif}
+.benefits-btn:hover{background:#d1fae5}
+.benefits-drawer{max-width:1440px;margin:0 auto 14px;display:none;border:1px solid var(--grn-bdr);border-radius:var(--r);background:var(--grn-lt);padding:16px 20px}
+.benefits-drawer.open{display:block}
+.ben-title{font-size:13px;font-weight:700;color:var(--grn);margin-bottom:10px}
+.ben-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ben-card{background:#fff;border:1px solid var(--grn-bdr);border-radius:var(--rs);padding:12px 14px}
+.ben-num{font-size:22px;font-weight:800;color:var(--grn)}
+.ben-label{font-size:11.5px;font-weight:600;margin-top:3px}
+.ben-sub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
+.ben-src{font-size:10.5px;color:var(--muted);margin-top:10px}
+.ben-src a{color:var(--acc);text-decoration:none}
+
+/* ── Layout: normal flow (no sticky) ── */
+.grid{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:start}
+.left{display:flex;flex-direction:column;gap:14px}
+.right{display:flex;flex-direction:column;gap:12px}
+
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px}
+.sec{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.dot{width:19px;height:19px;border-radius:50%;background:var(--acc);color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.sec-note{font-size:10px;font-weight:600;color:var(--grn);background:var(--grn-lt);padding:2px 7px;border-radius:8px;border:1px solid var(--grn-bdr);letter-spacing:0;text-transform:none}
+
+/* ── Platform chips ── */
+.plat-group{margin-bottom:12px}
+.plat-group:last-child{margin-bottom:0}
+.plat-cat{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.plat-cat::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:5px 12px;border-radius:20px;font-size:12.5px;font-weight:500;cursor:pointer;border:1.5px solid var(--bdr);background:var(--surf);color:var(--muted);transition:all .13s;user-select:none;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:5px}
+.chip .ci{font-size:13px}
+.chip:hover{border-color:var(--bdr2);color:var(--text)}
+.chip.on{background:var(--acc-lt);border-color:var(--acc);color:var(--acc);font-weight:600}
+.chip.on.gpt{background:var(--grn-lt);border-color:var(--grn);color:var(--grn)}
+.chip.on.gemini{background:#e8f0fe;border-color:#1a73e8;color:#1a73e8}
+.chip.on.claude{background:#fff3e0;border-color:#c2640a;color:#c2640a}
+.chip.on.copilot{background:#e8f0fe;border-color:#0078d4;color:#0078d4}
+.chip.on.grok{background:#f0f0f0;border-color:#333;color:#111}
+.chip.on.perplexity{background:#f3f0ff;border-color:#6b46c1;color:#6b46c1}
+.chip.on.notebooklm{background:#e8f0fe;border-color:#4285f4;color:#1558d3}
+.chip.on.wrtn{background:#fff0f6;border-color:#c2185b;color:#c2185b}
+.chip.on.genspark{background:#fef3e2;border-color:#d97706;color:#92400e}
+.chip.on.notion{background:#f5f5f5;border-color:#37352f;color:#37352f}
+.chip.on.gamma{background:#fff8e1;border-color:#f59e0b;color:#b45309}
+.chip.on.lovable{background:#fce7f3;border-color:#db2777;color:#db2777}
+.chip.on.cursor{background:#f0fdf4;border-color:#16a34a;color:#16a34a}
+.chip.on.sora{background:#e0e7ff;border-color:#4f46e5;color:#3730a3}
+.chip.on.midjourney{background:#f3f0ff;border-color:#7c3aed;color:#6d28d9}
+.chip.on.suno{background:#fdf4ff;border-color:#a21caf;color:#86198f}
+.chip.on.nanobanana{background:#fff7ed;border-color:#ea580c;color:#c2410c}
+.hint{margin-top:10px;padding:9px 12px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--bdr);font-size:12px;color:var(--muted);line-height:1.5}
+.hint code{font-family:'DM Mono',monospace;font-size:11px;color:var(--acc);background:var(--acc-lt);padding:1px 5px;border-radius:4px}
+
+/* ── Role ── */
+.mode-tabs{display:flex;margin-bottom:14px;border:1.5px solid var(--bdr);border-radius:var(--rs);overflow:hidden;width:fit-content}
+.mode-tab{padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--surf);color:var(--muted);transition:all .13s;font-family:'DM Sans',sans-serif}
+.mode-tab.on{background:var(--acc);color:#fff}
+.mode-tab:first-child{border-right:1px solid var(--bdr)}
+.dept-section{margin-bottom:10px}
+.dept-group-label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.dept-grid{display:flex;flex-wrap:wrap;gap:6px}
+.dchip{padding:5px 11px;border-radius:20px;font-size:12.5px;font-weight:500;cursor:pointer;border:1.5px solid var(--bdr);background:var(--surf);color:var(--text);transition:all .13s;user-select:none;font-family:'DM Sans',sans-serif}
+.dchip:hover{border-color:var(--bdr2)}
+.dchip.on{background:var(--acc-lt);border-color:var(--acc);color:var(--acc);font-weight:600}
+.dept-combo-hint{font-size:11px;color:var(--muted);margin-top:8px;padding:7px 11px;background:var(--faint);border-radius:var(--rs);border:1px solid var(--bdr);display:none}
+.dept-combo-hint.show{display:block}
+.fwrap{display:flex;flex-direction:column;gap:5px}
+.flbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
+.ftag{font-size:9px;background:var(--acc-lt);color:var(--acc);padding:1px 6px;border-radius:6px;font-weight:800;letter-spacing:.4px}
+.field{padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:13px;color:var(--text);background:var(--surf);outline:none;width:100%;resize:none;transition:border-color .15s;font-family:'DM Sans',sans-serif;line-height:1.5;user-select:text}
+.field:focus{border-color:var(--acc)}
+.field::placeholder{color:#b5bfc9}
+.field.filled{border-color:var(--grn)}
+.field-note{font-size:11px;color:var(--muted)}
+.prev-box{margin-top:10px;padding:9px 12px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--bdr);font-size:12px;color:var(--muted)}
+.prev-box strong{color:var(--acc);font-weight:600}
+.rec-notice{display:none;margin-top:8px;padding:7px 11px;background:var(--grn-lt);border:1px solid var(--grn-bdr);border-radius:var(--rs);font-size:11.5px;color:var(--grn)}
+.rec-notice.show{display:block}
+
+/* ── Progress ── */
+.prog-wrap{margin-bottom:0}
+.prog-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.prog-meta strong{color:var(--text)}
+.prog-track{height:5px;background:var(--bdr);border-radius:5px;overflow:hidden}
+.prog-bar{height:100%;border-radius:5px;background:var(--acc);transition:width .3s ease}
+.prog-bar.full{background:var(--grn)}
+
+/* ── Framework grid ── */
+.fw-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.fwc{padding:10px 11px;border-radius:var(--rs);cursor:pointer;border:1.5px solid var(--bdr);background:var(--surf);transition:all .15s;position:relative}
+.fwc:hover{border-color:var(--bdr2);background:var(--faint)}
+.fwc.on{border-color:var(--acc);background:var(--acc-lt)}
+.fwc.rec{border-color:var(--grn-bdr);box-shadow:0 0 0 2px rgba(52,211,153,.18)}
+.fwc.rec.on{border-color:var(--acc);box-shadow:none}
+.rec-star{position:absolute;top:5px;left:6px;font-size:9px;color:var(--grn);display:none}
+.fwc.rec .rec-star{display:block}
+.fw-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 5px;border-radius:5px;background:var(--faint);color:var(--muted);border:1px solid var(--bdr);margin-bottom:3px;margin-left:10px}
+.fwc.on .fw-badge{background:rgba(59,91,219,.1);color:var(--acc);border-color:rgba(59,91,219,.2)}
+.fw-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.fwc.on .fw-name{color:var(--acc)}
+.fw-desc{font-size:10.5px;color:var(--muted);line-height:1.5}
+.fw-example{font-size:10px;color:#9ba8b8;margin-top:4px;line-height:1.4;font-style:italic}
+/* ? and ! buttons side by side */
+.fw-icon-wrap{position:absolute;top:7px;right:7px;display:flex;gap:3px}
+.fw-icon-btn{width:16px;height:16px;border-radius:50%;border:1px solid var(--bdr);font-size:9px;font-weight:800;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .13s;background:var(--faint)}
+.fw-icon-btn:hover,.fw-icon-btn.open{background:var(--acc-lt);border-color:var(--acc);color:var(--acc)}
+.fw-icon-btn.tip-btn:hover,.fw-icon-btn.tip-btn.open{background:var(--amber-lt);border-color:var(--amber);color:var(--amber)}
+.fw-src-tip,.fw-tip-tip{display:none;position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rs);padding:10px 12px;box-shadow:0 6px 18px rgba(0,0,0,.1);z-index:100}
+.fw-src-tip.show,.fw-tip-tip.show{display:block}
+.fw-src-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:var(--acc-lt);color:var(--acc);margin-bottom:6px}
+.fw-src-detail{font-size:11px;color:var(--muted);line-height:1.5}
+.fw-tip-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:var(--amber-lt);color:var(--amber);margin-bottom:6px}
+.fw-tip-item{font-size:11px;color:var(--muted);padding:3px 0;display:flex;gap:6px;align-items:flex-start;line-height:1.5}
+.fw-tip-item::before{content:'→';color:var(--amber);font-size:10px;flex-shrink:0;margin-top:1px}
+
+/* ── QP panel ── */
+.qp-panel{margin-top:10px;border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden}
+.qp-toggle{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;cursor:pointer;background:var(--faint);font-size:12px;font-weight:600;color:var(--muted);user-select:none;border:none;width:100%;font-family:'DM Sans',sans-serif;text-align:left}
+.qp-toggle:hover{color:var(--text)}
+.qp-toggle .arrow{font-size:10px;transition:transform .2s}
+.qp-toggle.open .arrow{transform:rotate(180deg)}
+.qp-body{display:none;padding:11px 13px;background:var(--surf)}
+.qp-body.open{display:block}
+.qp-item{font-size:11.5px;color:var(--muted);padding:3px 0;display:flex;gap:7px;align-items:flex-start;line-height:1.5}
+.qp-item::before{content:'✦';color:var(--acc);font-size:9px;flex-shrink:0;margin-top:3px}
+.qp-note{font-size:11px;color:var(--acc);margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr)}
+.diff-chip{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:#fef3e2;color:#b45309;border:1px solid #fcd34d}
+
+/* ── Quick examples ── */
+.qex-section{margin-top:10px}
+.qex-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:600;display:flex;align-items:center;gap:6px}
+.dept-badge{font-size:10px;font-weight:700;color:var(--acc);background:var(--acc-lt);padding:1px 7px;border-radius:8px;display:none}
+.dept-badge.show{display:inline-block}
+.qex-row{display:flex;flex-wrap:wrap;gap:6px}
+.qex{font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:20px;border:1px solid var(--acc);color:var(--acc);background:var(--acc-lt);cursor:pointer;transition:all .13s;font-family:'DM Sans',sans-serif}
+.qex:hover{background:var(--acc);color:#fff}
+.qex.dept-ex{border-color:var(--grn);color:var(--grn);background:var(--grn-lt)}
+.qex.dept-ex:hover{background:var(--grn);color:#fff}
+.dyn{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+
+/* ── Options ── */
+.opt-list{display:flex;flex-direction:column;gap:7px}
+.opt-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--surf);transition:all .13s}
+.opt-row.active{border-color:var(--acc);background:var(--acc-lt)}
+.opt-t{font-size:13px;font-weight:600}
+.opt-s{font-size:11px;color:var(--muted);margin-top:1px}
+.opt-row.active .opt-t{color:var(--acc)}
+.opt-row.active .opt-s{color:rgba(59,91,219,.6)}
+.tog{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.track{position:absolute;inset:0;cursor:pointer;border-radius:10px;background:var(--bdr2);transition:background .2s}
+.track::before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+input:checked~.track{background:var(--acc)}
+input:checked~.track::before{transform:translateX(16px)}
+.sel{appearance:none;padding:6px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:12px;font-weight:600;color:var(--text);background:var(--surf);cursor:pointer;outline:none;font-family:'DM Sans',sans-serif;min-width:95px;transition:border-color .13s}
+.sel:focus{border-color:var(--acc)}
+.sel-row{display:flex;gap:8px;flex-wrap:wrap}
+.file-area{display:none;margin-top:6px;padding:11px 12px;border:1px dashed var(--bdr2);border-radius:var(--rs);background:var(--faint)}
+.file-entry{display:grid;grid-template-columns:1fr 2fr auto;gap:6px;margin-bottom:6px}
+.fdel{padding:7px 9px;border:1px solid var(--bdr);background:var(--surf);border-radius:var(--rs);cursor:pointer;font-size:12px;color:var(--red)}
+.add-f{font-size:12px;font-weight:600;color:var(--acc);background:transparent;border:1.5px dashed var(--acc);border-radius:var(--rs);padding:5px 12px;cursor:pointer;transition:background .13s;font-family:'DM Sans',sans-serif}
+.add-f:hover{background:var(--acc-lt)}
+
+/* ── Output panel ── */
+.out-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.out-hd-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.qpills{display:flex;gap:5px;flex-wrap:wrap}
+.qp2{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;border:1.5px solid var(--bdr);color:var(--muted);background:var(--surf);transition:all .2s}
+.qp2.on{border-color:var(--acc);background:var(--acc-lt);color:var(--acc)}
+.guide-btn{font-size:11px;font-weight:700;padding:4px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
+.guide-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-lt)}
+.edit-btn{font-size:11px;font-weight:700;padding:4px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
+.edit-btn:hover{border-color:var(--amber);color:var(--amber)}
+.edit-btn.active{border-color:var(--amber);color:var(--amber);background:var(--amber-lt)}
+
+/* output tabs */
+.out-tabs{display:flex;border-bottom:1px solid var(--bdr);margin-bottom:12px}
+.out-tab{padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .13s;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
+.out-tab:hover{color:var(--text)}
+.out-tab.on{color:var(--acc);border-bottom-color:var(--acc)}
+.out-panel{display:none}
+.out-panel.on{display:block}
+
+/* output box with copy button inside */
+.out-wrap{position:relative}
+.out-box{background:#13192a;border-radius:var(--rs);border:1px solid #1e2740;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;white-space:pre-wrap;word-break:break-word;max-height:400px;overflow-y:auto;line-height:1.78;user-select:text}
+.out-box::-webkit-scrollbar{width:4px}
+.out-box::-webkit-scrollbar-thumb{background:#2a3556;border-radius:4px}
+.out-edit{width:100%;resize:vertical;min-height:180px;max-height:400px;background:#13192a;color:#c8d5ef;caret-color:#c8d5ef;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;line-height:1.78;border-radius:var(--rs);border:1px solid #1e2740;outline:none;display:none;user-select:text}
+.out-edit:focus{border-color:var(--amber)}
+/* copy button — absolute inside out-wrap */
+.copy-fab{position:absolute;bottom:10px;right:10px;padding:6px 14px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,transform .1s;z-index:10;display:flex;align-items:center;gap:5px}
+.copy-fab:hover{background:var(--acc-dk)}
+.copy-fab:active{transform:scale(.97)}
+.sh-h1{color:#7dd3fc;font-weight:bold}
+.sh-h2{color:#93c5fd}
+.sh-tag{color:#fca5a5}
+.sh-bul{color:#86efac}
+.sh-def{color:#c8d5ef}
+.sh-cmt{color:#4a5980}
+
+/* open in platform row */
+.open-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.open-btn{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--surf);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.open-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-lt)}
+
+/* compare */
+.compare-wrap{display:flex;flex-direction:column;gap:10px}
+.compare-block{border-radius:var(--rs);overflow:hidden;border:1px solid var(--bdr)}
+.cbhd{display:flex;align-items:center;padding:8px 12px;font-size:12px;font-weight:700}
+.cbhd.bad{background:var(--red-lt);color:var(--red);border-bottom:1px solid #fca5a5}
+.cbhd.good{background:var(--grn-lt);color:var(--grn);border-bottom:1px solid #6ee7b7}
+.cbbody{padding:11px 13px;font-size:12.5px;background:var(--surf);white-space:pre-wrap;word-break:break-word;max-height:90px;overflow-y:auto;line-height:1.6}
+.cbbody.nltext{color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px}
+.cbbody.sttext{font-family:'DM Mono',monospace;font-size:11px;color:#4a5980}
+.cm-wrap{border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden}
+.cm-hd{display:grid;grid-template-columns:1fr 64px 64px;padding:7px 12px;background:var(--faint);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--bdr)}
+.cm-row{display:grid;grid-template-columns:1fr 64px 64px;padding:7px 12px;border-bottom:1px solid var(--bdr);font-size:12px;align-items:center}
+.cm-row:last-child{border-bottom:none}
+.cm-check{text-align:center;font-weight:700;font-size:13px}
+.cm-x{color:var(--red)}
+.cm-ok{color:var(--grn)}
+
+/* quality */
+.quality-wrap{display:flex;flex-direction:column;gap:10px}
+.q-score-wrap{padding:12px 14px;background:var(--faint);border:1px solid var(--bdr);border-radius:var(--rs)}
+.q-score-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.q-score-label{font-size:13px;font-weight:700}
+.q-score-pct{font-size:20px;font-weight:800}
+.q-dots{display:flex;gap:5px}
+.qdot{width:32px;height:8px;border-radius:4px;background:var(--bdr2);transition:background .3s}
+.qdot.on{background:var(--acc)}
+.qdot.on.hi{background:var(--grn)}
+.qclist{display:flex;flex-direction:column;gap:5px}
+.qci{display:flex;align-items:flex-start;gap:9px;padding:8px 12px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--surf);font-size:12.5px}
+.qci.pass{border-color:#6ee7b7;background:var(--grn-lt)}
+.qci.fail{color:var(--muted)}
+.qci-ic{font-size:14px;flex-shrink:0;margin-top:1px}
+.qci-mn{font-weight:600}
+.qci-sb{font-size:11px;color:var(--muted);margin-top:1px}
+.qci.pass .qci-sb{color:#059669}
+.qpl-item{font-size:11.5px;color:var(--muted);padding:3px 0 3px 16px;position:relative;line-height:1.5}
+.qpl-item::before{content:'✦';position:absolute;left:0;color:var(--acc);font-size:9px;top:5px}
+
+.out-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted)}
+.out-grade{font-weight:700;transition:color .3s}
+
+/* ── Footer ── */
+.footer{max-width:1440px;margin:24px auto 0;padding:14px 0 24px;border-top:1px solid var(--bdr);text-align:center;font-size:12px;color:var(--muted)}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(70px);background:#13192a;color:#fff;padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:transform .35s cubic-bezier(.175,.885,.32,1.275);z-index:999}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── Modals (save + guide) ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.overlay.on{display:flex}
+.modal{background:var(--surf);border-radius:var(--r);padding:24px;width:360px;box-shadow:0 20px 50px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+.modal h3{font-size:15px;font-weight:700;margin-bottom:12px}
+.modal input{width:100%;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:12px;user-select:text}
+.modal input:focus{border-color:var(--acc)}
+.modal-btns{display:flex;gap:8px}
+.modal-btns button{flex:1;padding:9px;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+.m-ok{background:var(--acc);color:#fff;border:none}
+.m-cancel{background:var(--surf);color:var(--muted);border:1px solid var(--bdr)}
+
+/* guide modal */
+.guide-modal{width:min(680px,100%)}
+.guide-modal h3{font-size:17px;margin-bottom:6px}
+.guide-subtitle{font-size:13px;color:var(--muted);margin-bottom:20px}
+.guide-section{margin-bottom:20px}
+.guide-section h4{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--bdr)}
+.guide-row{display:flex;gap:10px;margin-bottom:7px;font-size:12.5px;align-items:flex-start}
+.guide-row .gkey{font-weight:700;min-width:90px;color:var(--text);flex-shrink:0}
+.guide-row .gval{color:var(--muted);line-height:1.5}
+.guide-tip{background:var(--amber-lt);border:1px solid #fcd34d;border-radius:var(--rs);padding:10px 13px;font-size:12px;color:#92400e;margin-top:10px}
+.guide-close{width:100%;padding:10px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif}
+
+@media(max-width:1100px){.fw-grid{grid-template-columns:repeat(4,1fr)}.ben-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.fw-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:540px){.fw-grid{grid-template-columns:repeat(2,1fr)}.ben-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hd">
+  <span style="font-size:21px">✨</span>
+  <h1>프롬프트 도우미 <sub>Prompt Helper</sub></h1>
+  <span class="badge">2026</span>
+  <div class="hd-spacer"></div>
+  <div class="hd-actions">
+    <button class="json-btn" onclick="exportTemplates()">💾 내보내기</button>
+    <label class="json-btn" style="cursor:pointer">📂 가져오기<input type="file" id="import-file" accept=".json" style="display:none" onchange="importTemplates(this)"></label>
+    <div class="hd-div"></div>
+    <button class="reset-btn" onclick="resetAll()">↺ 초기화</button>
+  </div>
+</div>
+
+<div class="hd-tagline">
+  <div class="hd-tag-text">구조화된 프롬프트 하나로 <span>더 정확하고 완성도 높은 결과물</span>을 만들어보세요.</div>
+  <button class="benefits-btn" onclick="toggleBenefits()">📊 구조화 프롬프트, 얼마나 다를까?</button>
+</div>
+
+<div class="benefits-drawer" id="benefits-drawer">
+  <div class="ben-title">📊 구조화된 프롬프트 vs 자연어 입력 — 연구 기반 차이</div>
+  <div class="ben-grid">
+    <div class="ben-card"><div class="ben-num">58가지</div><div class="ben-label">검증된 프롬프트 기법</div><div class="ben-sub">학술적으로 정리된 기법. 구조화할수록 AI가 의도를 더 정확히 파악합니다.</div></div>
+    <div class="ben-card"><div class="ben-num">∼20%p</div><div class="ben-label">정확도 향상</div><div class="ben-sub">Chain-of-Thought + 구조화 프롬프트 사용 시 복잡한 작업에서 평균 정확도 향상.</div></div>
+    <div class="ben-card"><div class="ben-num">역할 + 맥락 + 형식</div><div class="ben-label">완성도를 높이는 3요소</div><div class="ben-sub">AI에게 역할·배경·출력형식을 명시하면 재질문 없이 바로 활용 가능한 결과물이 나옵니다.</div></div>
+  </div>
+  <div class="ben-src">📄 참고: <a href="https://arxiv.org/abs/2406.06608" target="_blank">The Prompt Report (Schulhoff et al., 2024)</a> · <a href="https://learnprompting.org" target="_blank">learnprompting.org</a></div>
+</div>
+
+<div class="grid">
+<div class="left">
+
+<!-- ① AI 플랫폼 -->
+<div class="card">
+  <div class="sec"><span class="dot">1</span>AI 플랫폼</div>
+  <div class="plat-group">
+    <div class="plat-cat">범용 AI (대화형)</div>
+    <div class="chip-row">
+      <button class="chip on gpt"     data-m="gpt"        data-url="https://chatgpt.com"          onclick="setModel(this)"><span class="ci">🤖</span>GPT-5.4</button>
+      <button class="chip gemini"     data-m="gemini"     data-url="https://gemini.google.com"     onclick="setModel(this)"><span class="ci">✦</span>Gemini 3.1</button>
+      <button class="chip claude"     data-m="claude"     data-url="https://claude.ai"             onclick="setModel(this)"><span class="ci">◆</span>Claude Sonnet 4.6</button>
+      <button class="chip copilot"    data-m="copilot"    data-url="https://copilot.microsoft.com" onclick="setModel(this)"><span class="ci">🪟</span>Copilot</button>
+      <button class="chip grok"       data-m="grok"       data-url="https://grok.com"              onclick="setModel(this)"><span class="ci">𝕏</span>Grok 3</button>
+    </div>
+  </div>
+  <div class="plat-group">
+    <div class="plat-cat">검색·리서치형</div>
+    <div class="chip-row">
+      <button class="chip perplexity" data-m="perplexity" data-url="https://www.perplexity.ai"    onclick="setModel(this)"><span class="ci">🔍</span>Perplexity</button>
+      <button class="chip notebooklm" data-m="notebooklm" data-url="https://notebooklm.google.com" onclick="setModel(this)"><span class="ci">📓</span>NotebookLM</button>
+      <button class="chip wrtn"       data-m="wrtn"       data-url="https://wrtn.ai"              onclick="setModel(this)"><span class="ci">🇰🇷</span>뤼튼</button>
+    </div>
+  </div>
+  <div class="plat-group">
+    <div class="plat-cat">에이전트형</div>
+    <div class="chip-row">
+      <button class="chip genspark"   data-m="genspark"   data-url="https://www.genspark.ai"      onclick="setModel(this)"><span class="ci">⚡</span>Genspark</button>
+    </div>
+  </div>
+  <div class="plat-group">
+    <div class="plat-cat">문서·발표형</div>
+    <div class="chip-row">
+      <button class="chip notion"     data-m="notion"     data-url="https://www.notion.so"        onclick="setModel(this)"><span class="ci">📝</span>Notion AI</button>
+      <button class="chip gamma"      data-m="gamma"      data-url="https://gamma.app"            onclick="setModel(this)"><span class="ci">📊</span>Gamma</button>
+    </div>
+  </div>
+  <div class="plat-group">
+    <div class="plat-cat">이미지·영상·음악 생성형</div>
+    <div class="chip-row">
+      <button class="chip sora"       data-m="sora"       data-url="https://sora.com"             onclick="setModel(this)"><span class="ci">🎬</span>Sora</button>
+      <button class="chip midjourney" data-m="midjourney" data-url="https://www.midjourney.com"   onclick="setModel(this)"><span class="ci">🎨</span>Midjourney</button>
+      <button class="chip suno"       data-m="suno"       data-url="https://suno.com"             onclick="setModel(this)"><span class="ci">🎵</span>Suno</button>
+      <button class="chip nanobanana" data-m="nanobanana" data-url="https://gemini.google.com"    onclick="setModel(this)"><span class="ci">🍌</span>Nano Banana</button>
+    </div>
+  </div>
+  <div class="plat-group" style="margin-bottom:0">
+    <div class="plat-cat">개발·빌더형</div>
+    <div class="chip-row">
+      <button class="chip lovable"    data-m="lovable"    data-url="https://lovable.dev"          onclick="setModel(this)"><span class="ci">💖</span>Lovable</button>
+      <button class="chip cursor"     data-m="cursor"     data-url="https://cursor.com"           onclick="setModel(this)"><span class="ci">🖱️</span>Cursor</button>
+    </div>
+  </div>
+  <div class="hint" id="model-hint">💡 GPT-5.4: <code>[[SYSTEM_ROLE]]</code> 블록으로 역할·지시·제약을 분리. OpenAI 최신 플래그십 모델</div>
+</div>
+
+<!-- ② AI 역할 설정 -->
+<div class="card">
+  <div class="sec"><span class="dot">2</span>AI 역할 설정 <span class="sec-note">✓ 중복 선택 가능</span></div>
+  <div class="mode-tabs">
+    <button class="mode-tab on" id="tab-dept" onclick="setRoleMode('dept')">직군 선택</button>
+    <button class="mode-tab"    id="tab-free" onclick="setRoleMode('free')">직접 입력</button>
+  </div>
+  <div id="mode-dept">
+    <div class="dept-section">
+      <div class="dept-group-label">직무</div>
+      <div class="dept-grid" id="dept-job">
+        <button class="dchip" onclick="toggleDept('인사',this)">인사</button>
+        <button class="dchip" onclick="toggleDept('총무',this)">총무</button>
+        <button class="dchip" onclick="toggleDept('구매·조달',this)">구매·조달</button>
+        <button class="dchip" onclick="toggleDept('마케팅',this)">마케팅</button>
+        <button class="dchip" onclick="toggleDept('영업',this)">영업</button>
+        <button class="dchip" onclick="toggleDept('MD',this)">MD</button>
+        <button class="dchip" onclick="toggleDept('편집',this)">편집</button>
+        <button class="dchip" onclick="toggleDept('디자인',this)">디자인</button>
+        <button class="dchip" onclick="toggleDept('영상',this)">영상</button>
+        <button class="dchip" onclick="toggleDept('법무·노무',this)">법무·노무</button>
+        <button class="dchip" onclick="toggleDept('재무·회계',this)">재무·회계</button>
+        <button class="dchip" onclick="toggleDept('CS',this)">CS</button>
+        <button class="dchip" onclick="toggleDept('개발',this)">개발</button>
+        <button class="dchip" onclick="toggleDept('데이터분석',this)">데이터분석</button>
+      </div>
+    </div>
+    <div class="dept-section">
+      <div class="dept-group-label">역할 (직무와 조합 또는 단독 사용)</div>
+      <div class="dept-grid" id="dept-role">
+        <button class="dchip" onclick="toggleDept('기획',this)">기획</button>
+        <button class="dchip" onclick="toggleDept('운영',this)">운영</button>
+        <button class="dchip" onclick="toggleDept('전략',this)">전략</button>
+        <button class="dchip" onclick="toggleDept('QA·품질',this)">QA·품질</button>
+        <button class="dchip" onclick="toggleDept('교육·HRD',this)">교육·HRD</button>
+        <button class="dchip" onclick="toggleDept('PM',this)">PM</button>
+      </div>
+    </div>
+    <div class="dept-combo-hint" id="dept-combo-hint"></div>
+    <div class="fwrap" style="margin-top:10px">
+      <div class="flbl">부연 설명 <span class="ftag">OPTIONAL</span></div>
+      <input id="role-desc" class="field" type="text"
+        placeholder="예: 경력 8년차, 채용 브랜딩 전문, 스타트업 조직문화 프로젝트 경험" oninput="update()">
+      <div class="field-note">조합 예시: 인사 + 기획 → "인사 기획 전문가 입니다" / 개발 + 운영 → "개발 운영 전문가 입니다"</div>
+    </div>
+    <div class="rec-notice" id="rec-notice">✅ 이 직군에 추천하는 프레임워크: <strong id="rec-names"></strong> (녹색 테두리)</div>
+  </div>
+  <div id="mode-free" style="display:none">
+    <div class="fwrap">
+      <div class="flbl">AI에게 부여할 역할 <span class="ftag">FREE TEXT</span></div>
+      <textarea id="role-free" class="field" style="height:72px"
+        placeholder="예: 당신은 15년 경력의 조직개발(OD) 전문가로, 대기업과 스타트업 양쪽 컨텍스트를 모두 이해하며 데이터 기반 의사결정을 중시합니다." oninput="update()"></textarea>
+    </div>
+  </div>
+  <div class="prev-box" id="role-prev">역할을 설정하면 프롬프트 미리보기가 표시됩니다.</div>
+</div>
+
+<!-- ③ 프레임워크 -->
+<div class="card">
+  <div class="sec"><span class="dot">3</span>프롬프트 프레임워크</div>
+  <div class="fw-grid" id="fw-grid">
+    <div class="fwc on" onclick="setFW('rtf',this)" data-fw="rtf"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('rtf',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('rtf',this)">?</span></div><div class="fw-badge">QUICK</div><div class="fw-name">RTF</div><div class="fw-desc">역할·과제·형식의 3요소.<br>빠른 단일 작업.</div><div class="fw-example">(공지, 회의록, 이메일)</div><div class="fw-src-tip" id="src-rtf"></div><div class="fw-tip-tip" id="tip-rtf"></div></div>
+    <div class="fwc" onclick="setFW('costar',this)" data-fw="costar"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('costar',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('costar',this)">?</span></div><div class="fw-badge">PRO</div><div class="fw-name">CO-STAR</div><div class="fw-desc">맥락·목표·스타일·톤·독자·응답.<br>완성도 높은 문서.</div><div class="fw-example">(제안서, 기획서, 보고서)</div><div class="fw-src-tip" id="src-costar"></div><div class="fw-tip-tip" id="tip-costar"></div></div>
+    <div class="fwc" onclick="setFW('scqa',this)" data-fw="scqa"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('scqa',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('scqa',this)">?</span></div><div class="fw-badge">EXEC</div><div class="fw-name">SCQA</div><div class="fw-desc">상황·갈등·질문·해답.<br>결론 우선 스토리텔링.</div><div class="fw-example">(경영진 보고, IR)</div><div class="fw-src-tip" id="src-scqa"></div><div class="fw-tip-tip" id="tip-scqa"></div></div>
+    <div class="fwc" onclick="setFW('risen',this)" data-fw="risen"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('risen',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('risen',this)">?</span></div><div class="fw-badge">COMPLEX</div><div class="fw-name">RISEN</div><div class="fw-desc">지침·단계·목표·제약.<br>복잡한 프로젝트 설계.</div><div class="fw-example">(제도 설계, 시스템)</div><div class="fw-src-tip" id="src-risen"></div><div class="fw-tip-tip" id="tip-risen"></div></div>
+    <div class="fwc" onclick="setFW('care',this)" data-fw="care"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('care',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('care',this)">?</span></div><div class="fw-badge">BENCH</div><div class="fw-name">CARE</div><div class="fw-desc">배경·행동·결과·사례.<br>사례 기반 아이디어.</div><div class="fw-example">(벤치마킹, 교육 기획)</div><div class="fw-src-tip" id="src-care"></div><div class="fw-tip-tip" id="tip-care"></div></div>
+    <div class="fwc" onclick="setFW('star',this)" data-fw="star"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('star',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('star',this)">?</span></div><div class="fw-badge">HR · 성과</div><div class="fw-name">STAR</div><div class="fw-desc">상황·과제·행동·결과.<br>성과·역량 서술.</div><div class="fw-example">(평가, 역량면접)</div><div class="fw-src-tip" id="src-star"></div><div class="fw-tip-tip" id="tip-star"></div></div>
+    <div class="fwc" onclick="setFW('race',this)" data-fw="race"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('race',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('race',this)">?</span></div><div class="fw-badge">STRATEGY</div><div class="fw-name">RACE</div><div class="fw-desc">역할·행동·맥락·기대결과.<br>전략 기획·실행.</div><div class="fw-example">(전략, 사업계획)</div><div class="fw-src-tip" id="src-race"></div><div class="fw-tip-tip" id="tip-race"></div></div>
+    <div class="fwc" onclick="setFW('critique',this)" data-fw="critique"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('critique',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('critique',this)">?</span></div><div class="fw-badge">REVIEW</div><div class="fw-name">Critique</div><div class="fw-desc">초안·검토관점·개선 산출물.<br>취약점 분석.</div><div class="fw-example">(규정 검토, 리스크)</div><div class="fw-src-tip" id="src-critique"></div><div class="fw-tip-tip" id="tip-critique"></div></div>
+    <div class="fwc" onclick="setFW('prd',this)" data-fw="prd"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('prd',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('prd',this)">?</span></div><div class="fw-badge">DEV · 기획</div><div class="fw-name">PRD</div><div class="fw-desc">배경·목표·기능·제약·성공기준.<br>제품 요구사항 정의.</div><div class="fw-example">(기능 명세, 앱 기획)</div><div class="fw-src-tip" id="src-prd"></div><div class="fw-tip-tip" id="tip-prd"></div></div>
+    <div class="fwc" onclick="setFW('bdd',this)" data-fw="bdd"><span class="rec-star">★</span><div class="fw-icon-wrap"><span class="fw-icon-btn tip-btn" onclick="event.stopPropagation();toggleTip('bdd',this)">!</span><span class="fw-icon-btn" onclick="event.stopPropagation();toggleSrc('bdd',this)">?</span></div><div class="fw-badge">DEV · 개발</div><div class="fw-name">BDD</div><div class="fw-desc">기능·사전조건·행동·결과.<br>동작 주도 시나리오.</div><div class="fw-example">(테스트, QA)</div><div class="fw-src-tip" id="src-bdd"></div><div class="fw-tip-tip" id="tip-bdd"></div></div>
+  </div>
+  <div class="qex-section">
+    <div class="qex-label">⚡ 빠른 예시로 채우기 <span class="dept-badge" id="dept-badge"></span></div>
+    <div class="qex-row" id="qex-row"></div>
+  </div>
+  <div class="prog-wrap" id="prog-wrap" style="margin-top:14px;display:none">
+    <div class="prog-meta"><span>입력 완성도 <strong id="prog-text">0/0</strong></span><span id="prog-label" style="color:var(--muted)">입력을 시작하세요</span></div>
+    <div class="prog-track"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+  </div>
+  <div class="dyn" id="dyn-inputs"></div>
+  <div class="qp-panel" style="margin-top:14px">
+    <button class="qp-toggle" id="qp-toggle" onclick="toggleQP()">
+      <span>🔧 자동 삽입 품질 지침 <span class="diff-chip" id="qp-count">0개</span></span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="qp-body" id="qp-body">
+      <div id="qp-items"></div>
+      <div class="qp-note">💡 자연어로 직접 입력할 때 대부분 누락되는 항목들입니다. 프레임워크가 자동으로 삽입합니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 고급 옵션 -->
+<div class="card">
+  <div class="sec"><span class="dot">4</span>고급 옵션</div>
+  <div class="opt-list">
+    <div class="opt-row active" id="row-rag"><div><div class="opt-t">🛡️ 할루시네이션 방지</div><div class="opt-s">근거 없는 답변 억제 프로토콜 자동 삽입</div></div><label class="tog"><input type="checkbox" id="opt-rag" checked onchange="syncRow('row-rag','opt-rag');update()"><span class="track"></span></label></div>
+    <div class="opt-row" id="row-cot"><div><div class="opt-t">🔗 Chain-of-Thought</div><div class="opt-s">결론 전 단계별 추론 과정을 명시적으로 요구</div></div><label class="tog"><input type="checkbox" id="opt-cot" onchange="syncRow('row-cot','opt-cot');update()"><span class="track"></span></label></div>
+    <div class="opt-row" id="row-file"><div><div class="opt-t">📎 파일 첨부 안내</div><div class="opt-s">첨부 파일 목록을 프롬프트에 포함</div></div><label class="tog"><input type="checkbox" id="opt-file" onchange="syncRow('row-file','opt-file');toggleFile()"><span class="track"></span></label></div>
+    <div class="file-area" id="file-area"><div id="file-list"></div><button class="add-f" onclick="addFile()">+ 파일 추가</button></div>
+    <div class="opt-row" style="gap:8px"><div><div class="opt-t">⚙️ 출력 설정</div><div class="opt-s">형식 · 길이 · 언어</div></div><div class="sel-row"><select class="sel" id="opt-fmt" onchange="update()"><option value="">형식 자동</option><option value="markdown">Markdown</option><option value="bullet">불릿 리스트</option><option value="table">표(Table)</option><option value="report">보고서</option><option value="json">JSON</option><option value="slides">슬라이드 구조</option></select><select class="sel" id="opt-len" onchange="update()"><option value="">길이 자동</option><option value="brief">간결 (~300자)</option><option value="mid">보통 (~800자)</option><option value="detail">상세 (1,500자+)</option></select><select class="sel" id="opt-lang" onchange="update()"><option value="ko">한국어</option><option value="en">영어</option><option value="both">이중언어</option></select></div></div>
+    <div class="opt-row" style="gap:10px"><div><div class="opt-t">🗣️ 답변 톤</div><div class="opt-s">AI의 응답 문체 설정</div></div><select class="sel" id="opt-tone" onchange="update()"><option value="">기본</option><option value="formal">격식·전문체</option><option value="casual">친근한 구어체</option><option value="analytical">분석적·논리적</option><option value="concise">간결·핵심 중심</option></select></div>
+  </div>
+</div>
+</div><!-- /left -->
+
+<!-- RIGHT -->
+<div class="right">
+  <div class="card">
+    <div class="out-hd">
+      <div class="out-hd-left">
+        <div class="sec" style="margin:0">✨ 구조화 프롬프트</div>
+        <button class="guide-btn" onclick="openGuide()">📖 사용 가이드</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="qpills"><span class="qp2" id="qp-role">ROLE</span><span class="qp2" id="qp-task">TASK</span><span class="qp2" id="qp-fmt2">FORMAT</span><span class="qp2" id="qp-guard">GUARD</span><span class="qp2" id="qp-cot2">COT</span></div>
+        <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ 편집</button>
+      </div>
+    </div>
+    <div class="out-tabs">
+      <button class="out-tab on" id="otab-structured" onclick="switchOutTab('structured')">프롬프트</button>
+      <button class="out-tab"    id="otab-compare"    onclick="switchOutTab('compare')">자연어 비교</button>
+      <button class="out-tab"    id="otab-quality"    onclick="switchOutTab('quality')">품질 분석</button>
+    </div>
+
+    <!-- structured -->
+    <div class="out-panel on" id="opanel-structured">
+      <div class="out-wrap">
+        <div class="out-box" id="out"></div>
+        <textarea class="out-edit" id="out-edit" spellcheck="false"></textarea>
+        <button class="copy-fab" onclick="copyPrompt()">📋 복사</button>
+      </div>
+      <div id="edit-notice" style="display:none;font-size:11px;color:var(--amber);margin-top:5px">✏️ 편집 모드 — 수정 후 복사하거나 "완료"를 눌러 돌아가세요.</div>
+      <div class="open-row" id="open-row"></div>
+    </div>
+
+    <!-- compare -->
+    <div class="out-panel" id="opanel-compare">
+      <div class="compare-wrap">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="compare-block"><div class="cbhd bad">❌ 자연어 입력</div><div class="cbbody nltext" id="nl-out">(아직 입력이 없습니다)</div></div>
+          <div class="compare-block"><div class="cbhd good">✅ 프롬프트 설계</div><div class="cbbody sttext" id="st-out"></div></div>
+        </div>
+        <div class="cm-wrap"><div class="cm-hd"><div>비교 항목</div><div style="text-align:center">자연어</div><div style="text-align:center">설계 후</div></div><div id="cm-rows"></div></div>
+        <div id="impact-bar" style="padding:10px 12px;background:var(--faint);border:1px solid var(--bdr);border-radius:var(--rs)"></div>
+      </div>
+    </div>
+
+    <!-- quality -->
+    <div class="out-panel" id="opanel-quality">
+      <div class="quality-wrap">
+        <div class="q-score-wrap"><div class="q-score-meta"><span class="q-score-label">프롬프트 완성도</span><span class="q-score-pct" id="q-pct" style="color:var(--muted)">0%</span></div><div class="q-dots" id="q-dots"><div class="qdot"></div><div class="qdot"></div><div class="qdot"></div><div class="qdot"></div><div class="qdot"></div></div></div>
+        <div class="qclist" id="q-checklist"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);padding:4px 0 4px 2px;letter-spacing:.5px;text-transform:uppercase">자동 삽입 품질 지침</div>
+        <div id="q-protocol"></div>
+      </div>
+    </div>
+
+    <div class="out-meta"><span id="tok">약 0 토큰</span><span class="out-grade" id="grade">설계를 시작하세요 →</span></div>
+  </div>
+</div>
+</div><!-- /grid -->
+
+<div class="footer">
+  💬 건의 및 개선 사항은 <strong>인사총무팀 오세찬 과장</strong>에게 편하게 연락 주세요.
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Save template modal -->
+<div class="overlay" id="save-overlay">
+  <div class="modal">
+    <h3>💾 템플릿 이름 설정</h3>
+    <input type="text" id="tmpl-name-input" placeholder="예: HR 전략 보고서 기본형" maxlength="30">
+    <div class="modal-btns"><button class="m-cancel" onclick="closeSaveModal()">취소</button><button class="m-ok" onclick="confirmSave()">저장</button></div>
+    <div style="margin-top:14px;border-top:1px solid var(--bdr);padding-top:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px">저장된 템플릿</div>
+      <div id="tmpl-list" style="display:flex;flex-direction:column;gap:6px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Usage guide modal -->
+<div class="overlay" id="guide-overlay">
+  <div class="modal guide-modal">
+    <h3>📖 프롬프트 도우미 사용 가이드</h3>
+    <div class="guide-subtitle">구조화된 프롬프트를 만드는 4단계 방법을 안내합니다.</div>
+
+    <div class="guide-section">
+      <h4>🤖 Step 1. AI 플랫폼 선택</h4>
+      <div class="guide-row"><div class="gkey">GPT-5.4</div><div class="gval">복잡한 추론·긴 문서 작업. <code>[[SYSTEM_ROLE]]</code> 블록 구조 사용.</div></div>
+      <div class="guide-row"><div class="gkey">Claude Sonnet 4.6</div><div class="gval">일상 업무에 최적화. XML 태그 구조, 빠른 응답과 높은 품질.</div></div>
+      <div class="guide-row"><div class="gkey">Gemini 3.1</div><div class="gval">멀티모달·검색 연동. Google 생태계와 연결.</div></div>
+      <div class="guide-row"><div class="gkey">Perplexity</div><div class="gval">최신 정보·출처 인용이 필요할 때. RAG 기반.</div></div>
+      <div class="guide-row"><div class="gkey">NotebookLM</div><div class="gval">내 문서 업로드 후 분석·요약·Q&A. 소스 외 정보 배제.</div></div>
+      <div class="guide-row"><div class="gkey">뤼튼</div><div class="gval">국내 무료 AI 플랫폼. 한국어 특화, GPT 계열 모델 사용.</div></div>
+      <div class="guide-row"><div class="gkey">Sora</div><div class="gval">OpenAI 영상 생성. 장면·스타일·카메라 움직임 중심 프롬프트.</div></div>
+      <div class="guide-row"><div class="gkey">Midjourney</div><div class="gval">이미지 생성. 피사체·스타일·조명·화면비율 중심.</div></div>
+      <div class="guide-row"><div class="gkey">Suno</div><div class="gval">음악 생성. 장르·분위기·템포·가사 방향 중심.</div></div>
+      <div class="guide-row"><div class="gkey">Nano Banana</div><div class="gval">Google Gemini 이미지 생성 모델. 대화형 편집 지원.</div></div>
+    </div>
+
+    <div class="guide-section">
+      <h4>👤 Step 2. AI 역할 설정</h4>
+      <div class="guide-row"><div class="gkey">직군 선택</div><div class="gval"><b>직무</b>(인사, 개발 등) + <b>역할</b>(기획, 운영 등)을 조합해 정밀한 역할을 설정합니다.</div></div>
+      <div class="guide-row"><div class="gkey">조합 예시</div><div class="gval">인사 + 기획 → "인사 기획 전문가 입니다"<br>개발 + 운영 → "개발 운영 전문가 입니다"<br>마케팅 + 전략 → "마케팅 전략 전문가 입니다"</div></div>
+      <div class="guide-row"><div class="gkey">직접 입력</div><div class="gval">특수한 역할은 자유 텍스트로 직접 작성. 경력·전문 분야 등 상세 설정 가능.</div></div>
+    </div>
+
+    <div class="guide-section">
+      <h4>🏗️ Step 3. 프레임워크 선택</h4>
+      <div class="guide-row"><div class="gkey">RTF</div><div class="gval">빠른 단일 작업 (이메일, 공지, 회의록 등)</div></div>
+      <div class="guide-row"><div class="gkey">CO-STAR</div><div class="gval">완성도 높은 문서 (기획서, 보고서, 제안서)</div></div>
+      <div class="guide-row"><div class="gkey">SCQA</div><div class="gval">경영진 보고, 의사결정 자료 (결론 우선 구조)</div></div>
+      <div class="guide-row"><div class="gkey">RISEN</div><div class="gval">복잡한 프로젝트 설계 (단계·제약·목표 명시)</div></div>
+      <div class="guide-row"><div class="gkey">CARE</div><div class="gval">사례 기반 아이디어 도출, 벤치마킹</div></div>
+      <div class="guide-row"><div class="gkey">STAR</div><div class="gval">성과 서술, 역량 면접 답변 (HR 특화)</div></div>
+      <div class="guide-row"><div class="gkey">RACE</div><div class="gval">전략 기획, 실행 방안 수립</div></div>
+      <div class="guide-row"><div class="gkey">Critique</div><div class="gval">기존 문서 검토·개선, 리스크 분석</div></div>
+      <div class="guide-row"><div class="gkey">PRD</div><div class="gval">제품/기능 요구사항 정의서 (개발팀용)</div></div>
+      <div class="guide-row"><div class="gkey">BDD</div><div class="gval">테스트 시나리오, QA 요청서 (Given-When-Then)</div></div>
+      <div class="guide-tip">💡 직군 칩을 선택하면 해당 직군에 <b>추천 프레임워크가 녹색으로 강조</b>됩니다. 프레임워크 카드의 <b>!</b> 버튼으로 활용 팁, <b>?</b> 버튼으로 출처를 확인하세요.</div>
+    </div>
+
+    <div class="guide-section">
+      <h4>⚙️ Step 4. 고급 옵션 활용</h4>
+      <div class="guide-row"><div class="gkey">🛡️ 할루시네이션 방지</div><div class="gval">사실 근거 기반 작업 시 항상 켜두는 것을 권장합니다.</div></div>
+      <div class="guide-row"><div class="gkey">🔗 Chain-of-Thought</div><div class="gval">복잡한 분석·전략 수립 시 AI가 단계별로 추론하도록 유도합니다.</div></div>
+      <div class="guide-row"><div class="gkey">출력 형식</div><div class="gval">Markdown/불릿/표/보고서/JSON/슬라이드 구조 중 선택.</div></div>
+    </div>
+
+    <button class="guide-close" onclick="closeGuide()">✅ 확인했습니다</button>
+  </div>
+</div>
+
+<script>
+/* ── PROTECTION ── */
+document.addEventListener('contextmenu',e=>{if(!e.target.closest('input,textarea,.out-box,.out-edit,.modal'))e.preventDefault();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='F12')e.preventDefault();
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='u'&&!e.shiftKey)e.preventDefault();
+  if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase()))e.preventDefault();
+  if(e.key==='Escape'){closeSaveModal();closeGuide();}
+});
+
+/* ── STATE ── */
+const S={model:'gpt',roleMode:'dept',depts:[],fw:'rtf',inputs:{}};
+let promptText='',editMode=false;
+const LS_KEY='parch_v5';
+
+/* ── PLATFORM HINTS ── */
+const MHINTS={
+  gpt:      '💡 GPT-5.4 (Thinking): <code>[[SYSTEM_ROLE]]</code> 블록으로 역할·지시·제약을 분리. OpenAI 최신 플래그십 모델',
+  gemini:   '💡 Gemini 3.1 Pro (2026.02 출시): XML 태그 + <code>grounding="true"</code>. 추론·멀티모달·에이전트 코딩에 강점',
+  claude:   '💡 Claude Sonnet 4.6 (2026.02 출시): <code>&lt;role&gt;</code>·<code>&lt;task&gt;</code> XML 태그 구조. 일상 업무 최적화 — 빠른 응답과 높은 품질',
+  copilot:  '💡 Microsoft Copilot: 자연어 구조 + M365 작업(Word·Excel·Teams) 맥락을 명시하여 최적화',
+  grok:     '💡 Grok 3 (xAI): 실시간 X(트위터) 데이터 연동. <code>[CONTEXT]</code> 블록으로 역할·배경을 구분하는 직접적 지시 구조',
+  perplexity:'💡 Perplexity: RAG 기반. 출처 인용·최신 정보 요구를 명시하여 사실 근거 답변 품질 극대화',
+  notebooklm:'💡 NotebookLM: 업로드 문서 기반 분석·요약·Q&A. 소스 외 정보 배제를 명시하고 분석 관점·출력 형식을 구체적으로 지정',
+  wrtn:     '💡 뤼튼 (Wrtn): 국내 무료 AI 플랫폼. GPT 계열 모델 사용. 한국어 중심 자연어 구조 + 역할·맥락·형식을 명시하여 최적화',
+  genspark: '💡 Genspark: AI 슈퍼에이전트 — 웹 검색·리서치·보고서 자동 작성까지 수행. 목표를 세부 단계로 분해하여 자율 실행을 유도하는 에이전트형 구조',
+  notion:   '💡 Notion AI: 블록 단위 출력·데이터베이스·체크박스 액션아이템 구조. 문서 편집 컨텍스트에 맞는 지시 최적화',
+  gamma:    '💡 Gamma: 슬라이드 발표 전문 AI. 핵심 메시지·시각화 유형을 슬라이드별 명시하는 구조 최적화',
+  sora:     '💡 Sora (OpenAI 영상 생성): 장면 묘사·피사체·카메라 움직임·스타일·분위기를 구체적으로 명시. 영어 프롬프트를 권장합니다.',
+  midjourney:'💡 Midjourney (이미지 생성): 피사체, 스타일, 조명, 화면비율(--ar), 버전(--v 7) 파라미터를 포함. 영어 프롬프트를 권장합니다.',
+  suno:     '💡 Suno (음악 생성): 장르, 분위기, 템포, 보컬 스타일, 가사 방향을 명시. 메타 태그([Verse], [Chorus]) 활용 가능. 영어 권장.',
+  nanobanana:'💡 Nano Banana (Google Gemini 3.1 이미지): Google의 고효율 이미지 생성·편집 모델. 장면 묘사·스타일·색감을 구체적으로 명시. Gemini 앱에서 사용.',
+  lovable:  '💡 Lovable: 앱 기능 명세(spec) 형식. 사용자 스토리·UI·데이터 구조를 포함한 상세 지시에 최적화',
+  cursor:   '💡 Cursor: 코드 생성 최적화. 기술 스택·타입·에지 케이스 명세 형식에 최적'
+};
+
+/* ── CREATIVE PLATFORM PROMPT BUILDERS ── */
+function buildCreativePrompt(m, role, body, def){
+  const lang=document.getElementById('opt-lang').value;
+  const langNote = lang==='en'?'Answer in English only.\n':(lang==='both'?'한국어로 작성 후 영어로 반복.\n':'모든 답변은 한국어로 작성할 것.\n');
+  
+  if(m==='sora'){
+    // Sora: video generation
+    return `[SORA VIDEO PROMPT]\n// 영어로 작성하면 더 좋은 결과를 얻습니다\n\n${body}[VIDEO STYLE]\n화면비율: 16:9 (widescreen)\n해상도: 1080p\n\n[NOTE]\n• 구체적인 카메라 움직임(pan, zoom, tilt)을 명시하면 효과적입니다\n• 색감·빛의 분위기를 묘사하면 더 정확한 결과를 얻습니다\n${langNote}`;
+  }
+  if(m==='midjourney'){
+    return `[MIDJOURNEY IMAGE PROMPT]\n// 영어 프롬프트를 권장합니다 (품질 향상)\n\n${body}[PARAMETERS]\n--ar 16:9\n--v 7\n--q 2\n\n[TIP]\n• 스타일 참고: photorealistic, oil painting, digital art, anime 등\n• 조명 명시: golden hour, studio lighting, neon lights 등\n${langNote}`;
+  }
+  if(m==='suno'){
+    return `[SUNO MUSIC PROMPT]\n// 영어 프롬프트를 권장합니다\n\n${body}[SONG STRUCTURE]\n[Verse]\n(verse lyrics or description)\n\n[Chorus]\n(chorus lyrics or description)\n\n[TIP]\n• 장르 예시: K-pop, indie folk, jazz, EDM, orchestral 등\n• 분위기 예시: uplifting, melancholic, energetic, calm 등\n${langNote}`;
+  }
+  if(m==='nanobanana'){
+    return `[NANO BANANA (Gemini 이미지) PROMPT]\n\n${body}[IMAGE PARAMS]\n스타일: 사실적 / 일러스트 / 3D 렌더링 중 선택\n화면비율: 1:1 / 16:9 / 9:16\n\n[TIP]\n• Gemini 앱의 이미지 생성 기능을 통해 사용합니다\n• 대화형으로 이미지 편집이 가능합니다\n• "~한 스타일로 수정해줘" 등 후속 편집 가능\n${langNote}`;
+  }
+  return null;
+}
+
+/* ── DEPT → REC FW ── */
+const DEPT_REC={
+  '인사':['star','costar','race','risen'],'총무':['rtf','risen'],'구매·조달':['rtf','scqa'],
+  '마케팅':['costar','care','race'],'영업':['scqa','race','costar'],'MD':['costar','care'],
+  '편집':['costar','critique'],'디자인':['prd','costar'],'영상':['costar','rtf'],
+  '법무·노무':['critique','scqa'],'재무·회계':['scqa','rtf'],'CS':['rtf','care'],
+  '개발':['prd','bdd','risen'],'데이터분석':['scqa','rtf','race'],
+  '기획':['costar','scqa','race'],'운영':['risen','rtf'],'전략':['scqa','race'],
+  'QA·품질':['bdd','critique'],'교육·HRD':['care','risen'],'PM':['risen','race']
+};
+
+/* ── DEPT EXAMPLES ── */
+const DEPT_EX={
+  '인사':{star:[{label:'★ 채용 성과 서술',Situation:'핵심 인력 3명 동시 퇴직',Task:'45일 내 공백 해소',Action:'내부 이동 발굴 + 채용 다변화',Result:'45일 완료, 이후 이직률 0%'}]},
+  '개발':{prd:[{label:'★ 사내 시스템 명세',Background:'결재 프로세스 수동 운영, 처리 3일 소요',Goals:'결재 자동화로 처리 80% 단축',Features:'결재 라인/모바일 승인·반려/알림/이력',Constraints:'기존 ERP 연동 필수, 3개월 내',Success:'처리 시간 80% 단축, 사용률 70%+'}]},
+  '마케팅':{costar:[{label:'★ 캠페인 기획서',Context:'신제품 출시 3개월 전',Objective:'MZ세대 인지도 2배 향상',Style:'애플 마케팅 스타일',Tone:'자신감 있고 영감을 주는',Audience:'잠재 고객 25~35세',Response:'캠페인개요+채널+KPI+예산'}]},
+  '기획':{scqa:[{label:'★ 신사업 보고',Situation:'경쟁사 진입으로 점유율 8% 하락',Complication:'가격 경쟁 불가, 차별화 전략 미구축',Question:'6개월 내 경쟁 우위 회복 전략은?',Answer:'프리미엄 세그먼트 집중 + SaaS 전환'}]},
+  '전략':{race:[{label:'★ 사업 로드맵',Action:'동남아 시장 진출 GTM 전략 수립',Context:'국내 SaaS 스타트업, 연매출 50억',Expectation:'시장분석+우선국가+파트너십+12개월'}]},
+  '법무·노무':{critique:[{label:'★ 취업규칙 검토',Draft:'[취업규칙 초안을 여기에 붙여넣으세요]',CritiqueAngle:'근로기준법 위반 여부, 불이익 조항, 모호성',DesiredOutput:'리스크 조항+법적 근거+개정안'}]},
+  'CS':{rtf:[{label:'★ 응대 스크립트',Task:'반복 문의 상위 5유형별 표준 응대 스크립트',Format:'유형명·상황·응대 멘트·주의사항 표'}]},
+  '교육·HRD':{care:[{label:'★ 교육 프로그램 기획',Context:'팀장급 리더십 강화 교육 기획 중',Action:'심리적 안전감 기반 팀 빌딩 활동 도출',Result:'즉시 적용 활동 5가지, 시간·비용·효과 포함',Example:'Google re:Work, Airbnb 팀 의식'}]}
+};
+
+/* ── FW SOURCES ── */
+const FW_SOURCES={
+  rtf:{badge:'AI 커뮤니티 표준',detail:'Reddit, LinkedIn 등 AI 실무자 커뮤니티에서 가장 널리 사용되는 기본 구조. 특정 발명자 없이 실무를 통해 수렴된 Best Practice입니다.'},
+  costar:{badge:'GovTech Singapore 수상 (2023)',detail:'싱가포르 정부 기술청(GovTech) 프롬프트 대회에서 Sheila Teo가 발표한 기법 (2023). 6요소를 모두 채울수록 자연어 대비 품질 차이가 가장 크게 나타납니다.'},
+  scqa:{badge:'Minto Pyramid Principle (1987)',detail:'Barbara Minto가 체계화하고 McKinsey가 수십 년간 내부 표준으로 채택. 전 세계 컨설팅·경영 분야에서 검증된 방법론입니다.'},
+  risen:{badge:'프롬프트 엔지니어링 커뮤니티',detail:'PromptingGuide.ai 및 AI 실무자 블로그를 통해 확산. 복잡한 다단계 작업 설계에 효과적이라는 실무 검증 기반입니다.'},
+  care:{badge:'AI 실무자 커뮤니티',detail:'LinkedIn·Medium 등을 통해 확산. 참고 예시(Few-shot)를 포함하여 AI의 사례 기반 학습 효과를 유도합니다.'},
+  star:{badge:'행동 면접 표준 (1980s~)',detail:'1980년대부터 글로벌 HR 기관이 역량 면접 표준으로 사용. 성과 기술서·역량 평가에 광범위하게 검증된 구조입니다.'},
+  race:{badge:'AI 프롬프트 커뮤니티 기법',detail:'AI 프롬프트 커뮤니티에서 개발. ※주의: Dave Chaffey의 마케팅 RACE(Reach-Act-Convert-Engage)와 이름만 같고 완전히 다른 개념입니다.'},
+  critique:{badge:'비판적 검토 방법론',detail:'학술 피어리뷰·컨설팅 문서 검토 방법론을 AI 프롬프트로 변환. 자체 검토의 맹점(Blind Spot)을 극복하는 데 효과적입니다.'},
+  prd:{badge:'Silicon Valley PM 표준',detail:'Google·Meta·Amazon 등 빅테크 PM 조직의 수십 년간 제품 기획 표준. 개발팀 커뮤니케이션 품질을 높이고 재작업을 줄이는 데 검증되었습니다.'},
+  bdd:{badge:'Dan North · Agile 표준 (2003)',detail:'Dan North가 2003년 창안한 BDD 방법론. Given-When-Then은 Gherkin 언어의 기반으로 전 세계 Agile·TDD 커뮤니티의 테스트 작성 표준입니다.'}
+};
+
+/* ── FRAMEWORKS ── */
+const FW={
+  rtf:{tags:['Task','Format'],labels:['수행할 과제 (Task)','출력 형식 (Format)'],ph:['예: 2026년 신입공채 합격자 대상 5일 온보딩 일정표 초안 작성','예: 일자별 시간표 형식, 담당자·장소·목적 열 포함'],
+  tips:['Task를 동사로 시작하면 AI가 행동 목표를 명확히 인식합니다.','Format에 항목 수·글자수 제한을 명시하면 과한 응답을 방지합니다.','단발성 빠른 작업에 가장 효율적인 프레임워크입니다.'],
+  examples:[{label:'온보딩 일정',Task:'5일 신입 온보딩 일정표 초안',Format:'일자·시간·내용·담당자 4열 표'},{label:'마케팅 공지',Task:'신제품 출시 전 직원 내부 공지문',Format:'제목·주요내용·일정·담당자 400자'},{label:'회의록 요약',Task:'주간 팀 회의록 핵심 요약+액션아이템',Format:'결정사항·액션아이템·담당자·마감일 불릿'}],
+  quality:['불필요한 서론·인사말 없이 바로 결과물 제공','지정된 형식과 항목 구성을 엄격히 준수','불확실한 항목은 "[확인 필요]"로 표시','작성 후 스스로 형식 준수 여부 한 번 검토']},
+  costar:{tags:['Context','Objective','Style','Tone','Audience','Response'],labels:['배경 맥락 (Context)','핵심 목표 (Objective)','작성 스타일 (Style)','어조·톤 (Tone)','대상 독자 (Audience)','응답 형식 (Response)'],ph:['예: 브랜드 리뉴얼 후 첫 대외 캠페인, 예산 3억원, 6개월 프로젝트','예: MZ세대 고용 브랜드 인지도 6개월 내 2배 향상','예: 애플 마케팅 스타일, 감성적·간결','예: 자신감 있고 영감을 주는 어조','예: 잠재 지원자 25~35세, SNS 활용 높음','예: 캠페인 개요+타겟+채널+KPI'],
+  tips:['CO-STAR는 자연어 대비 품질 차이가 가장 큰 프레임워크입니다.','Audience에 독자의 배경지식 수준을 명시하면 설명 깊이가 자동 조정됩니다.','Style에 벤치마크 브랜드·문서를 명시하면 정교한 결과를 얻습니다.'],
+  examples:[{label:'채용 브랜딩 캠페인',Context:'MZ세대 채용 캠페인 기획',Objective:'고용 브랜드 인지도 2배 향상',Style:'애플 마케팅 스타일',Tone:'자신감 있고 영감을 주는',Audience:'잠재 지원자 25~35세',Response:'캠페인개요+타겟+채널+KPI'},{label:'경영진 보고서',Context:'연간 HR 전략 보고 시즌',Objective:'핵심 인재 확보 전략 3가지',Style:'맥킨지 리포트 스타일',Tone:'전문적·설득적',Audience:'C-레벨 임원',Response:'헤드라인+요약+전략+로드맵'}],
+  quality:['전문 컨설턴트 수준 완성도, 섹션 간 논리적 연결고리 유지','독자가 즉시 의사결정에 활용할 수 있는 수준으로 완성','주요 주장마다 데이터·사례·근거를 1개 이상 제시','독자가 30초 내 핵심 메시지를 파악할 수 있도록 요약을 상단 배치']},
+  scqa:{tags:['Situation','Complication','Question','Answer'],labels:['현재 상황 (Situation)','핵심 문제·갈등 (Complication)','해결할 질문 (Question)','권장 해결 방향 (Answer)'],ph:['예: 경쟁사 3곳 진입으로 시장점유율 6개월간 8% 하락','예: 가격 경쟁 불가, 차별화 전략 미구축 상태','예: 점유율 추가 하락 없이 6개월 내 경쟁 우위 회복 방법은?','예: 프리미엄 세그먼트 집중 + SaaS 전환으로 수익 다변화'],
+  tips:['SCQA는 경영진 보고에서 "왜 이 문제인가"를 납득시키는 데 최적입니다.','Complication을 구체적 수치로 표현하면 문제 심각성이 극적으로 전달됩니다.','Answer는 결론 우선으로 작성하고 근거는 이후에 전개하세요.'],
+  examples:[{label:'시장 대응 전략',Situation:'경쟁사 진입으로 점유율 8% 하락',Complication:'가격 경쟁 불가, 차별화 전략 미구축',Question:'6개월 내 경쟁 우위 회복 전략은?',Answer:'프리미엄 세그먼트 집중 + SaaS 전환'},{label:'예산 확보 제안',Situation:'마케팅 예산 동결 3년, 리드 30% 감소',Complication:'경쟁사 마케팅 투자 200% 증가',Question:'최소 투자로 리드 감소를 막을 방법은?',Answer:'콘텐츠 마케팅 전환으로 ROI 3배 달성 가능'}],
+  quality:['피라미드 원칙: "결론 우선(Answer First)" 구조 엄격히 준수','경영진이 1분 내 핵심 판단을 내릴 수 있는 밀도로 작성','Complication은 데이터·사실 기반으로 서술','Answer는 실행 가능한 Next Action 2~3가지로 마무리']},
+  risen:{tags:['Instructions','Steps','EndGoal','Narrowing'],labels:['핵심 지침 (Instructions)','수행 단계 (Steps)','최종 목표 (End Goal)','제약 조건 (Narrowing)'],ph:['예: 전사 학습 문화 강화를 위한 CoP 운영 체계 설계','예: 1)벤치마킹 → 2)갭 분석 → 3)설계안 → 4)6개월 로드맵','예: 6개월 내 자생 운영 가능한 CoP 매뉴얼 및 KPI 체계','예: 추가 인력 없이 현 HR 팀 운영, 예산 1,000만원 이하'],
+  tips:['RISEN은 단계와 제약 조건이 명확한 복잡한 프로젝트에 가장 효과적입니다.','Steps를 번호 순서로 명시하면 AI가 단계별로 체계적인 결과물을 생성합니다.','Narrowing에 예산·기간·인력 제약을 명시할수록 실용적인 결과를 얻습니다.'],
+  examples:[{label:'CoP 운영 체계',Instructions:'전사 학습 조직 CoP 설계',Steps:'벤치마킹→갭분석→설계→로드맵',EndGoal:'6개월 내 자생 운영 매뉴얼+KPI',Narrowing:'추가 인력 없음, 예산 1천만원'},{label:'신입 교육 과정',Instructions:'3개월 신입 역량 교육 과정 개편',Steps:'현황진단→역량모델→커리큘럼→파일럿→적용',EndGoal:'90일 완료율 95%, 역량 평가 4.0+',Narrowing:'12개월 내 전사 적용'}],
+  quality:['각 단계별 구체적 산출물(deliverable)과 완료 기준 명시','실행 가능성과 현실적 제약을 항상 우선 고려','각 단계의 예상 리스크와 대응 방안 간략히 포함','마지막 단계는 검증·측정 가능한 형태로 마무리']},
+  care:{tags:['Context','Action','Result','Example'],labels:['배경 상황 (Context)','요청 행동 (Action)','기대 결과 (Result)','참고 예시 (Example)'],ph:['예: 팀장급 리더십 역량 강화 교육 프로그램 기획 중, 예산·시간 제약','예: 심리적 안전감 기반 팀 성과 향상 팀 빌딩 활동 도출','예: 즉시 적용 가능한 활동 5가지, 시간·비용·효과 포함','예: Google re:Work 팀 효과성 연구, Airbnb 팀 의식 프로그램'],
+  tips:['CARE는 사례 중심으로 아이디어를 구체화할 때 가장 효과적입니다.','Example에 신뢰할 수 있는 출처·기업명을 명시하면 품질이 크게 향상됩니다.','Result에 원하는 수량·형식을 명시하면 방대한 응답을 방지합니다.'],
+  examples:[{label:'팀 빌딩 아이디어',Context:'팀장 리더십 강화 교육 기획 중',Action:'심리적 안전감 기반 팀 빌딩 활동 도출',Result:'5가지 활동, 시간·비용·효과 포함',Example:'Google re:Work, Airbnb 팀 의식'},{label:'UX 벤치마킹',Context:'결제 전환율 개선 프로젝트',Action:'결제 플로우 최적화 사례 조사',Result:'국내외 3개 서비스+개선안 3가지',Example:'토스·쿠팡·Amazon 결제 UX'}],
+  quality:['사례는 검증 가능한 것으로 한정, 불확실시 "[추정]" 표시','각 사례의 적용 가능성과 한계를 반드시 함께 제시','국내 적용 시 현지화 포인트 포함','사례들의 공통 인사이트를 별도로 정리하여 시사점 제공']},
+  star:{tags:['Situation','Task','Action','Result'],labels:['상황 (Situation)','과제·목표 (Task)','취한 행동 (Action)','결과·성과 (Result)'],ph:['예: 핵심 인력 3명 동시 퇴직으로 팀 운영에 심각한 공백 발생','예: 45일 이내 핵심 직무 공백 해소 및 팀 안정성 회복','예: 내부 이동 발굴 + 외부 채용 채널 다변화 병행','예: 45일 내 전원 충원, 생산성 정상화, 3개월 이직률 0%'],
+  tips:['STAR는 성과를 구조적으로 서술할 때 가장 설득력이 높습니다.','Action은 "내가/우리가 주도적으로" 취한 행동을 중심으로 서술하세요.','Result는 정량 지표(%, 건수, 기간)를 최우선으로 활용하세요.'],
+  examples:[{label:'채용 성과 서술',Situation:'핵심 인력 3명 동시 퇴직',Task:'45일 내 공백 해소',Action:'내부 이동 발굴 + 채용 다변화',Result:'45일 완료, 3개월 이직률 0%'},{label:'역량 면접 답변',Situation:'부서 간 갈등으로 프로젝트 3주 지연',Task:'관계 복원 및 일정 정상화',Action:'1:1 인터뷰→루트코즈→협의체 구성',Result:'1주 내 일정 복구, 기한 내 납품'}],
+  quality:['각 요소를 구체적 수치·기간·빈도로 뒷받침','Action은 본인의 주도성과 판단력이 드러나도록 서술','Result는 정량적 지표 우선, 정성적 변화는 보조','상황과 결과의 인과관계가 명확히 드러나도록 서술']},
+  race:{tags:['Action','Context','Expectation'],labels:['핵심 행동 (Action)','상세 배경 (Context)','기대 결과 (Expectation)'],ph:['예: 전사 직원 몰입도 향상을 위한 중장기 전략 수립','예: 370명 IT기업, 이직률 2년간 30% 상승, MZ세대 65%','예: 6개월 실행 로드맵 + 월별 KPI + 예산 개요 (A4 3~5페이지)'],
+  tips:['RACE는 실행 계획과 측정 지표가 필요한 전략 기획에 가장 적합합니다.','Context에 조직 규모·현황 데이터를 넣을수록 맞춤형 전략이 나옵니다.','Expectation에 문서 분량과 구조를 명시하면 바로 활용 가능한 결과를 얻습니다.'],
+  examples:[{label:'몰입도 향상 전략',Action:'전사 직원 몰입도 향상 전략 수립',Context:'370명 IT기업, 이직률 2년간 30% 상승',Expectation:'6개월 로드맵+KPI+예산 포함 제안서'},{label:'신사업 GTM 전략',Action:'동남아 시장 진출 GTM 전략 수립',Context:'국내 SaaS 스타트업, 연매출 50억',Expectation:'시장분석+우선국가+파트너십+12개월'}],
+  quality:['단기·중기·장기 영향을 구분하여 서술','핵심 의사결정 포인트마다 찬반 논거를 균형 있게 제시','전략 성공 여부를 측정할 수 있는 정량 KPI 반드시 포함','결론은 즉시 실행 가능한 Next Action 3가지로 마무리']},
+  critique:{tags:['Draft','CritiqueAngle','DesiredOutput'],labels:['검토할 초안 (Draft)','집중 검토 관점 (Critique Angle)','원하는 산출물 (Desired Output)'],ph:['여기에 검토받고 싶은 문서·정책·기획안 전문을 붙여넣으세요.','예: 법적 리스크, 수용성, 예산 현실성, 차별성','예: 문제점 3가지(근거 포함) + 개선안 3가지(우선순위) + 수정 초안'],
+  tips:['Critique는 자체 검토의 맹점을 극복하고 완성도를 빠르게 높이는 데 최적입니다.','Critique Angle에 다수 관점을 명시할수록 다각도 검토가 가능합니다.','Desired Output에 "수정 초안"을 포함하면 바로 활용 가능한 결과를 얻습니다.'],
+  examples:[{label:'정책 리스크 검토',Draft:'[초안 붙여넣기]',CritiqueAngle:'법적 리스크, 직원 수용성, 운영 가능성',DesiredOutput:'문제점 3개+개선안 3개+수정 초안'},{label:'기획서 검토',Draft:'[기획서 붙여넣기]',CritiqueAngle:'목적 명확성, 실행 가능성, ROI',DesiredOutput:'강점 2개+약점 3개+개선 방향'}],
+  quality:['개선을 목적으로 문제를 서술','각 문제점에 반드시 대응하는 구체적 개선안 제시','개선안은 영향도 × 실행 용이성 기준으로 우선순위 정렬','수정 초안 요청 시 원문 의도를 유지하며 최소 침습적으로 수정']},
+  prd:{tags:['Background','Goals','Features','Constraints','Success'],labels:['배경·문제 (Background)','달성 목표 (Goals)','핵심 기능 명세 (Features)','기술·비즈니스 제약 (Constraints)','성공 기준 (Success)'],ph:['예: 결재 프로세스 수동 운영으로 처리 시간 평균 3일 소요','예: 결재 자동화로 처리 시간 80% 단축, 모바일 접근성 확보','예: 결재 라인 설정 / 모바일 승인·반려 / 알림 / 이력 조회','예: 기존 ERP 연동 필수, 개인정보보호법 준수, 3개월 개발','예: 처리 시간 80% 단축 / 모바일 사용률 70% / 오류 0건'],
+  tips:['Background에 정량적 현황(시간·비용·빈도)을 명시하면 문제 크기를 정확히 파악합니다.','Features는 기능 단위로 쪼개어 한 줄씩 나열하면 누락 없는 명세서가 됩니다.','Success에 정량 KPI를 포함하면 개발 완료 기준이 명확해집니다.'],
+  examples:[{label:'온보딩 자동화 명세',Background:'수동 온보딩으로 담당자 1인당 3시간 소요',Goals:'자동화로 업무 시간 50% 단축',Features:'체크리스트 자동발송/계정생성/대시보드/알림',Constraints:'SAP 연동 필수, 예산 2천만원',Success:'HR 개입 70% 감소, 완료율 95%'},{label:'AI 챗봇 명세',Background:'CS 문의 65%가 FAQ 반복 질문',Goals:'반복 문의 70% 자동 처리',Features:'FAQ 자동응답/에스컬레이션/이력/대시보드',Constraints:'CRM 연동, 월 운영비 100만원',Success:'자동 처리율 70%, CSAT 4.2+'}],
+  quality:['각 기능을 사용자 스토리 형식으로: "○○로서, ~~를 할 수 있다"','MVP와 추후 개선 사항을 구분하여 우선순위 명시','기술적으로 불가능한 요구사항이 있다면 대안 제시','각 기능의 예상 공수(소·중·대)를 추정하여 함께 제시']},
+  bdd:{tags:['Feature','Given','When','Then'],labels:['기능 정의 (Feature)','사전 조건 (Given)','사용자 행동 (When)','기대 결과 (Then)'],ph:['예: 직원이 모바일 앱에서 연차 휴가를 신청하는 기능','예: 직원이 앱에 로그인한 상태이고 잔여 연차가 1일 이상 있을 때','예: 날짜를 선택하고 사유를 입력한 후 "신청" 버튼을 누를 때','예: 부서장에게 승인 요청 알림이 발송되고 캘린더에 "승인 대기" 표시됨'],
+  tips:['하나의 시나리오는 하나의 동작만 검증하도록 좁게 설정하세요.','Then은 시스템의 관찰 가능한 변화(화면, 알림, DB 상태)를 명시하세요.','정상 흐름(Happy Path)과 오류 흐름(Error Case)을 각각 별도로 정의하세요.'],
+  examples:[{label:'휴가 신청 시나리오',Feature:'직원이 모바일 앱에서 연차 신청',Given:'로그인 상태, 잔여 연차 1일 이상',When:'날짜 선택 후 "신청" 버튼 클릭',Then:'부서장에게 알림 발송, 캘린더에 "승인 대기" 표시'},{label:'결제 실패 처리',Feature:'유효하지 않은 카드로 결제 시도',Given:'장바구니에 상품이 있고 결제 페이지 접속',When:'유효하지 않은 카드로 결제 시도',Then:'"결제 정보를 확인해주세요" 오류 표시, 결제 미처리'}],
+  quality:['각 시나리오는 하나의 동작만 검증하도록 원자적으로 작성','Then은 테스트 가능한 관찰 가능한 결과로 작성','정상 흐름과 오류 흐름을 모두 포함','비기술자도 이해할 수 있는 언어로 작성']}
+};
+const FW_ORDER=['rtf','costar','scqa','risen','care','star','race','critique','prd','bdd'];
+
+/* ── UTILS ── */
+function highlight(text){return text.split('\n').map(line=>{const e=line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');if(/^\[\[.+\]\]/.test(line))return`<span class="sh-h1">${e}</span>`;if(/^\[.+\]$/.test(line.trim())&&!/^\s*•/.test(line))return`<span class="sh-h2">${e}</span>`;if(/^###\s/.test(line.trim())||/^\[INST\]/.test(line.trim()))return`<span class="sh-h1">${e}</span>`;if(/^##\s/.test(line.trim()))return`<span class="sh-h2">${e}</span>`;if(/^<\/?[a-z_]/.test(line.trim()))return`<span class="sh-tag">${e}</span>`;if(/^\s+•/.test(line))return`<span class="sh-bul">${e}</span>`;if(line.trim()==='')return`<span class="sh-cmt">${e}</span>`;return`<span class="sh-def">${e}</span>`;}).join('\n');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+/* ── BENEFITS ── */
+function toggleBenefits(){document.getElementById('benefits-drawer').classList.toggle('open');}
+
+/* ── GUIDE MODAL ── */
+function openGuide(){document.getElementById('guide-overlay').classList.add('on');}
+function closeGuide(){document.getElementById('guide-overlay').classList.remove('on');}
+
+/* ── SOURCE + TIP TOOLTIPS ── */
+function initTooltips(){
+  FW_ORDER.forEach(fw=>{
+    const srcEl=document.getElementById('src-'+fw);
+    const tipEl=document.getElementById('tip-'+fw);
+    const s=FW_SOURCES[fw];
+    if(srcEl&&s) srcEl.innerHTML=`<div class="fw-src-badge">${s.badge}</div><div class="fw-src-detail">${s.detail}</div>`;
+    const tips=FW[fw]?.tips||[];
+    if(tipEl) tipEl.innerHTML=`<div class="fw-tip-badge">활용 팁</div>`+tips.map(t=>`<div class="fw-tip-item">${t}</div>`).join('');
+  });
+}
+function toggleSrc(fw,btn){
+  const tip=document.getElementById('src-'+fw);const was=tip.classList.contains('show');
+  document.querySelectorAll('.fw-src-tip,.fw-tip-tip').forEach(t=>t.classList.remove('show'));
+  document.querySelectorAll('.fw-icon-btn').forEach(b=>b.classList.remove('open'));
+  if(!was){tip.classList.add('show');btn.classList.add('open');}
+}
+function toggleTip(fw,btn){
+  const tip=document.getElementById('tip-'+fw);const was=tip.classList.contains('show');
+  document.querySelectorAll('.fw-src-tip,.fw-tip-tip').forEach(t=>t.classList.remove('show'));
+  document.querySelectorAll('.fw-icon-btn').forEach(b=>b.classList.remove('open'));
+  if(!was){tip.classList.add('show');btn.classList.add('open');}
+}
+document.addEventListener('click',e=>{
+  if(!e.target.classList.contains('fw-icon-btn')){
+    document.querySelectorAll('.fw-src-tip,.fw-tip-tip').forEach(t=>t.classList.remove('show'));
+    document.querySelectorAll('.fw-icon-btn').forEach(b=>b.classList.remove('open'));
+  }
+});
+
+/* ── OPEN IN PLATFORM ── */
+function updateOpenRow(){const row=document.getElementById('open-row');row.innerHTML='';const url=document.querySelector(`.chip[data-m="${S.model}"]`)?.dataset?.url;const name=document.querySelector(`.chip[data-m="${S.model}"]`)?.textContent?.trim();if(url&&name){row.innerHTML=`<a class="open-btn" href="${url}" target="_blank" rel="noopener">↗ ${name}에서 열기</a><span style="font-size:11px;color:var(--muted);align-self:center">복사 후 클릭</span>`;}}
+
+/* ── EDIT MODE ── */
+function toggleEdit(){editMode=!editMode;const btn=document.getElementById('edit-btn');const view=document.getElementById('out');const edit=document.getElementById('out-edit');const notice=document.getElementById('edit-notice');if(editMode){edit.value=promptText;view.style.display='none';edit.style.display='block';notice.style.display='block';btn.textContent='✅ 완료';btn.classList.add('active');}else{promptText=edit.value;view.innerHTML=highlight(promptText);view.style.display='block';edit.style.display='none';notice.style.display='none';btn.textContent='✏️ 편집';btn.classList.remove('active');}}
+
+/* ── OUTPUT TABS ── */
+function switchOutTab(tab){['structured','compare','quality'].forEach(t=>{document.getElementById('otab-'+t).classList.toggle('on',t===tab);document.getElementById('opanel-'+t).classList.toggle('on',t===tab);});if(tab==='compare')renderCompare();if(tab==='quality')renderQuality();}
+
+/* ── COMPARE ── */
+function buildNL(role){const def=FW[S.fw];const parts=def.tags.map(t=>S.inputs[t]).filter(Boolean);if(!parts.length&&role==='Expert')return'(아직 입력이 없습니다)';return(role!=='Expert'?role+'로서, ':'')+parts.join('. ');}
+function renderCompare(){const role=getRole();const nl=buildNL(role);const rag=document.getElementById('opt-rag').checked;const cot=document.getElementById('opt-cot').checked;const fmt=document.getElementById('opt-fmt').value;const def=FW[S.fw];document.getElementById('nl-out').textContent=nl;document.getElementById('st-out').textContent=promptText.slice(0,280)+(promptText.length>280?'\n…':'');const rows=[{label:'AI 역할 명시',st:role!=='Expert'},{label:`${S.fw.toUpperCase()} 프레임워크 구조`,st:true},{label:`품질 지침 (${def.quality.length}개 자동 삽입)`,st:true},{label:'출력 형식 지정',st:!!fmt},{label:'할루시네이션 방지',st:rag},{label:'단계별 추론(CoT) 요구',st:cot},{label:`${S.model.toUpperCase()} 모델 최적화 문법`,st:true}];const on=rows.filter(r=>r.st).length;const tot=rows.length;document.getElementById('cm-rows').innerHTML=rows.map(r=>`<div class="cm-row"><div style="font-size:12px">${r.label}</div><div class="cm-check cm-x">✗</div><div class="cm-check ${r.st?'cm-ok':'cm-x'}">${r.st?'✓':'✗'}</div></div>`).join('');const nlTok=Math.round(nl.length/3.5);const stTok=Math.round(promptText.length/3.5);const pct=Math.round(on/tot*100);document.getElementById('impact-bar').innerHTML=`<div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px"><span>구조화 요소 적용률</span><span style="color:${pct>=70?'var(--grn)':'var(--acc)'}">${on}/${tot}개 (${pct}%)</span></div><div style="height:8px;background:var(--bdr);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${pct>=70?'var(--grn)':'var(--acc)'};border-radius:4px;transition:width .4s ease"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:8px"><span>자연어: ~${nlTok} 토큰</span><span>→</span><span style="color:var(--acc)">설계 후: ~${stTok} 토큰 (+${stTok-nlTok})</span></div>`;}
+
+/* ── QUALITY ── */
+function renderQuality(){const role=getRole();const def=FW[S.fw];const hasRole=role!=='Expert';const hasTask=def.tags.some(t=>S.inputs[t]);const allFill=def.tags.every(t=>S.inputs[t]);const fmt=document.getElementById('opt-fmt').value;const rag=document.getElementById('opt-rag').checked;const cot=document.getElementById('opt-cot').checked;const checks=[{pass:hasRole,icon:hasRole?'✅':'⬜',main:'AI 역할 설정',sub:hasRole?`"${role.slice(0,35)}${role.length>35?'…':''}"` : '역할을 설정하면 응답 전문성이 높아집니다.'},{pass:hasTask,icon:hasTask?'✅':'⬜',main:'핵심 작업 입력',sub:hasTask?`${Object.values(S.inputs).filter(Boolean).length}개 필드 작성됨`:'프레임워크 필드를 작성하세요.'},{pass:allFill,icon:allFill?'✅':'⚠️',main:'모든 필드 완성',sub:allFill?'모든 필드가 작성되었습니다.':`${def.tags.length-Object.values(S.inputs).filter(Boolean).length}개 필드가 비어 있습니다.`},{pass:!!fmt,icon:fmt?'✅':'⬜',main:'출력 형식 지정',sub:fmt?`"${({markdown:'Markdown',bullet:'불릿',table:'표',report:'보고서',json:'JSON',slides:'슬라이드'})[fmt]}" 지정됨`:'형식을 지정하면 일관된 결과를 얻습니다.'},{pass:rag,icon:rag?'✅':'⬜',main:'할루시네이션 방지',sub:rag?'근거 기반 답변 프로토콜 삽입됨':'사실 기반 작업에 권장합니다.'},{pass:cot,icon:cot?'✅':'⬜',main:'Chain-of-Thought',sub:cot?'단계별 추론 요구 삽입됨':'복잡한 분석·전략 작업에 권장합니다.'}];const pass=checks.filter(c=>c.pass).length;const pct=Math.round(pass/checks.length*100);const filled=Math.round(pass/checks.length*5);document.getElementById('q-pct').textContent=pct+'%';document.getElementById('q-pct').style.color=pct>=80?'var(--grn)':pct>=50?'var(--acc)':'var(--muted)';document.querySelectorAll('#q-dots .qdot').forEach((d,i)=>{d.classList.toggle('on',i<filled);d.classList.toggle('hi',i<filled&&filled>=4);});document.getElementById('q-checklist').innerHTML=checks.map(c=>`<div class="qci ${c.pass?'pass':'fail'}"><span class="qci-ic">${c.icon}</span><div><div class="qci-mn">${c.main}</div><div class="qci-sb">${c.sub}</div></div></div>`).join('');document.getElementById('q-protocol').innerHTML=(def.quality||[]).map(q=>`<div class="qpl-item">${q}</div>`).join('');}
+
+/* ── PROGRESS ── */
+function updateProgress(){const def=FW[S.fw];const total=def.tags.length;const filled=def.tags.filter(t=>S.inputs[t]).length;document.getElementById('prog-wrap').style.display='block';document.getElementById('prog-text').textContent=`${filled}/${total}`;const pct=total?Math.round(filled/total*100):0;const bar=document.getElementById('prog-bar');bar.style.width=pct+'%';bar.classList.toggle('full',pct===100);const lbs=['입력을 시작하세요','조금 더 채워보세요','절반 완성!','거의 다 왔어요','모든 필드 완성 ✓'];const lbl=document.getElementById('prog-label');lbl.textContent=lbs[Math.min(Math.floor(pct/25),4)];lbl.style.color=pct===100?'var(--grn)':'var(--muted)';}
+
+/* ── REC FW ── */
+function updateRecFW(){const recSet=new Set();S.depts.forEach(d=>{(DEPT_REC[d]||[]).forEach(fw=>recSet.add(fw));});const cards=[...document.querySelectorAll('#fw-grid .fwc')];const recNames=[];FW_ORDER.forEach((fw,i)=>{const card=cards[i];if(!card)return;const isRec=recSet.has(fw)&&S.depts.length>0;card.classList.toggle('rec',isRec);if(isRec)recNames.push(fw.toUpperCase());});const notice=document.getElementById('rec-notice');if(S.depts.length>0&&recNames.length>0){notice.classList.add('show');document.getElementById('rec-names').textContent=recNames.join(', ');}else notice.classList.remove('show');}
+
+/* ── COMBO HINT ── */
+function updateComboHint(){const hint=document.getElementById('dept-combo-hint');if(S.depts.length>=2){hint.innerHTML=`💡 조합 결과 → <strong>${getRole()}</strong>`;hint.classList.add('show');}else hint.classList.remove('show');}
+
+/* ── QUICK EXAMPLES ── */
+function buildQEx(){const def=FW[S.fw];const row=document.getElementById('qex-row');row.innerHTML='';const badge=document.getElementById('dept-badge');let deptExs=[];if(S.depts.length>0){S.depts.forEach(dept=>{const deptFwExs=(DEPT_EX[dept]||{})[S.fw]||[];deptFwExs.forEach(ex=>{if(!deptExs.find(e=>e.label===ex.label))deptExs.push({...ex,_dept:dept});});});}
+if(deptExs.length>0){badge.textContent=S.depts.join('·')+' 맞춤';badge.classList.add('show');}else badge.classList.remove('show');
+deptExs.forEach(ex=>{const btn=document.createElement('button');btn.className='qex dept-ex';btn.textContent=ex.label;btn.onclick=()=>fillEx(ex,def);row.appendChild(btn);});
+(def.examples||[]).forEach(ex=>{const btn=document.createElement('button');btn.className='qex';btn.textContent=ex.label;btn.onclick=()=>fillEx(ex,def);row.appendChild(btn);});}
+function fillEx(ex,def){const inputs=document.querySelectorAll('#dyn-inputs .field');def.tags.forEach((tag,i)=>{const val=ex[tag]||'';inputs[i].value=val;inputs[i].classList.toggle('filled',!!val);S.inputs[tag]=val;});update();}
+
+/* ── SETTERS ── */
+function setModel(el){S.model=el.dataset.m;document.querySelectorAll('.chip').forEach(c=>{c.className='chip '+(c.dataset.m||'');});el.classList.add('on',S.model);document.getElementById('model-hint').innerHTML=MHINTS[S.model];updateOpenRow();update();}
+function setRoleMode(mode){S.roleMode=mode;document.getElementById('tab-dept').classList.toggle('on',mode==='dept');document.getElementById('tab-free').classList.toggle('on',mode==='free');document.getElementById('mode-dept').style.display=mode==='dept'?'':'none';document.getElementById('mode-free').style.display=mode==='free'?'':'none';update();}
+function toggleDept(v,el){const idx=S.depts.indexOf(v);if(idx>=0){S.depts.splice(idx,1);el.classList.remove('on');}else{S.depts.push(v);el.classList.add('on');}updateRecFW();buildQEx();updateComboHint();update();}
+function setFW(fw,el){S.fw=fw;S.inputs={};document.querySelectorAll('#fw-grid .fwc').forEach(c=>c.classList.remove('on'));el.classList.add('on');buildDyn();buildQEx();updateQP();document.getElementById('qp-body').classList.remove('open');document.getElementById('qp-toggle').classList.remove('open');if(editMode)toggleEdit();update();}
+function buildDyn(){const def=FW[S.fw];const c=document.getElementById('dyn-inputs');c.innerHTML='';def.tags.forEach((tag,i)=>{const w=document.createElement('div');w.className='fwrap';const l=document.createElement('div');l.className='flbl';l.innerHTML=`${def.labels[i]} <span class="ftag">${tag.toUpperCase()}</span>`;const long=['Draft','Context','Instructions','Steps','Example','Action','Background','Features'].includes(tag);const el=document.createElement(long?'textarea':'input');el.className='field';el.type='text';if(long)el.style.height='68px';el.placeholder=def.ph[i]||'';el.oninput=e=>{S.inputs[tag]=e.target.value;el.classList.toggle('filled',!!e.target.value);update();};w.appendChild(l);w.appendChild(el);c.appendChild(w);});}
+function updateQP(){const qs=FW[S.fw].quality||[];document.getElementById('qp-count').textContent=`${qs.length}개`;document.getElementById('qp-items').innerHTML=qs.map(q=>`<div class="qp-item">${q}</div>`).join('');}
+function toggleQP(){document.getElementById('qp-body').classList.toggle('open');document.getElementById('qp-toggle').classList.toggle('open');}
+
+/* ── OPTIONS ── */
+function syncRow(rid,iid){document.getElementById(rid).classList.toggle('active',document.getElementById(iid).checked);}
+function toggleFile(){document.getElementById('file-area').style.display=document.getElementById('opt-file').checked?'block':'none';update();}
+function addFile(){const d=document.createElement('div');d.className='file-entry';d.innerHTML=`<input type="text" class="field f-n" placeholder="파일명.pdf" oninput="update()" style="font-size:12px"><input type="text" class="field f-d" placeholder="파일 설명" oninput="update()" style="font-size:12px"><button class="fdel" onclick="this.parentElement.remove();update()">✕</button>`;document.getElementById('file-list').appendChild(d);}
+
+/* ── ROLE BUILDER — space before 입니다 ── */
+function getRole(){
+  if(S.roleMode==='free')return document.getElementById('role-free').value.trim()||'Expert';
+  const desc=document.getElementById('role-desc').value.trim();
+  const deptStr=S.depts.join(' ');
+  const parts=[deptStr,desc].filter(Boolean);
+  return parts.length?parts.join(' ')+' 전문가':'Expert';
+}
+
+/* ── PROMPT BUILDER ── */
+function buildPrompt(){
+  const role=getRole();
+  const rag=document.getElementById('opt-rag').checked;
+  const cot=document.getElementById('opt-cot').checked;
+  const fmt=document.getElementById('opt-fmt').value;
+  const len=document.getElementById('opt-len').value;
+  const lang=document.getElementById('opt-lang').value;
+  const tone=document.getElementById('opt-tone').value;
+  const fileOn=document.getElementById('opt-file').checked;
+  const def=FW[S.fw];
+
+  const prev=document.getElementById('role-prev');
+  prev.innerHTML=role!=='Expert'?`프롬프트 적용 → <strong>"당신은 ${role} 입니다."</strong>`:'역할을 설정하면 미리보기가 표시됩니다.';
+
+  let manifest='';if(fileOn){const rows=document.querySelectorAll('#file-list .file-entry');if(rows.length){manifest='[FILE_MANIFEST]\n';rows.forEach(r=>{const n=r.querySelector('.f-n')?.value||'';const d=r.querySelector('.f-d')?.value||'';if(n)manifest+=`  • ${n}: ${d}\n`;});manifest+='\n';}}
+  let body='';def.tags.forEach(t=>{body+=`[${t.toUpperCase()}]\n${S.inputs[t]||'(미입력)'}\n\n`;});
+  const qBlock=def.quality.map(q=>`  • ${q}`).join('\n');
+  const FMT_MAP={markdown:'Markdown 형식',bullet:'불릿 리스트',table:'표(Table)',report:'보고서 형식',json:'JSON',slides:'슬라이드 구조'};
+  const LEN_MAP={brief:'간결하게 300자 내외로 핵심만 작성할 것',mid:'800자 내외의 적정 분량으로 작성할 것',detail:'충분한 상세 설명 포함, 1,500자 이상으로 작성할 것'};
+  const TONE_MAP={formal:'격식 있는 전문 문어체',casual:'친근하고 이해하기 쉬운 구어체',analytical:'논리적·분석적 문체',concise:'핵심만 담은 간결한 문체'};
+  const LANG_MAP={ko:'모든 답변은 한국어로 작성할 것',en:'Answer in English only.',both:'한국어로 작성 후, 동일 내용을 영어로 반복 작성할 것'};
+  const ragB=rag?`[GROUNDING_PROTOCOL]\n  • 제공된 자료와 맥락에만 근거하여 답변할 것\n  • 불확실한 정보는 "[확인 필요]"로 명시할 것\n  • 주요 주장마다 근거를 명시할 것\n\n`:'';
+  const cotB=cot?`[REASONING_PROTOCOL]\n  • 최종 답변 전에 단계별 추론 과정을 먼저 작성할 것\n  • 각 단계에서 가정과 근거를 명시할 것\n  • 결론 전 반론 가능성을 검토할 것\n\n`:'';
+  const fmtB=fmt?`[OUTPUT_FORMAT]\n  답변은 반드시 ${FMT_MAP[fmt]}으로 작성할 것\n\n`:'';
+  const lenB=len?`[RESPONSE_LENGTH]\n  ${LEN_MAP[len]}\n\n`:'';
+  const toneB=tone?`[TONE]\n  ${TONE_MAP[tone]}으로 작성할 것\n\n`:'';
+  const langB=`[LANGUAGE]\n  ${LANG_MAP[lang]||LANG_MAP.ko}\n`;
+
+  // Check if creative platform
+  const creative=buildCreativePrompt(S.model,role,body,def);
+  if(creative){
+    return{text:creative,hasRole:role!=='Expert',hasTask:def.tags.some(t=>S.inputs[t]),hasFmt:!!fmt,rag,cot};
+  }
+
+  const m=S.model;let text='';
+  if(m==='gpt'){text=`[[SYSTEM_ROLE]]\n당신은 ${role} 입니다.\n이 역할에 최적화된 전문 지식과 경험을 바탕으로 답변하세요.\n\n${manifest}[[TASK: ${S.fw.toUpperCase()}]]\n${body}[[QUALITY_PROTOCOL]]\n${qBlock}\n\n${ragB}${cotB}${fmtB}${lenB}${toneB}${langB}`;}
+  else if(m==='gemini'){const x=s=>s.replace(/\[/g,'<').replace(/\]/g,'>');text=`<Persona>\n  당신은 ${role} 입니다. 이 역할에 최적화된 전문 지식으로 답변하세요.\n</Persona>\n\n${manifest?x(manifest):''}<Instruction framework="${S.fw.toUpperCase()}" grounding="true">\n${x(body)}</Instruction>\n\n<QualityProtocol>\n${qBlock}\n</QualityProtocol>\n\n${x(ragB)}${x(cotB)}${x(fmtB)}${x(lenB)}${x(toneB)}${x(langB)}`;}
+  else if(m==='claude'){text=`<role>\n  당신은 ${role} 입니다. 이 역할에 최적화된 전문 지식으로 답변하세요.\n</role>\n\n${manifest}<task framework="${S.fw.toUpperCase()}">\n${body}</task>\n\n<quality_protocol>\n${qBlock}\n</quality_protocol>\n\n${ragB?`<grounding_protocol>\n${ragB.replace('[GROUNDING_PROTOCOL]\n','')}</grounding_protocol>\n\n`:''}${cotB?`<reasoning_protocol>\n${cotB.replace('[REASONING_PROTOCOL]\n','')}</reasoning_protocol>\n\n`:''}${fmtB?`<output_format>\n${fmtB.replace('[OUTPUT_FORMAT]\n','')}</output_format>\n\n`:''}${lenB?`<response_length>\n${lenB.replace('[RESPONSE_LENGTH]\n','')}</response_length>\n\n`:''}${toneB?`<tone>\n${toneB.replace('[TONE]\n','')}</tone>\n\n`:''}<language>\n  ${LANG_MAP[lang]||LANG_MAP.ko}\n</language>`;}
+  else if(m==='copilot'){text=`[역할 지정]\n당신은 ${role} 입니다. Microsoft 365 환경에서 업무를 지원하는 전문 AI 어시스턴트 역할을 수행하세요.\n\n${manifest}[요청 사항 - ${S.fw.toUpperCase()}]\n${body}[품질 기준]\n${qBlock}\n\n${ragB}${cotB}${fmtB}${lenB}${toneB}${langB}`;}
+  else if(m==='grok'){text=`[CONTEXT]\n역할: ${role} 입니다.\n플랫폼: Grok 3 (xAI) — 실시간 웹 정보 활용 가능\n\n${manifest}[REQUEST: ${S.fw.toUpperCase()}]\n${body}[QUALITY]\n${qBlock}\n\n${ragB}${cotB}${fmtB}${lenB}${toneB}${langB}`;}
+  else if(m==='perplexity'){text=`[RESEARCH_ROLE]\n역할: ${role} 입니다.\n검색 지침: 최신 자료를 우선 탐색하며 모든 주장에 출처를 명시할 것\n\n${manifest}[RESEARCH_TASK - ${S.fw.toUpperCase()}]\n${body}[CITATION_PROTOCOL]\n  • 각 주장에 [출처] 형식으로 인용 표시\n  • 최신 자료(최근 2년 이내) 우선\n  • 불확실한 정보는 "[미확인]" 표시\n\n[QUALITY_PROTOCOL]\n${qBlock}\n\n${ragB}${cotB}${fmtB}${lenB}${toneB}${langB}`;}
+  else if(m==='notebooklm'){text=`[SOURCE_CONTEXT]\n분석자 역할: ${role} 입니다.\n※ 업로드된 소스 문서의 내용에만 근거하여 답변할 것. 소스 외 정보는 "[소스 외]"로 표시할 것.\n\n${manifest}[ANALYSIS_TASK - ${S.fw.toUpperCase()}]\n${body}[NotebookLM 출력 지침]\n  • 답변의 근거가 되는 소스 문서와 섹션을 명시할 것\n  • 소스 내에서 확인할 수 없는 내용은 "[소스 없음]"으로 표시할 것\n\n[QUALITY_PROTOCOL]\n${qBlock}\n\n${fmtB}${lenB}${langB}`;}
+  else if(m==='wrtn'){text=`[역할 설정]\n당신은 ${role} 입니다. 이 역할에 최적화된 전문 지식과 경험을 바탕으로 답변하세요.\n\n${manifest}[작업 요청 - ${S.fw.toUpperCase()}]\n${body}[품질 기준]\n${qBlock}\n\n${ragB}${cotB}${fmtB}${lenB}${toneB}${langB}`;}
+  else if(m==='genspark'){text=`[AGENT_ROLE]\n에이전트 역할: ${role} 입니다.\n실행 방식: 목표를 세부 단계로 분해한 후 각 단계를 순차적으로 자율 실행할 것\n\n${manifest}[AGENT_TASK - ${S.fw.toUpperCase()}]\n${body}[EXECUTION_PROTOCOL]\n  1. 먼저 작업을 세부 단계로 분해하여 계획을 제시할 것\n  2. 각 단계를 순서대로 실행하며 진행 상황을 표시할 것\n  3. 각 단계 완료 후 다음 단계 진행 여부를 확인할 것\n\n[QUALITY_PROTOCOL]\n${qBlock}\n\n${ragB}${fmtB}${lenB}${toneB}${langB}`;}
+  else if(m==='notion'){text=`[페이지 컨텍스트]\n작성자 역할: ${role} 입니다.\n이 내용은 Notion 페이지에 직접 삽입될 문서입니다.\n\n${manifest}[문서 작업 - ${S.fw.toUpperCase()}]\n${body}[Notion 출력 지침]\n  • H1/H2 소제목, 불릿, 콜아웃 블록을 적절히 활용할 것\n  • 데이터베이스로 표현 가능한 항목은 표(Table) 형식으로 제공할 것\n  • 액션아이템은 체크박스([ ]) 형식으로 제공할 것\n\n[QUALITY_PROTOCOL]\n${qBlock}\n\n${ragB}${fmtB}${lenB}${langB}`;}
+  else if(m==='gamma'){text=`[PRESENTATION_SPEC]\n발표자 역할: ${role} 입니다.\n출력 형식: Gamma 슬라이드 구조\n\n${manifest}[발표 내용 - ${S.fw.toUpperCase()}]\n${body}[슬라이드 구성 지침]\n  • 슬라이드 1: 제목 + 한 줄 핵심 메시지\n  • 본문: 슬라이드당 핵심 메시지 1개 + 불릿 3개 이내\n  • 각 슬라이드에 [시각화 제안] 명시\n  • 마지막: 결론 + Next Action\n\n[QUALITY_PROTOCOL]\n${qBlock}\n\n${ragB}${fmtB}${lenB}${langB}`;}
+  else if(m==='lovable'){text=`[APP_SPECIFICATION]\n기획자 역할: ${role} 입니다.\n\n${manifest}[앱 요구사항 - ${S.fw.toUpperCase()}]\n${body}[기술 지침]\n  • 웹 표준 준수, 모바일 반응형 디자인\n  • 컴포넌트 단위로 구조화하여 제안할 것\n  • 각 기능의 사용자 스토리(User Story) 형식 포함\n  • 데이터 구조(입력/출력 필드)를 명시할 것\n\n[QUALITY_PROTOCOL]\n${qBlock}\n\n${fmtB}${lenB}${langB}`;}
+  else{text=`[CODE_SPECIFICATION]\n개발자 역할: ${role} 입니다.\n\n${manifest}[개발 요구사항 - ${S.fw.toUpperCase()}]\n${body}[코드 작성 지침]\n  • 사용 기술 스택과 언어 버전을 명시하여 코드를 생성할 것\n  • 입출력 타입을 명확히 정의할 것\n  • 에지 케이스(edge case) 처리 로직을 포함할 것\n  • 핵심 로직에 간결한 주석을 포함할 것\n  • 테스트 케이스 예시를 함께 제공할 것\n\n[QUALITY_PROTOCOL]\n${qBlock}\n\n${ragB}${fmtB}${lenB}${langB}`;}
+  return{text,hasRole:role!=='Expert',hasTask:def.tags.some(t=>S.inputs[t]),hasFmt:!!fmt,rag,cot};
+}
+
+/* ── UPDATE ── */
+function update(){const{text,hasRole,hasTask,hasFmt,rag,cot}=buildPrompt();promptText=text;if(!editMode)document.getElementById('out').innerHTML=highlight(text);document.getElementById('qp-role').classList.toggle('on',hasRole);document.getElementById('qp-task').classList.toggle('on',hasTask);document.getElementById('qp-fmt2').classList.toggle('on',hasFmt);document.getElementById('qp-guard').classList.toggle('on',rag);document.getElementById('qp-cot2').classList.toggle('on',cot);const tok=Math.round(text.length/3.5);document.getElementById('tok').textContent=`약 ${tok.toLocaleString()} 토큰`;const score=[hasRole,hasTask,hasFmt,rag,cot].filter(Boolean).length;const grades=['설계를 시작하세요 →','기본 구성 완료','양호한 프롬프트','우수한 프롬프트','고품질 프롬프트 ⭐','전문가 수준 🏆'];const colors=['var(--muted)','var(--muted)','var(--acc)','var(--acc)','var(--grn)','var(--grn)'];const g=document.getElementById('grade');g.textContent=grades[score];g.style.color=colors[score];updateProgress();const activeTab=document.querySelector('.out-tab.on')?.id?.replace('otab-','');if(activeTab==='compare')renderCompare();if(activeTab==='quality')renderQuality();}
+
+/* ── COPY ── */
+function copyPrompt(){const text=editMode?document.getElementById('out-edit').value:promptText;navigator.clipboard.writeText(text).then(()=>showToast('📋 프롬프트가 복사되었습니다!'));}
+
+/* ── RESET ── */
+function resetAll(){if(!confirm('모든 입력을 초기화하시겠습니까?'))return;if(editMode)toggleEdit();S.model='gpt';S.roleMode='dept';S.depts=[];S.inputs={};document.querySelectorAll('.chip').forEach(c=>c.className='chip '+(c.dataset.m||''));document.querySelector('.chip[data-m="gpt"]').classList.add('on','gpt');document.getElementById('model-hint').innerHTML=MHINTS.gpt;setRoleMode('dept');[...document.querySelectorAll('#dept-job .dchip'),...document.querySelectorAll('#dept-role .dchip')].forEach(c=>c.classList.remove('on'));document.getElementById('role-desc').value='';document.getElementById('role-free').value='';updateRecFW();updateComboHint();const first=document.querySelector('#fw-grid .fwc');setFW('rtf',first);document.getElementById('opt-rag').checked=true;syncRow('row-rag','opt-rag');document.getElementById('opt-cot').checked=false;syncRow('row-cot','opt-cot');document.getElementById('opt-file').checked=false;syncRow('row-file','opt-file');document.getElementById('file-area').style.display='none';document.getElementById('file-list').innerHTML='';document.getElementById('opt-fmt').value='';document.getElementById('opt-len').value='';document.getElementById('opt-lang').value='ko';document.getElementById('opt-tone').value='';updateOpenRow();update();showToast('↺ 초기화되었습니다.');}
+
+/* ── TEMPLATES (modal-based) ── */
+const getT=()=>{try{return JSON.parse(localStorage.getItem(LS_KEY)||'[]');}catch{return[];}};
+const saveT=ts=>localStorage.setItem(LS_KEY,JSON.stringify(ts));
+function openSaveModal(){const r=getRole();document.getElementById('tmpl-name-input').value=`${r!=='Expert'?r.slice(0,15):''} [${S.fw.toUpperCase()}]`.trim();document.getElementById('save-overlay').classList.add('on');renderTemplates();setTimeout(()=>document.getElementById('tmpl-name-input').select(),50);}
+function closeSaveModal(){document.getElementById('save-overlay').classList.remove('on');}
+function confirmSave(){const name=document.getElementById('tmpl-name-input').value.trim();if(!name){alert('이름을 입력하세요.');return;}const ts=getT();ts.unshift({name,ts:Date.now(),model:S.model,roleMode:S.roleMode,depts:[...S.depts],desc:document.getElementById('role-desc').value,freeRole:document.getElementById('role-free').value,fw:S.fw,inputs:{...S.inputs},opts:{rag:document.getElementById('opt-rag').checked,cot:document.getElementById('opt-cot').checked,fmt:document.getElementById('opt-fmt').value,len:document.getElementById('opt-len').value,lang:document.getElementById('opt-lang').value,tone:document.getElementById('opt-tone').value}});saveT(ts.slice(0,8));renderTemplates();showToast('💾 템플릿이 저장되었습니다!');}
+function exportTemplates(){const ts=getT();if(!ts.length){showToast('⚠️ 저장된 템플릿이 없습니다.');return;}const blob=new Blob([JSON.stringify({version:'parch_v5',exported:new Date().toISOString(),templates:ts},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`prompt_templates_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);showToast('💾 내보내기 완료!');}
+function importTemplates(input){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{try{const data=JSON.parse(e.target.result);let imported=Array.isArray(data)?data:data.templates||[];if(!imported.length){showToast('⚠️ 유효한 템플릿이 없습니다.');return;}const merged=[...imported,...getT()].filter((t,i,a)=>a.findIndex(x=>x.name===t.name)===i);saveT(merged.slice(0,8));renderTemplates();showToast(`📂 ${imported.length}개 가져오기 완료!`);}catch{showToast('⚠️ JSON 형식이 올바르지 않습니다.');}input.value='';};reader.readAsText(file);}
+function loadTemplate(idx){const t=getT()[idx];if(!t)return;if(editMode)toggleEdit();closeSaveModal();document.querySelectorAll('.chip').forEach(c=>c.className='chip '+(c.dataset.m||''));const mel=document.querySelector(`.chip[data-m="${t.model}"]`);if(mel){mel.classList.add('on',t.model);S.model=t.model;document.getElementById('model-hint').innerHTML=MHINTS[t.model]||'';}setRoleMode(t.roleMode||'dept');S.depts=t.depts||[];[...document.querySelectorAll('#dept-job .dchip'),...document.querySelectorAll('#dept-role .dchip')].forEach(c=>{if(S.depts.some(d=>c.textContent.trim()===d))c.classList.add('on');else c.classList.remove('on');});document.getElementById('role-desc').value=t.desc||'';document.getElementById('role-free').value=t.freeRole||'';S.fw=t.fw||'rtf';S.inputs={...t.inputs};document.querySelectorAll('#fw-grid .fwc').forEach(c=>c.classList.remove('on'));const fi=FW_ORDER.indexOf(S.fw);const cards=[...document.querySelectorAll('#fw-grid .fwc')];if(fi>=0&&cards[fi])cards[fi].classList.add('on');buildDyn();buildQEx();updateQP();const fields=document.querySelectorAll('#dyn-inputs .field');FW[S.fw].tags.forEach((tag,i)=>{if(fields[i]){fields[i].value=S.inputs[tag]||'';fields[i].classList.toggle('filled',!!S.inputs[tag]);}});if(t.opts){document.getElementById('opt-rag').checked=t.opts.rag!==false;syncRow('row-rag','opt-rag');document.getElementById('opt-cot').checked=!!t.opts.cot;syncRow('row-cot','opt-cot');document.getElementById('opt-fmt').value=t.opts.fmt||'';document.getElementById('opt-len').value=t.opts.len||'';document.getElementById('opt-lang').value=t.opts.lang||'ko';document.getElementById('opt-tone').value=t.opts.tone||'';}updateRecFW();updateComboHint();updateOpenRow();update();showToast(`📂 "${t.name}" 불러왔습니다.`);}
+function deleteTemplate(idx){const ts=getT();ts.splice(idx,1);saveT(ts);renderTemplates();showToast('🗑 삭제했습니다.');}
+function renderTemplates(){const ts=getT();const list=document.getElementById('tmpl-list');if(!ts.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);padding:6px 0">저장된 템플릿이 없습니다.</div>`;return;}list.innerHTML=ts.map((t,i)=>{const d=new Date(t.ts);const ds=`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;return`<div style="display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--bdr)"><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">${(t.fw||'').toUpperCase()} · ${(t.model||'').toUpperCase()} · ${ds}</div></div><button style="font-size:11px;font-weight:700;color:var(--acc);background:var(--acc-lt);border:1px solid var(--acc);border-radius:6px;padding:3px 8px;cursor:pointer;font-family:DM Sans,sans-serif" onclick="loadTemplate(${i})">불러오기</button><button style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:3px 5px" onclick="deleteTemplate(${i})" title="삭제">✕</button></div>`;}).join('');}
+
+/* ── KEYBOARD ── */
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('tmpl-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmSave();});});
+
+/* ── INIT ── */
+initTooltips();
+syncRow('row-rag','opt-rag');
+buildDyn();buildQEx();updateQP();
+updateOpenRow();
+update();
+</script>
+</body>
+</html>
