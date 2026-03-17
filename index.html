@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>:: 프롬프트 도우미 (Prompt Helper) ::</title>
+<title>:: 프롬프트 도우미 (Prompt Helper) :: </title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f0f2f5;--surf:#fff;--bdr:#e4e8ef;--bdr2:#ccd3df;--text:#1a2232;--muted:#7b8899;--faint:#f7f9fc;--acc:#3b5bdb;--acc-lt:#eef1fd;--acc-dk:#2f4ac4;--grn:#0f9d6e;--grn-lt:#e5f7f2;--grn-bdr:#34d399;--amber:#d97706;--amber-lt:#fef3c7;--red:#e03e3e;--red-lt:#fee2e2;--purple:#7c3aed;--purple-lt:#f3f0ff;--r:10px;--rs:7px}
@@ -24,6 +24,8 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .reset-btn{font-size:12px;font-weight:600;color:var(--muted);background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rs);padding:6px 12px;cursor:pointer;transition:all .13s;font-family:'DM Sans',sans-serif}
 .reset-btn:hover{border-color:var(--red);color:var(--red)}
 .hd-div{width:1px;height:20px;background:var(--bdr)}
+.guide-hd-btn{font-size:12.5px;font-weight:600;color:var(--acc);background:var(--acc-lt);border:1.5px solid var(--acc);border-radius:var(--rs);padding:6px 13px;cursor:pointer;transition:all .13s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.guide-hd-btn:hover{background:var(--acc);color:#fff}
 
 /* ── Tagline ── */
 .hd-tagline{max-width:1440px;margin:0 auto 6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -81,7 +83,7 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .chip.on.nanobanana{background:#fff7ed;border-color:#ea580c;color:#c2410c}
 .chip.on.veo{background:#e8f0fe;border-color:#1a73e8;color:#1558d3}
 .chip.on.lyria{background:#f3f0ff;border-color:#7c3aed;color:#6d28d9}
-.hint{margin-top:10px;padding:9px 12px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--bdr);font-size:12px;color:var(--muted);line-height:1.5}
+.hint{margin-top:10px;padding:9px 12px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--bdr);font-size:12.5px;color:var(--muted);line-height:1.5}
 .hint code{font-family:'DM Mono',monospace;font-size:11px;color:var(--acc);background:var(--acc-lt);padding:1px 5px;border-radius:4px}
 
 /* ── Role ── */
@@ -90,7 +92,7 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .mode-tab.on{background:var(--acc);color:#fff}
 .mode-tab:first-child{border-right:1px solid var(--bdr)}
 .dept-section{margin-bottom:10px}
-.dept-group-label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.dept-group-label{font-size:12.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .dept-grid{display:flex;flex-wrap:wrap;gap:6px}
 .dchip{padding:5px 11px;border-radius:20px;font-size:12.5px;font-weight:500;cursor:pointer;border:1.5px solid var(--bdr);background:var(--surf);color:var(--text);transition:all .13s;user-select:none;font-family:'DM Sans',sans-serif}
 .dchip:hover{border-color:var(--bdr2)}
@@ -98,21 +100,21 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .dept-combo-hint{font-size:11px;color:var(--muted);margin-top:8px;padding:7px 11px;background:var(--faint);border-radius:var(--rs);border:1px solid var(--bdr);display:none}
 .dept-combo-hint.show{display:block}
 .fwrap{display:flex;flex-direction:column;gap:5px}
-.flbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
+.flbl{font-size:12.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
 .ftag{font-size:9px;background:var(--acc-lt);color:var(--acc);padding:1px 6px;border-radius:6px;font-weight:800;letter-spacing:.4px}
 .field{padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:12.5px;color:var(--text);background:var(--surf);outline:none;width:100%;resize:none;transition:border-color .15s;font-family:'DM Sans',sans-serif;line-height:1.5;user-select:text}
 .field:focus{border-color:var(--acc)}
 .field::placeholder{color:#b5bfc9}
 .field.filled{border-color:var(--grn)}
-.field-note{font-size:11px;color:var(--muted)}
-.prev-box{margin-top:10px;padding:9px 12px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--bdr);font-size:12px;color:var(--muted)}
+.field-note{font-size:12.5px;color:var(--muted)}
+.prev-box{margin-top:10px;padding:9px 12px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--bdr);font-size:12.5px;color:var(--muted)}
 .prev-box strong{color:var(--acc);font-weight:600}
-.rec-notice{display:none;margin-top:8px;padding:7px 11px;background:var(--grn-lt);border:1px solid var(--grn-bdr);border-radius:var(--rs);font-size:11.5px;color:var(--grn)}
+.rec-notice{display:none;margin-top:8px;padding:7px 11px;background:var(--grn-lt);border:1px solid var(--grn-bdr);border-radius:var(--rs);font-size:12.5px;color:var(--grn)}
 .rec-notice.show{display:block}
 
 /* ── Progress ── */
 .prog-wrap{margin-bottom:0}
-.prog-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.prog-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-bottom:5px}
 .prog-meta strong{color:var(--text)}
 .prog-track{height:5px;background:var(--bdr);border-radius:5px;overflow:hidden}
 .prog-bar{height:100%;border-radius:5px;background:var(--acc);transition:width .3s ease}
@@ -131,8 +133,8 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .fwc.on .fw-badge{background:rgba(59,91,219,.1);color:var(--acc);border-color:rgba(59,91,219,.2)}
 .fw-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
 .fwc.on .fw-name{color:var(--acc)}
-.fw-desc{font-size:10.5px;color:var(--muted);line-height:1.5}
-.fw-example{font-size:10px;color:#9ba8b8;margin-top:4px;line-height:1.4;font-style:italic}
+.fw-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.fw-example{font-size:12px;color:#9ba8b8;margin-top:4px;line-height:1.4;font-style:italic}
 /* ? and ! buttons side by side */
 .fw-icon-wrap{position:absolute;top:7px;right:7px;display:flex;gap:3px}
 /* ── Image presets ── */
@@ -173,7 +175,7 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 
 /* ── Quick examples ── */
 .qex-section{margin-top:10px}
-.qex-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:600;display:flex;align-items:center;gap:6px}
+.qex-label{font-size:12.5px;color:var(--muted);margin-bottom:6px;font-weight:600;display:flex;align-items:center;gap:6px}
 .dept-badge{font-size:10px;font-weight:700;color:var(--acc);background:var(--acc-lt);padding:1px 7px;border-radius:8px;display:none}
 .dept-badge.show{display:inline-block}
 .qex-row{display:flex;flex-wrap:wrap;gap:6px}
@@ -220,7 +222,9 @@ input:checked~.track::before{transform:translateX(16px)}
 .edit-btn.active{border-color:#fbbf24;color:#fff;background:var(--amber)}
 
 /* output tabs */
-.out-tabs{display:flex;border-bottom:1px solid var(--bdr);margin-bottom:12px}
+.out-tabs-wrap{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);margin-bottom:12px;gap:8px}
+.out-tabs{display:flex;gap:0}
+.tab-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;padding-bottom:2px}
 .out-tab{padding:7px 13px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .13s;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
 .out-tab:hover{color:var(--text)}
 .out-tab.on{color:var(--acc);border-bottom-color:var(--acc)}
@@ -246,6 +250,8 @@ input:checked~.track::before{transform:translateX(16px)}
 
 /* open in platform row */
 .open-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.papago-btn{border-color:var(--grn) !important;color:var(--grn) !important;background:var(--grn-lt) !important}
+.papago-btn:hover{background:var(--grn) !important;color:#fff !important;border-color:var(--grn) !important}
 .open-btn{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--surf);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
 .open-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-lt)}
 
@@ -287,7 +293,7 @@ input:checked~.track::before{transform:translateX(16px)}
 .qpl-item{font-size:11.5px;color:var(--muted);padding:3px 0 3px 16px;position:relative;line-height:1.5}
 .qpl-item::before{content:'✦';position:absolute;left:0;color:var(--acc);font-size:9px;top:5px}
 
-.out-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted)}
+.out-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px;color:var(--muted)}
 
 /* ── Footer ── */
 .footer{max-width:1440px;margin:24px auto 0;padding:14px 0 24px;border-top:1px solid var(--bdr);text-align:center;font-size:12px;color:var(--muted)}
@@ -338,6 +344,8 @@ input:checked~.track::before{transform:translateX(16px)}
   <span class="badge">2026</span>
   <div class="hd-spacer"></div>
   <div class="hd-actions">
+    <button class="guide-hd-btn" onclick="openGuide()">📖 사용 가이드</button>
+    <div class="hd-div"></div>
     <button class="json-btn" onclick="exportTemplates()">💾 프롬프트 저장하기</button>
     <label class="json-btn" style="cursor:pointer">📂 불러오기<input type="file" id="import-file" accept=".json" style="display:none" onchange="importTemplates(this)"></label>
     <div class="hd-div"></div>
@@ -543,17 +551,22 @@ input:checked~.track::before{transform:translateX(16px)}
     <div class="out-hd">
       <div class="out-hd-left">
         <span class="out-hd-title">📋 프롬프트 미리보기</span>
-        <button class="guide-btn" onclick="openGuide()">📖 사용 가이드</button>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <div class="qpills"><span class="qp2" id="qp-role">ROLE</span><span class="qp2" id="qp-task">TASK</span><span class="qp2" id="qp-fmt2">FORMAT</span><span class="qp2" id="qp-guard">GUARD</span><span class="qp2" id="qp-cot2">COT</span></div>
         <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ 편집</button>
       </div>
     </div>
-    <div class="out-tabs">
-      <button class="out-tab on" id="otab-structured" onclick="switchOutTab('structured')">프롬프트</button>
-      <button class="out-tab"    id="otab-compare"    onclick="switchOutTab('compare')">자연어 비교</button>
-      <button class="out-tab"    id="otab-quality"    onclick="switchOutTab('quality')">품질 분석</button>
+    <div class="out-tabs-wrap">
+      <div class="out-tabs">
+        <button class="out-tab on" id="otab-structured" onclick="switchOutTab('structured')">프롬프트</button>
+        <button class="out-tab"    id="otab-compare"    onclick="switchOutTab('compare')">자연어 비교</button>
+        <button class="out-tab"    id="otab-quality"    onclick="switchOutTab('quality')">품질 분석</button>
+      </div>
+      <div class="tab-actions" id="tab-actions">
+        <button class="copy-fab-inline" onclick="copyPrompt()">📋 복사</button>
+        <div id="tab-goto-row"></div>
+      </div>
     </div>
 
     <!-- structured -->
@@ -563,7 +576,6 @@ input:checked~.track::before{transform:translateX(16px)}
         <textarea class="out-edit" id="out-edit" spellcheck="false"></textarea>
       </div>
       <div id="edit-notice" style="display:none;font-size:11px;color:var(--amber);margin-top:5px">✏️ 편집 모드 — 수정 후 복사하거나 "완료"를 눌러 돌아가세요.</div>
-      <div class="open-row" id="open-row"></div>
     </div>
 
     <!-- compare -->
@@ -735,7 +747,7 @@ function buildCreativePrompt(m, role, body, def){
   if(!isGenerativeModel) return null;
 
   const lang=document.getElementById('opt-lang').value;
-  const langNote = lang==='en'?'// Prompt in English\n':(lang==='both'?'// 한국어 입력 후 영어로도 작성해주세요\n':'// 영어로 작성하면 품질이 크게 향상됩니다 (strongly recommended)\n// 번역 도구: https://papago.naver.com\n');
+  const langNote = lang==='en'?'// Prompt in English\n':(lang==='both'?'// 한국어 입력 후 영어로도 작성해주세요\n':'// 영어로 작성하면 품질이 크게 향상됩니다 (strongly recommended)\n');
 
   if(m==='veo'){
     if(isGenerativeFW){
@@ -936,7 +948,17 @@ document.addEventListener('click',e=>{
 });
 
 /* ── OPEN IN PLATFORM ── */
-function updateOpenRow(){const row=document.getElementById('open-row');row.innerHTML='';const url=document.querySelector(`.chip[data-m="${S.model}"]`)?.dataset?.url;const name=document.querySelector(`.chip[data-m="${S.model}"]`)?.textContent?.trim();if(url&&name){row.innerHTML=`<button class="copy-fab-inline" onclick="copyPrompt()">📋 복사</button><a class="open-btn" href="${url}" target="_blank" rel="noopener">↗ ${name} 바로가기</a>`;}}
+function updateOpenRow(){
+  const gotoRow=document.getElementById('tab-goto-row');
+  if(!gotoRow) return;
+  const url=document.querySelector(`.chip[data-m="${S.model}"]`)?.dataset?.url;
+  const name=document.querySelector(`.chip[data-m="${S.model}"]`)?.textContent?.trim();
+  const isGenModel=['sora','veo','midjourney','suno','lyria','nanobanana'].includes(S.model);
+  let html='';
+  if(url&&name) html+=`<a class="open-btn" href="${url}" target="_blank" rel="noopener">↗ ${name} 바로가기</a>`;
+  if(isGenModel) html+=`<a class="open-btn papago-btn" href="https://papago.naver.com" target="_blank" rel="noopener" title="한국어→영어 번역">🌐 파파고</a>`;
+  gotoRow.innerHTML=html;
+}
 
 /* ── EDIT MODE ── */
 function toggleEdit(){editMode=!editMode;const btn=document.getElementById('edit-btn');const view=document.getElementById('out');const edit=document.getElementById('out-edit');const notice=document.getElementById('edit-notice');if(editMode){edit.value=promptText;view.style.display='none';edit.style.display='block';notice.style.display='block';btn.textContent='✅ 완료';btn.classList.add('active');}else{promptText=edit.value;view.innerHTML=highlight(promptText);view.style.display='block';edit.style.display='none';notice.style.display='none';btn.textContent='✏️ 편집';btn.classList.remove('active');}}
@@ -1005,8 +1027,8 @@ function setRoleMode(mode){S.roleMode=mode;document.getElementById('tab-dept').c
 function toggleDept(v,el){const idx=S.depts.indexOf(v);if(idx>=0){S.depts.splice(idx,1);el.classList.remove('on');}else{S.depts.push(v);el.classList.add('on');}updateRecFW();buildQEx();updateComboHint();update();}
 function setFW(fw,el){S.fw=fw;S.inputs={};document.querySelectorAll('#fw-grid .fwc').forEach(c=>c.classList.remove('on'));el.classList.add('on');buildDyn();buildQEx();updateQP();document.getElementById('qp-body').classList.remove('open');document.getElementById('qp-toggle').classList.remove('open');if(editMode)toggleEdit();update();}
 function buildDyn(){const def=FW[S.fw];const c=document.getElementById('dyn-inputs');c.innerHTML='';def.tags.forEach((tag,i)=>{const w=document.createElement('div');w.className='fwrap';const l=document.createElement('div');l.className='flbl';l.innerHTML=`${def.labels[i]} <span class="ftag">${tag.toUpperCase()}</span>`;const long=['Draft','Context','Instructions','Steps','Example','Action','Background','Features'].includes(tag);const el=document.createElement(long?'textarea':'input');el.className='field';el.type='text';if(long)el.style.height='68px';el.placeholder=def.ph[i]||'';el.oninput=e=>{S.inputs[tag]=e.target.value;el.classList.toggle('filled',!!e.target.value);update();};w.appendChild(l);w.appendChild(el);c.appendChild(w);});
-  // IMAGE presets panel
-  if(S.fw==='image') buildImagePresets(c);
+  // Generative presets panel
+  if(['image','scene','sonic'].includes(S.fw)) buildPresetPanel(c,S.fw);
 }
 
 const IMG_PRESETS={
@@ -1017,6 +1039,8 @@ const IMG_PRESETS={
     {name:'지브리 애니',val:'Studio Ghibli anime style, soft illustration',desc:'지브리 스타일'},
     {name:'미니멀',val:'minimalist, clean design, white background',desc:'깔끔한 미니멀'},
     {name:'시네마틱',val:'cinematic photography, film grain, dramatic',desc:'영화 같은 느낌'},
+    {name:'오일 페인팅',val:'oil painting, rich textures, classical art style',desc:'고전 유화'},
+    {name:'픽사 3D',val:'Pixar 3D animation style, cute characters, soft lighting',desc:'픽사 스타일'},
   ],
   lighting:[
     {name:'황금빛 (Golden hour)',val:'golden hour lighting, warm sunset tones',desc:'오후 햇살'},
@@ -1024,14 +1048,80 @@ const IMG_PRESETS={
     {name:'자연광',val:'soft natural light, diffused daylight',desc:'자연스러운'},
     {name:'야경/네온',val:'neon lights, night scene, urban glow',desc:'도시 야경'},
     {name:'드라마틱',val:'dramatic side lighting, deep shadows',desc:'강렬한 대비'},
+    {name:'역광',val:'backlight, silhouette, rim lighting',desc:'실루엣 효과'},
+  ],
+  composition:[
+    {name:'정방형 (1:1)',val:'square composition, centered subject',desc:'SNS 피드·프로필'},
+    {name:'와이드 (16:9)',val:'wide angle composition, landscape orientation',desc:'배너·유튜브 썸네일'},
+    {name:'세로 (9:16)',val:'portrait orientation, vertical composition',desc:'스토리·릴스·숏츠'},
+    {name:'클로즈업',val:'close-up shot, tight framing, detailed subject',desc:'제품·인물 상세'},
+    {name:'광각·전경',val:'wide shot, full scene, environmental context',desc:'풍경·배경'},
+    {name:'삼분할법',val:'rule of thirds composition, dynamic balance',desc:'안정적 균형감'},
   ],
   params:[
     {name:'정방형 1:1',val:'--ar 1:1 --v 7 --q 2',desc:'SNS 프로필·썸네일'},
     {name:'와이드 16:9',val:'--ar 16:9 --v 7 --q 2',desc:'배너·배경화면'},
     {name:'세로 9:16',val:'--ar 9:16 --v 7 --q 2',desc:'모바일·릴스'},
     {name:'고품질',val:'--ar 16:9 --v 7 --q 2 --s 750',desc:'상세한 텍스처'},
-    {name:'빠른 생성',val:'--ar 1:1 --v 7 --q 1',desc:'빠른 시안 확인'},
+    {name:'빠른 시안',val:'--ar 1:1 --v 7 --q 1',desc:'아이디어 확인용'},
   ]
+};
+
+/* ── SCENE presets ── */
+const SCENE_PRESETS={
+  movement:[
+    {name:'천천히 패닝',val:'slow pan left to right, smooth camera movement',desc:'좌→우 부드럽게'},
+    {name:'드론 하강',val:'drone slowly descending from above, aerial shot',desc:'하늘에서 내려오기'},
+    {name:'트래킹 샷',val:'tracking shot following the subject, dynamic movement',desc:'피사체를 따라가기'},
+    {name:'줌 인',val:'slow zoom in, gradually revealing details',desc:'서서히 확대'},
+    {name:'스태틱',val:'static camera, no movement, steady shot',desc:'고정 카메라'},
+    {name:'핸드헬드',val:'handheld camera, slight shake, documentary feel',desc:'현장감 있는 느낌'},
+  ],
+  atmosphere:[
+    {name:'황금시간대',val:'golden hour, warm amber light, long shadows',desc:'오후의 따뜻한 빛'},
+    {name:'블루아워',val:'blue hour, twilight, cool blue tones, city lights',desc:'해질녘 파란 빛'},
+    {name:'맑은 낮',val:'bright daylight, clear sky, natural colors',desc:'밝고 선명한 낮'},
+    {name:'비 오는 날',val:'rainy day, wet streets, reflections on puddles',desc:'비와 반사 효과'},
+    {name:'안개/미스트',val:'morning mist, foggy atmosphere, soft diffused light',desc:'몽환적인 안개'},
+    {name:'드라마틱',val:'dramatic clouds, high contrast, moody lighting',desc:'극적인 분위기'},
+  ],
+  style:[
+    {name:'시네마틱 4K',val:'cinematic quality, 4K resolution, film color grade',desc:'영화 같은 품질'},
+    {name:'다큐멘터리',val:'documentary style, realistic, handheld, natural light',desc:'사실적 다큐'},
+    {name:'광고 영상',val:'commercial style, clean, polished, brand-safe',desc:'깔끔한 광고'},
+    {name:'뮤직비디오',val:'music video style, artistic, colorful, dynamic',desc:'감각적인 뮤직비디오'},
+    {name:'애니메이션',val:'3D animation style, vibrant colors, smooth motion',desc:'3D 애니메이션'},
+    {name:'빈티지 필름',val:'vintage film look, grain, warm faded colors, 16mm',desc:'레트로 필름 느낌'},
+  ],
+};
+
+/* ── SONIC presets ── */
+const SONIC_PRESETS={
+  genre:[
+    {name:'K-pop',val:'K-pop, polished production, catchy hook, modern pop',desc:'아이돌 팝'},
+    {name:'인디 발라드',val:'Korean indie ballad, acoustic, emotional, heartfelt',desc:'감성 발라드'},
+    {name:'Lo-fi 힙합',val:'lo-fi hip hop, chill beats, vinyl crackle, relaxing',desc:'공부/카페 BGM'},
+    {name:'재즈',val:'jazz, smooth, piano-led, brushed drums, warm',desc:'감성 재즈'},
+    {name:'일렉트로닉',val:'electronic dance music, EDM, energetic, synthesizer',desc:'신나는 EDM'},
+    {name:'오케스트라',val:'cinematic orchestral, epic, strings and brass, emotional',desc:'웅장한 오케스트라'},
+    {name:'어쿠스틱 팝',val:'acoustic pop, guitar, warm vocals, storytelling',desc:'기타 팝'},
+    {name:'R&B/소울',val:'R&B, soulful vocals, groove, smooth bass',desc:'감성 R&B'},
+  ],
+  mood:[
+    {name:'설레는',val:'uplifting, hopeful, bright, energetic, BPM 120',desc:'기분 좋은 에너지'},
+    {name:'잔잔한',val:'calm, peaceful, mellow, soft, BPM 70',desc:'차분하고 여유'},
+    {name:'슬픈',val:'melancholic, emotional, tender, BPM 75',desc:'감성적 슬픔'},
+    {name:'신나는',val:'high energy, exciting, dance, BPM 130',desc:'신나는 분위기'},
+    {name:'몽환적',val:'dreamy, ethereal, floaty, atmospheric, BPM 85',desc:'꿈같은 느낌'},
+    {name:'웅장한',val:'epic, powerful, grand, inspiring, BPM 90',desc:'웅장하고 감동적'},
+  ],
+  vocal:[
+    {name:'보컬 있음 (여)',val:'female vocalist, clear voice, emotional delivery',desc:'여성 보컬'},
+    {name:'보컬 있음 (남)',val:'male vocalist, warm baritone, expressive',desc:'남성 보컬'},
+    {name:'보컬 없음',val:'instrumental only, no vocals, pure music',desc:'순수 연주'},
+    {name:'코러스 합창',val:'choir, harmony vocals, layered voices',desc:'합창'},
+    {name:'래핑',val:'rap vocals, rhythmic, flow, hip hop delivery',desc:'랩'},
+  ],
 };
 
 const IMG_PARAM_DESC={
@@ -1042,59 +1132,108 @@ const IMG_PARAM_DESC={
   '--no':'제외할 요소. 예: --no text, watermark, blurry',
 };
 
-function buildImagePresets(container){
+function buildPresetPanel(container,fw){
+  if(!['image','scene','sonic'].includes(fw)) return;
   const panel=document.createElement('div');
   panel.className='img-presets show';
-  panel.innerHTML=`
-    <div class="img-presets-title">🎛️ 파라미터 프리셋 — 클릭해서 바로 적용</div>
-    <div class="img-preset-groups">
-      <div>
-        <div class="img-preset-group-label">🎨 스타일</div>
-        <div class="img-preset-row" id="preset-style">
-          ${IMG_PRESETS.style.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('style',${i})"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
-        </div>
-      </div>
-      <div>
-        <div class="img-preset-group-label">💡 조명</div>
-        <div class="img-preset-row" id="preset-lighting">
-          ${IMG_PRESETS.lighting.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('lighting',${i})"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
-        </div>
-      </div>
-      <div>
-        <div class="img-preset-group-label">⚙️ 기술 파라미터 <span style="font-size:10.5px;font-weight:400;color:var(--muted)">(Midjourney용 — 뭔지 모르겠다면 아래에서 선택하세요)</span></div>
-        <div class="img-preset-row" id="preset-params">
-          ${IMG_PRESETS.params.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('params',${i})"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
-        </div>
-        <div style="margin-top:8px;padding:8px 10px;background:var(--faint);border-radius:var(--rs);border:1px solid var(--bdr)">
-          <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px">파라미터 설명</div>
-          ${Object.entries(IMG_PARAM_DESC).map(([k,v])=>`<div style="font-size:11px;color:var(--muted);margin-bottom:3px"><code style="font-family:DM Mono,monospace;color:var(--acc);background:var(--acc-lt);padding:1px 4px;border-radius:3px">${k}</code> ${v}</div>`).join('')}
-        </div>
-      </div>
-    </div>`;
+  const hint='💡 아래 버튼을 클릭해 프리셋을 적용하세요. 다시 클릭하면 취소됩니다.';
+  if(fw==='image'){
+    panel.innerHTML=`
+      <div class="img-presets-title">🎛️ 이미지 프리셋 <span style="font-size:12px;font-weight:400;color:var(--muted)">— ${hint}</span></div>
+      <div class="img-preset-groups">
+        <div><div class="img-preset-group-label">🎨 화풍·스타일</div>
+          <div class="img-preset-row" id="preset-style">
+            ${IMG_PRESETS.style.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('style',${i},IMG_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+        <div><div class="img-preset-group-label">💡 조명·분위기</div>
+          <div class="img-preset-row" id="preset-lighting">
+            ${IMG_PRESETS.lighting.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('lighting',${i},IMG_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+        <div><div class="img-preset-group-label">📐 구도·화면비율</div>
+          <div class="img-preset-row" id="preset-composition">
+            ${IMG_PRESETS.composition.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('composition',${i},IMG_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+        <div><div class="img-preset-group-label">⚙️ 기술 파라미터 <span style="font-weight:400;color:var(--muted)">(Midjourney용 — 어떤 걸 선택할지 모르겠다면 "정방형 1:1"로 시작하세요)</span></div>
+          <div class="img-preset-row" id="preset-params">
+            ${IMG_PRESETS.params.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('params',${i},IMG_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div>
+          <div style="margin-top:8px;padding:8px 10px;background:var(--faint);border-radius:var(--rs);border:1px solid var(--bdr)">
+            <div style="font-weight:700;color:var(--muted);margin-bottom:5px">📖 파라미터 설명 (Midjourney 전용)</div>
+            ${Object.entries(IMG_PARAM_DESC).map(([k,v])=>`<div style="color:var(--muted);margin-bottom:3px"><code style="font-family:DM Mono,monospace;color:var(--acc);background:var(--acc-lt);padding:1px 4px;border-radius:3px">${k}</code> ${v}</div>`).join('')}
+          </div></div>
+      </div>`;
+  } else if(fw==='scene'){
+    panel.innerHTML=`
+      <div class="img-presets-title">🎛️ 영상 프리셋 <span style="font-size:12px;font-weight:400;color:var(--muted)">— ${hint}</span></div>
+      <div class="img-preset-groups">
+        <div><div class="img-preset-group-label">🎬 카메라 움직임</div>
+          <div class="img-preset-row" id="preset-movement">
+            ${SCENE_PRESETS.movement.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('movement',${i},SCENE_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+        <div><div class="img-preset-group-label">🌤️ 분위기·조명</div>
+          <div class="img-preset-row" id="preset-atmosphere">
+            ${SCENE_PRESETS.atmosphere.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('atmosphere',${i},SCENE_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+        <div><div class="img-preset-group-label">🎥 영상 스타일</div>
+          <div class="img-preset-row" id="preset-style_scene">
+            ${SCENE_PRESETS.style.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('style_scene',${i},SCENE_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+      </div>`;
+  } else if(fw==='sonic'){
+    panel.innerHTML=`
+      <div class="img-presets-title">🎛️ 음악 프리셋 <span style="font-size:12px;font-weight:400;color:var(--muted)">— ${hint}</span></div>
+      <div class="img-preset-groups">
+        <div><div class="img-preset-group-label">🎵 장르</div>
+          <div class="img-preset-row" id="preset-genre">
+            ${SONIC_PRESETS.genre.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('genre',${i},SONIC_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+        <div><div class="img-preset-group-label">😊 분위기·에너지</div>
+          <div class="img-preset-row" id="preset-mood">
+            ${SONIC_PRESETS.mood.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('mood',${i},SONIC_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+        <div><div class="img-preset-group-label">🎤 보컬 스타일</div>
+          <div class="img-preset-row" id="preset-vocal">
+            ${SONIC_PRESETS.vocal.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('vocal',${i},SONIC_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+      </div>`;
+  }
   container.appendChild(panel);
 }
+function buildImagePresets(container){ buildPresetPanel(container,'image'); }
 
-function applyPreset(group,idx){
-  const preset=IMG_PRESETS[group][idx];
+function applyPreset(group,idx,presetData){
+  // presetData: IMG_PRESETS, SCENE_PRESETS, or SONIC_PRESETS
+  const presets=presetData||IMG_PRESETS;
+  const preset=presets[group][idx];
   // Map group to FW tag
-  const tagMap={style:'Style',lighting:'Lighting',params:'Params'};
+  const tagMap={
+    style:'Style',lighting:'Lighting',composition:'Composition',params:'Params',
+    movement:'Camera',atmosphere:'Atmosphere','style_scene':'Style',
+    genre:'Genre',mood:'Mood',vocal:'Instruments'
+  };
   const tag=tagMap[group];
   if(!tag) return;
-  // Find the field for this tag
   const def=FW[S.fw];
   const tagIdx=def.tags.indexOf(tag);
   if(tagIdx<0) return;
   const fields=document.querySelectorAll('#dyn-inputs .field');
   if(!fields[tagIdx]) return;
-  fields[tagIdx].value=preset.val;
-  fields[tagIdx].classList.add('filled');
-  S.inputs[tag]=preset.val;
-  // Highlight selected chip
+  // Toggle: if already selected, clear; otherwise apply
   const row=document.getElementById('preset-'+group);
-  if(row){
-    row.querySelectorAll('.img-preset-chip').forEach((c,i)=>{
-      c.classList.toggle('sel',i===idx);
-    });
+  const chip=row?.querySelectorAll('.img-preset-chip')[idx];
+  const alreadySel=chip?.classList.contains('sel');
+  if(alreadySel){
+    // Deactivate
+    fields[tagIdx].value='';
+    fields[tagIdx].classList.remove('filled');
+    S.inputs[tag]='';
+    chip.classList.remove('sel');
+  } else {
+    // Activate
+    fields[tagIdx].value=preset.val;
+    fields[tagIdx].classList.add('filled');
+    S.inputs[tag]=preset.val;
+    if(row) row.querySelectorAll('.img-preset-chip').forEach((c,i)=>{c.classList.toggle('sel',i===idx);});
   }
   update();
 }
