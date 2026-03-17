@@ -140,6 +140,20 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 /* ── Image presets ── */
 .img-presets{margin-top:14px;display:none}
 .img-presets.show{display:block}
+/* ── Lyrics helper ── */
+.lyrics-helper{margin-top:16px;border:1.5px solid var(--grn-bdr);border-radius:var(--r);overflow:hidden}
+.lyrics-helper-hd{background:var(--grn-lt);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lyrics-helper-title{font-size:12.5px;font-weight:700;color:var(--grn)}
+.lyrics-helper-body{padding:14px;display:flex;flex-direction:column;gap:10px}
+.lyrics-section{display:flex;flex-direction:column;gap:4px}
+.lyrics-section-label{font-size:11.5px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px}
+.lyrics-section-tag{font-family:'DM Mono',monospace;font-size:10.5px;background:var(--acc-lt);color:var(--acc);padding:1px 7px;border-radius:4px}
+.lyrics-section textarea{width:100%;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:12.5px;font-family:'DM Sans',sans-serif;resize:vertical;min-height:56px;outline:none;transition:border-color .15s;color:var(--text);background:var(--surf);line-height:1.5}
+.lyrics-section textarea:focus{border-color:var(--grn)}
+.lyrics-section textarea::placeholder{color:#b5bfc9;font-size:12px}
+.lyrics-apply-btn{padding:9px 18px;background:var(--grn);color:#fff;border:none;border-radius:var(--rs);font-size:12.5px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+.lyrics-apply-btn:hover{background:#0a8a5f}
+.lyrics-note{font-size:11.5px;color:var(--muted);line-height:1.5;padding:8px 10px;background:var(--faint);border-radius:var(--rs);border:1px solid var(--bdr)}
 .img-presets-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .img-preset-groups{display:flex;flex-direction:column;gap:10px}
 .img-preset-group-label{font-size:11px;font-weight:700;color:var(--text);margin-bottom:5px}
@@ -479,7 +493,7 @@ input:checked~.track::before{transform:translateX(16px)}
         placeholder="예: 경력 8년차, 채용 브랜딩 전문, 스타트업 조직문화 프로젝트 경험" oninput="update()">
       <div class="field-note">조합 예시: 인사 + 기획 → "인사 기획 전문가 입니다" / 개발 + 운영 → "개발 운영 전문가 입니다"</div>
     </div>
-    <div class="rec-notice" id="rec-notice">✅ 이 직군에 추천하는 프레임워크: <strong id="rec-names"></strong> (녹색 테두리)</div>
+    <div class="rec-notice" id="rec-notice">✅ 추천하는 프레임워크: <strong id="rec-names"></strong> (녹색 테두리)</div>
   </div>
   <div id="mode-free" style="display:none">
     <div class="fwrap">
@@ -716,25 +730,25 @@ const LS_KEY='parch_v5';
 
 /* ── PLATFORM HINTS ── */
 const MHINTS={
-  gpt:      '💡 GPT-5.4 (Thinking): <code>[[SYSTEM_ROLE]]</code> 블록으로 역할·지시·제약을 분리. OpenAI 최신 플래그십 모델',
-  gemini:   '💡 Gemini 3.1 Pro (2026.02 출시): XML 태그 + <code>grounding="true"</code>. 추론·멀티모달·에이전트 코딩에 강점',
-  claude:   '💡 Claude Sonnet 4.6 (2026.02 출시): <code>&lt;role&gt;</code>·<code>&lt;task&gt;</code> XML 태그 구조. 일상 업무 최적화 — 빠른 응답과 높은 품질',
+  gpt:      '💡 GPT: <code>[[SYSTEM_ROLE]]</code> 블록으로 역할·지시·제약을 분리. OpenAI 최신 플래그십 모델',
+  gemini:   '💡 Gemini: XML 태그 + <code>grounding="true"</code>. 추론·멀티모달·에이전트 코딩에 강점',
+  claude:   '💡 Claude: <code>&lt;role&gt;</code>·<code>&lt;task&gt;</code> XML 태그 구조. 일상 업무 최적화 — 빠른 응답과 높은 품질',
   copilot:  '💡 Microsoft Copilot: 자연어 구조 + M365 작업(Word·Excel·Teams) 맥락을 명시하여 최적화',
-  grok:     '💡 Grok 3 (xAI): 실시간 X(트위터) 데이터 연동. <code>[CONTEXT]</code> 블록으로 역할·배경을 구분하는 직접적 지시 구조',
+  grok:     '💡 Grok(xAI): 실시간 X(트위터) 데이터 연동. <code>[CONTEXT]</code> 블록으로 역할·배경을 구분하는 직접적 지시 구조',
   perplexity:'💡 Perplexity: RAG 기반. 출처 인용·최신 정보 요구를 명시하여 사실 근거 답변 품질 극대화',
   notebooklm:'💡 NotebookLM: 업로드 문서 기반 분석·요약·Q&A. 소스 외 정보 배제를 명시하고 분석 관점·출력 형식을 구체적으로 지정',
   wrtn:     '💡 뤼튼 (Wrtn): 국내 무료 AI 플랫폼. GPT 계열 모델 사용. 한국어 중심 자연어 구조 + 역할·맥락·형식을 명시하여 최적화',
   genspark: '💡 Genspark: AI 슈퍼에이전트 — 웹 검색·리서치·보고서 자동 작성까지 수행. 목표를 세부 단계로 분해하여 자율 실행을 유도하는 에이전트형 구조',
   notion:   '💡 Notion AI: 블록 단위 출력·데이터베이스·체크박스 액션아이템 구조. 문서 편집 컨텍스트에 맞는 지시 최적화',
   gamma:    '💡 Gamma: 슬라이드 발표 전문 AI. 핵심 메시지·시각화 유형을 슬라이드별 명시하는 구조 최적화',
-  sora:     '💡 Sora (OpenAI 영상 생성): 장면 묘사·피사체·카메라 움직임·스타일·분위기를 구체적으로 명시. 영어 프롬프트를 권장합니다. <a href="https://papago.naver.com" target="_blank">파파고</a> 활용 가능.',
-  midjourney:'💡 Midjourney (이미지 생성): 피사체, 스타일, 조명, 화면비율(--ar), 버전(--v 7) 파라미터를 포함. 영어 프롬프트를 권장합니다. <a href="https://papago.naver.com" target="_blank">파파고</a> 활용 가능.',
+  sora:     '💡 Sora (OpenAI 영상 생성): 장면 묘사·피사체·카메라 움직임·스타일·분위기를 구체적으로 명시. 영어 프롬프트를 권장합니다.',
+  midjourney:'💡 Midjourney (이미지 생성): 피사체, 스타일, 조명, 화면비율(--ar), 버전(--v 7) 파라미터를 포함. 영어 프롬프트를 권장합니다.',
   suno:     '💡 Suno (음악 생성): 장르, 분위기, 템포, 보컬 스타일, 가사 방향을 명시. 메타 태그([Verse], [Chorus]) 활용 가능. 영어 권장.',
   nanobanana:'💡 Nano Banana (Google Gemini 3.1 이미지): Google의 고효율 이미지 생성·편집 모델. 장면 묘사·스타일·색감을 구체적으로 명시. Gemini 앱에서 사용.',
   lovable:  '💡 Lovable: 앱 기능 명세(spec) 형식. 사용자 스토리·UI·데이터 구조를 포함한 상세 지시에 최적화',
   cursor:   '💡 Cursor: 코드 생성 최적화. 기술 스택·타입·에지 케이스 명세 형식에 최적',
-  veo:      '💡 Veo 3 (Google DeepMind): Google의 영상 생성 AI. 영화 촬영 용어와 장면 묘사로 구성. Google Flow 또는 Gemini 앱에서 사용. 영어 프롬프트를 권장합니다. <a href="https://papago.naver.com" target="_blank">파파고</a> 활용 가능.',
-  lyria:    '💡 Lyria 2 (Google DeepMind): Google의 음악 생성 AI. 장르·분위기·악기·구조를 명시하는 SONIC 프레임워크로 최적화. Google Labs에서 사용 가능. 영어 프롬프트를 권장합니다. <a href="https://papago.naver.com" target="_blank">파파고</a> 활용 가능.'
+  veo:      '💡 Veo 3 (Google DeepMind): Google의 영상 생성 AI. 영화 촬영 용어와 장면 묘사로 구성. Google Flow 또는 Gemini 앱에서 사용. 영어 프롬프트를 권장합니다.',
+  lyria:    '💡 Lyria 2 (Google DeepMind): Google의 음악 생성 AI. 장르·분위기·악기·구조를 명시하는 SONIC 프레임워크로 최적화. Gemini에서 사용 가능. 영어 프롬프트를 권장합니다.'
 };
 
 /* ── CREATIVE PLATFORM PROMPT BUILDERS ── */
@@ -975,7 +989,17 @@ function renderQuality(){const role=getRole();const def=FW[S.fw];const hasRole=r
 function updateProgress(){const def=FW[S.fw];const total=def.tags.length;const filled=def.tags.filter(t=>S.inputs[t]).length;document.getElementById('prog-wrap').style.display='block';document.getElementById('prog-text').textContent=`${filled}/${total}`;const pct=total?Math.round(filled/total*100):0;const bar=document.getElementById('prog-bar');bar.style.width=pct+'%';bar.classList.toggle('full',pct===100);const lbs=['입력을 시작하세요','조금 더 채워보세요','절반 완성!','거의 다 왔어요','모든 필드 완성 ✓'];const lbl=document.getElementById('prog-label');lbl.textContent=lbs[Math.min(Math.floor(pct/25),4)];lbl.style.color=pct===100?'var(--grn)':'var(--muted)';}
 
 /* ── REC FW ── */
-function updateRecFW(){const recSet=new Set();S.depts.forEach(d=>{(DEPT_REC[d]||[]).forEach(fw=>recSet.add(fw));});const cards=[...document.querySelectorAll('#fw-grid .fwc')];const recNames=[];FW_ORDER.forEach((fw,i)=>{const card=cards[i];if(!card)return;const isRec=recSet.has(fw)&&S.depts.length>0;card.classList.toggle('rec',isRec);if(isRec)recNames.push(fw.toUpperCase());});const notice=document.getElementById('rec-notice');if(S.depts.length>0&&recNames.length>0){notice.classList.add('show');document.getElementById('rec-names').textContent=recNames.join(', ');}else notice.classList.remove('show');}
+function updateRecFW(){
+  const isGenModel=['sora','veo','midjourney','suno','lyria','nanobanana'].includes(S.model);
+  // If generative model is active, don't override its rec with dept-based recs
+  if(isGenModel){return;}
+  const recSet=new Set();S.depts.forEach(d=>{(DEPT_REC[d]||[]).forEach(fw=>recSet.add(fw));});
+  const cards=[...document.querySelectorAll('#fw-grid .fwc')];const recNames=[];
+  FW_ORDER.forEach((fw,i)=>{const card=cards[i];if(!card)return;const isRec=recSet.has(fw)&&S.depts.length>0;card.classList.toggle('rec',isRec);if(isRec)recNames.push(fw.toUpperCase());});
+  const notice=document.getElementById('rec-notice');
+  if(S.depts.length>0&&recNames.length>0){notice.classList.add('show');document.getElementById('rec-names').textContent=recNames.join(', ');}
+  else notice.classList.remove('show');
+}
 
 /* ── COMBO HINT ── */
 function updateComboHint(){const hint=document.getElementById('dept-combo-hint');if(S.depts.length>=2){hint.innerHTML=`💡 조합 결과 → <strong>${getRole()}</strong>`;hint.classList.add('show');}else hint.classList.remove('show');}
@@ -997,28 +1021,35 @@ function updateRecFWByModel(){
 
   // Auto-switch framework if needed
   if(isGenModel && !isGenFW && rec.length>0){
-    // Switch to the recommended generative FW
     const targetFW=rec[0];
     const fi=FW_ORDER.indexOf(targetFW);
     if(fi>=0&&cards[fi]){setFW(targetFW,cards[fi]);}
   } else if(!isGenModel && isGenFW){
-    // Switch back to RTF when leaving generative model
     const rtfIdx=FW_ORDER.indexOf('rtf');
     if(rtfIdx>=0&&cards[rtfIdx]){setFW('rtf',cards[rtfIdx]);}
   }
 
-  // Only apply model-rec highlight if no dept is selected
-  if(S.depts.length>0) return;
-  FW_ORDER.forEach((fw,i)=>{
-    const card=cards[i]; if(!card) return;
-    card.classList.toggle('rec',rec.includes(fw));
-  });
   const notice=document.getElementById('rec-notice');
-  if(rec.length>0&&S.depts.length===0){
+  const recNamesEl=document.getElementById('rec-names');
+
+  if(isGenModel && rec.length>0){
+    // Generative platform: ALWAYS highlight IMAGE/SCENE/SONIC regardless of dept
+    FW_ORDER.forEach((fw,i)=>{
+      const card=cards[i]; if(!card) return;
+      card.classList.toggle('rec',rec.includes(fw));
+    });
     notice.classList.add('show');
-    document.getElementById('rec-names').textContent=rec.map(f=>f.toUpperCase()).join(', ')+'  ← 이 플랫폼에 맞는 프레임워크';
-  } else if(S.depts.length===0){
-    notice.classList.remove('show');
+    const platformName=document.querySelector(`.chip[data-m="${S.model}"]`)?.textContent?.trim()||S.model;
+    recNamesEl.innerHTML=`<strong>${rec.map(f=>f.toUpperCase()).join(', ')}</strong> ← ${platformName} 전용 프레임워크`;
+  } else {
+    // Non-generative: clear model-based highlights, let dept recs handle it
+    FW_ORDER.forEach((fw,i)=>{
+      const card=cards[i]; if(!card) return;
+      if(!S.depts.length) card.classList.remove('rec');
+    });
+    if(!S.depts.length) notice.classList.remove('show');
+    // Re-run dept recs if depts are selected
+    if(S.depts.length>0) updateRecFW();
   }
 }
 function setRoleMode(mode){S.roleMode=mode;document.getElementById('tab-dept').classList.toggle('on',mode==='dept');document.getElementById('tab-free').classList.toggle('on',mode==='free');document.getElementById('mode-dept').style.display=mode==='dept'?'':'none';document.getElementById('mode-free').style.display=mode==='free'?'':'none';update();}
@@ -1095,6 +1126,14 @@ const SCENE_PRESETS={
 
 /* ── SONIC presets ── */
 const SONIC_PRESETS={
+  structure:[
+    {name:'기본형 (3분)',val:'[Intro]\n\n[Verse 1]\n\n[Chorus]\n\n[Verse 2]\n\n[Chorus]\n\n[Outro]\n',desc:'가장 보편적인 구조',sections:['Intro','Verse 1','Chorus','Verse 2','Chorus','Outro']},
+    {name:'K-pop형',val:'[Intro]\n\n[Verse 1]\n\n[Pre-Chorus]\n\n[Chorus]\n\n[Verse 2]\n\n[Pre-Chorus]\n\n[Chorus]\n\n[Bridge]\n\n[Final Chorus]\n\n[Outro]\n',desc:'아이돌 팝 표준 구조',sections:['Intro','Verse 1','Pre-Chorus','Chorus','Verse 2','Pre-Chorus','Chorus','Bridge','Final Chorus','Outro']},
+    {name:'발라드형',val:'[Intro]\n\n[Verse 1]\n\n[Chorus]\n\n[Verse 2]\n\n[Chorus]\n\n[Bridge]\n\n[Final Chorus]\n\n[Outro]\n',desc:'서정적 발라드 구조',sections:['Intro','Verse 1','Chorus','Verse 2','Chorus','Bridge','Final Chorus','Outro']},
+    {name:'팝 심플형',val:'[Verse 1]\n\n[Chorus]\n\n[Verse 2]\n\n[Chorus]\n\n[Bridge]\n\n[Chorus]\n',desc:'간결한 팝 구조',sections:['Verse 1','Chorus','Verse 2','Chorus','Bridge','Chorus']},
+    {name:'힙합/랩형',val:'[Intro]\n\n[Verse 1]\n\n[Hook]\n\n[Verse 2]\n\n[Hook]\n\n[Bridge]\n\n[Outro]\n',desc:'힙합 비트 구조',sections:['Intro','Verse 1','Hook','Verse 2','Hook','Bridge','Outro']},
+    {name:'인스트루멘탈',val:'[Intro]\n\n[Theme A]\n\n[Theme B]\n\n[Development]\n\n[Theme A]\n\n[Climax]\n\n[Outro]\n',desc:'가사 없는 연주곡',sections:['Intro','Theme A','Theme B','Development','Theme A','Climax','Outro']},
+  ],
   genre:[
     {name:'K-pop',val:'K-pop, polished production, catchy hook, modern pop',desc:'아이돌 팝'},
     {name:'인디 발라드',val:'Korean indie ballad, acoustic, emotional, heartfelt',desc:'감성 발라드'},
@@ -1193,11 +1232,112 @@ function buildPresetPanel(container,fw){
           <div class="img-preset-row" id="preset-vocal">
             ${SONIC_PRESETS.vocal.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('vocal',${i},SONIC_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
           </div></div>
-      </div>`;
+        <div><div class="img-preset-group-label">🎼 곡 구조 선택</div>
+          <div class="img-preset-row" id="preset-structure">
+            ${SONIC_PRESETS.structure.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('structure',${i},SONIC_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+          </div></div>
+      </div>
+      <div id="lyrics-helper"></div>`;
   }
   container.appendChild(panel);
 }
 function buildImagePresets(container){ buildPresetPanel(container,'image'); }
+
+/* ── LYRICS HELPER ── */
+function buildLyricsHelper(){
+  const container=document.getElementById('lyrics-helper');
+  if(!container) return;
+
+  // Find selected structure preset
+  const structureChips=document.querySelectorAll('#preset-structure .img-preset-chip');
+  let selectedStructure=null;
+  let selectedIdx=-1;
+  structureChips.forEach((chip,i)=>{
+    if(chip.classList.contains('sel')){selectedStructure=SONIC_PRESETS.structure[i];selectedIdx=i;}
+  });
+
+  if(!selectedStructure){container.innerHTML='';return;}
+
+  const sectionPlaceholders={
+    'Intro':'짧은 악기 연주 또는 분위기 설정 (가사 없어도 됨)',
+    'Verse 1':'이야기의 시작 — 상황, 감정 설정',
+    'Verse 2':'이야기 전개 — 심화 또는 변화',
+    'Pre-Chorus':'코러스로 가는 빌드업 — 긴장감 고조',
+    'Chorus':'핵심 메시지 — 가장 인상적인 훅',
+    'Bridge':'전환점 — 새로운 관점이나 감정 변화',
+    'Final Chorus':'마지막 코러스 — 더 강하게 또는 변주',
+    'Hook':'반복되는 짧은 멜로디 라인',
+    'Theme A':'첫 번째 테마 선율',
+    'Theme B':'두 번째 테마 선율',
+    'Development':'발전부 — 변주와 전개',
+    'Climax':'클라이맥스 — 최고조',
+    'Outro':'마무리 — 여운',
+    'Rap':'랩 파트 — 리듬감 있는 가사',
+    'default':'이 파트의 가사를 입력하세요 (비워두면 AI가 생성)'
+  };
+
+  const sections=selectedStructure.sections;
+  const sectionInputs=sections.map((sec,i)=>{
+    // Try to get existing lyrics for this section from current Lyrics field
+    const lyricsField=document.querySelectorAll('#dyn-inputs .field')[4]; // Lyrics is 5th tag
+    const existingLyrics=lyricsField?.value||'';
+    // Parse existing lyrics for this section
+    const secRegex=new RegExp(`\\[${sec}\\]([^\\[]*)`, 'i');
+    const match=existingLyrics.match(secRegex);
+    const existingVal=match?match[1].trim():'';
+
+    const placeholder=sectionPlaceholders[sec]||sectionPlaceholders['default'];
+    return `<div class="lyrics-section">
+      <div class="lyrics-section-label">
+        <span class="lyrics-section-tag">[${sec}]</span>
+        <span style="font-size:11px;color:var(--muted)">${placeholder}</span>
+      </div>
+      <textarea id="lyric-sec-${i}" placeholder="${placeholder}" rows="2">${existingVal}</textarea>
+    </div>`;
+  }).join('');
+
+  container.innerHTML=`<div class="lyrics-helper">
+    <div class="lyrics-helper-hd">
+      <span class="lyrics-helper-title">✍️ 가사 입력 도우미 — 섹션별로 입력하면 자동으로 조합됩니다</span>
+    </div>
+    <div class="lyrics-helper-body">
+      <div class="lyrics-note">💡 각 파트에 가사를 직접 입력하거나, 비워두면 AI가 자동으로 작사합니다. "가사 조합하기"를 누르면 <strong>가사 방향</strong> 필드에 자동 입력됩니다.</div>
+      ${sectionInputs}
+      <button class="lyrics-apply-btn" onclick="applyLyrics(${sections.length})">✅ 가사 조합하기 → 가사 방향 필드에 적용</button>
+    </div>
+  </div>`;
+}
+
+function applyLyrics(count){
+  const sections=[];
+  // Get selected structure
+  const structureChips=document.querySelectorAll('#preset-structure .img-preset-chip');
+  let selectedStructure=null;
+  structureChips.forEach((chip,i)=>{if(chip.classList.contains('sel'))selectedStructure=SONIC_PRESETS.structure[i];});
+  if(!selectedStructure) return;
+
+  let combined='';
+  selectedStructure.sections.forEach((sec,i)=>{
+    const ta=document.getElementById('lyric-sec-'+i);
+    const val=ta?ta.value.trim():'';
+    combined+=`[${sec}]\n${val?val:'(AI가 작성)'}\n\n`;
+  });
+
+  // Apply to Lyrics field (5th field in SONIC: Genre, Mood, Structure, Instruments, Lyrics)
+  const fields=document.querySelectorAll('#dyn-inputs .field');
+  const lyricsIdx=4; // Lyrics is index 4 (0-based)
+  if(fields[lyricsIdx]){
+    fields[lyricsIdx].value=combined.trim();
+    fields[lyricsIdx].classList.add('filled');
+    S.inputs['Lyrics']=combined.trim();
+    update();
+    // Visual feedback
+    const btn=event.target;
+    btn.textContent='✅ 적용 완료!';
+    btn.style.background='var(--acc)';
+    setTimeout(()=>{btn.textContent='✅ 가사 조합하기 → 가사 방향 필드에 적용';btn.style.background='';},2000);
+  }
+}
 
 function applyPreset(group,idx,presetData){
   // presetData: IMG_PRESETS, SCENE_PRESETS, or SONIC_PRESETS
@@ -1207,7 +1347,7 @@ function applyPreset(group,idx,presetData){
   const tagMap={
     style:'Style',lighting:'Lighting',composition:'Composition',params:'Params',
     movement:'Camera',atmosphere:'Atmosphere','style_scene':'Style',
-    genre:'Genre',mood:'Mood',vocal:'Instruments'
+    genre:'Genre',mood:'Mood',vocal:'Instruments',structure:'Structure'
   };
   const tag=tagMap[group];
   if(!tag) return;
