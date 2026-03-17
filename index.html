@@ -186,6 +186,14 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .qp-item::before{content:'✦';color:var(--acc);font-size:9px;flex-shrink:0;margin-top:3px}
 .qp-note{font-size:11px;color:var(--acc);margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr)}
 .diff-chip{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:#fef3e2;color:#b45309;border:1px solid #fcd34d}
+.qp-check-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--surf);transition:all .13s;cursor:pointer}
+.qp-check-item:hover{border-color:var(--bdr2);background:var(--faint)}
+.qp-check-item.on{border-color:var(--acc);background:var(--acc-lt)}
+.qp-check-item input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--acc);flex-shrink:0;margin-top:2px}
+.qp-check-text{font-size:12.5px;color:var(--muted);line-height:1.5;user-select:none}
+.qp-check-item.on .qp-check-text{color:var(--acc)}
+.qp-sel-all{font-size:12px;font-weight:600;color:var(--acc);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0;text-decoration:underline}
+.qp-sel-all:hover{color:var(--acc-dk)}
 
 /* ── Quick examples ── */
 .qex-section{margin-top:10px}
@@ -532,16 +540,6 @@ input:checked~.track::before{transform:translateX(16px)}
     <div class="prog-track"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
   </div>
   <div class="dyn" id="dyn-inputs"></div>
-  <div class="qp-panel" style="margin-top:14px">
-    <button class="qp-toggle" id="qp-toggle" onclick="toggleQP()">
-      <span>🔧 자동 삽입 품질 지침 <span class="diff-chip" id="qp-count">0개</span></span>
-      <span class="arrow">▼</span>
-    </button>
-    <div class="qp-body" id="qp-body">
-      <div id="qp-items"></div>
-      <div class="qp-note">💡 자연어로 직접 입력할 때 대부분 누락되는 항목들입니다. 프레임워크가 자동으로 삽입합니다.</div>
-    </div>
-  </div>
 </div>
 
 <!-- ④ 고급 옵션 -->
@@ -554,6 +552,21 @@ input:checked~.track::before{transform:translateX(16px)}
     <div class="file-area" id="file-area"><div id="file-list"></div><button class="add-f" onclick="addFile()">+ 파일 추가</button></div>
     <div class="opt-row" style="gap:8px"><div><div class="opt-t">⚙️ 출력 설정</div><div class="opt-s">형식 · 길이 · 언어</div></div><div class="sel-row"><select class="sel" id="opt-fmt" onchange="update()"><option value="">형식 자동</option><option value="markdown">Markdown</option><option value="bullet">불릿 리스트</option><option value="table">표(Table)</option><option value="report">보고서</option><option value="json">JSON</option><option value="slides">슬라이드 구조</option></select><select class="sel" id="opt-len" onchange="update()"><option value="">길이 자동</option><option value="brief">간결 (~300자)</option><option value="mid">보통 (~800자)</option><option value="detail">상세 (1,500자+)</option></select><select class="sel" id="opt-lang" onchange="update()"><option value="ko">한국어</option><option value="en">영어</option><option value="both">이중언어</option></select></div></div>
     <div class="opt-row" style="gap:10px"><div><div class="opt-t">🗣️ 답변 톤</div><div class="opt-s">AI의 응답 문체 설정</div></div><select class="sel" id="opt-tone" onchange="update()"><option value="">기본</option><option value="formal">격식·전문체</option><option value="casual">친근한 구어체</option><option value="analytical">분석적·논리적</option><option value="concise">간결·핵심 중심</option></select></div>
+    <!-- 품질 지침 선택 -->
+    <div class="opt-row" style="flex-direction:column;align-items:stretch;gap:10px;padding:12px 14px" id="row-qp-select">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+        <div>
+          <div class="opt-t">🔧 품질 지침 선택</div>
+          <div class="opt-s">프롬프트에 삽입할 지침을 선택하세요 — <span id="qp-count" style="font-weight:700;color:var(--acc)">0개</span> 선택됨</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="qp-sel-all" onclick="selectAllQP(true)">전체 선택</button>
+          <span style="color:var(--bdr2)">|</span>
+          <button class="qp-sel-all" onclick="selectAllQP(false)">전체 해제</button>
+        </div>
+      </div>
+      <div id="qp-items" style="display:flex;flex-direction:column;gap:5px"></div>
+    </div>
   </div>
 </div>
 </div><!-- /left -->
@@ -983,7 +996,11 @@ function buildNL(role){const def=FW[S.fw];const parts=def.tags.map(t=>S.inputs[t
 function renderCompare(){const role=getRole();const nl=buildNL(role);const rag=document.getElementById('opt-rag').checked;const cot=document.getElementById('opt-cot').checked;const fmt=document.getElementById('opt-fmt').value;const def=FW[S.fw];document.getElementById('nl-out').textContent=nl;document.getElementById('st-out').textContent=promptText.slice(0,280)+(promptText.length>280?'\n…':'');const rows=[{label:'AI 역할 명시',st:role!=='Expert'},{label:`${S.fw.toUpperCase()} 프레임워크 구조`,st:true},{label:`품질 지침 (${def.quality.length}개 자동 삽입)`,st:true},{label:'출력 형식 지정',st:!!fmt},{label:'할루시네이션 방지',st:rag},{label:'단계별 추론(CoT) 요구',st:cot},{label:`${S.model.toUpperCase()} 모델 최적화 문법`,st:true}];const on=rows.filter(r=>r.st).length;const tot=rows.length;document.getElementById('cm-rows').innerHTML=rows.map(r=>`<div class="cm-row"><div style="font-size:12px">${r.label}</div><div class="cm-check cm-x">✗</div><div class="cm-check ${r.st?'cm-ok':'cm-x'}">${r.st?'✓':'✗'}</div></div>`).join('');const nlTok=Math.round(nl.length/3.5);const stTok=Math.round(promptText.length/3.5);const pct=Math.round(on/tot*100);document.getElementById('impact-bar').innerHTML=`<div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px"><span>구조화 요소 적용률</span><span style="color:${pct>=70?'var(--grn)':'var(--acc)'}">${on}/${tot}개 (${pct}%)</span></div><div style="height:8px;background:var(--bdr);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${pct>=70?'var(--grn)':'var(--acc)'};border-radius:4px;transition:width .4s ease"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:8px"><span>자연어: ~${nlTok} 토큰</span><span>→</span><span style="color:var(--acc)">설계 후: ~${stTok} 토큰 (+${stTok-nlTok})</span></div>`;}
 
 /* ── QUALITY ── */
-function renderQuality(){const role=getRole();const def=FW[S.fw];const hasRole=role!=='Expert';const hasTask=def.tags.some(t=>S.inputs[t]);const allFill=def.tags.every(t=>S.inputs[t]);const fmt=document.getElementById('opt-fmt').value;const rag=document.getElementById('opt-rag').checked;const cot=document.getElementById('opt-cot').checked;const checks=[{pass:hasRole,icon:hasRole?'✅':'⬜',main:'AI 역할 설정',sub:hasRole?`"${role.slice(0,35)}${role.length>35?'…':''}"` : '역할을 설정하면 응답 전문성이 높아집니다.'},{pass:hasTask,icon:hasTask?'✅':'⬜',main:'핵심 작업 입력',sub:hasTask?`${Object.values(S.inputs).filter(Boolean).length}개 필드 작성됨`:'프레임워크 필드를 작성하세요.'},{pass:allFill,icon:allFill?'✅':'⚠️',main:'모든 필드 완성',sub:allFill?'모든 필드가 작성되었습니다.':`${def.tags.length-Object.values(S.inputs).filter(Boolean).length}개 필드가 비어 있습니다.`},{pass:!!fmt,icon:fmt?'✅':'⬜',main:'출력 형식 지정',sub:fmt?`"${({markdown:'Markdown',bullet:'불릿',table:'표',report:'보고서',json:'JSON',slides:'슬라이드'})[fmt]}" 지정됨`:'형식을 지정하면 일관된 결과를 얻습니다.'},{pass:rag,icon:rag?'✅':'⬜',main:'할루시네이션 방지',sub:rag?'근거 기반 답변 프로토콜 삽입됨':'사실 기반 작업에 권장합니다.'},{pass:cot,icon:cot?'✅':'⬜',main:'Chain-of-Thought',sub:cot?'단계별 추론 요구 삽입됨':'복잡한 분석·전략 작업에 권장합니다.'}];const pass=checks.filter(c=>c.pass).length;const pct=Math.round(pass/checks.length*100);const filled=Math.round(pass/checks.length*5);document.getElementById('q-pct').textContent=pct+'%';document.getElementById('q-pct').style.color=pct>=80?'var(--grn)':pct>=50?'var(--acc)':'var(--muted)';document.querySelectorAll('#q-dots .qdot').forEach((d,i)=>{d.classList.toggle('on',i<filled);d.classList.toggle('hi',i<filled&&filled>=4);});document.getElementById('q-checklist').innerHTML=checks.map(c=>`<div class="qci ${c.pass?'pass':'fail'}"><span class="qci-ic">${c.icon}</span><div><div class="qci-mn">${c.main}</div><div class="qci-sb">${c.sub}</div></div></div>`).join('');document.getElementById('q-protocol').innerHTML=(def.quality||[]).map(q=>`<div class="qpl-item">${q}</div>`).join('');}
+function renderQuality(){const role=getRole();const def=FW[S.fw];const hasRole=role!=='Expert';const hasTask=def.tags.some(t=>S.inputs[t]);const allFill=def.tags.every(t=>S.inputs[t]);const fmt=document.getElementById('opt-fmt').value;const rag=document.getElementById('opt-rag').checked;const cot=document.getElementById('opt-cot').checked;const checks=[{pass:hasRole,icon:hasRole?'✅':'⬜',main:'AI 역할 설정',sub:hasRole?`"${role.slice(0,35)}${role.length>35?'…':''}"` : '역할을 설정하면 응답 전문성이 높아집니다.'},{pass:hasTask,icon:hasTask?'✅':'⬜',main:'핵심 작업 입력',sub:hasTask?`${Object.values(S.inputs).filter(Boolean).length}개 필드 작성됨`:'프레임워크 필드를 작성하세요.'},{pass:allFill,icon:allFill?'✅':'⚠️',main:'모든 필드 완성',sub:allFill?'모든 필드가 작성되었습니다.':`${def.tags.length-Object.values(S.inputs).filter(Boolean).length}개 필드가 비어 있습니다.`},{pass:!!fmt,icon:fmt?'✅':'⬜',main:'출력 형식 지정',sub:fmt?`"${({markdown:'Markdown',bullet:'불릿',table:'표',report:'보고서',json:'JSON',slides:'슬라이드'})[fmt]}" 지정됨`:'형식을 지정하면 일관된 결과를 얻습니다.'},{pass:rag,icon:rag?'✅':'⬜',main:'할루시네이션 방지',sub:rag?'근거 기반 답변 프로토콜 삽입됨':'사실 기반 작업에 권장합니다.'},{pass:cot,icon:cot?'✅':'⬜',main:'Chain-of-Thought',sub:cot?'단계별 추론 요구 삽입됨':'복잡한 분석·전략 작업에 권장합니다.'}];const pass=checks.filter(c=>c.pass).length;const pct=Math.round(pass/checks.length*100);const filled=Math.round(pass/checks.length*5);document.getElementById('q-pct').textContent=pct+'%';document.getElementById('q-pct').style.color=pct>=80?'var(--grn)':pct>=50?'var(--acc)':'var(--muted)';document.querySelectorAll('#q-dots .qdot').forEach((d,i)=>{d.classList.toggle('on',i<filled);d.classList.toggle('hi',i<filled&&filled>=4);});document.getElementById('q-checklist').innerHTML=checks.map(c=>`<div class="qci ${c.pass?'pass':'fail'}"><span class="qci-ic">${c.icon}</span><div><div class="qci-mn">${c.main}</div><div class="qci-sb">${c.sub}</div></div></div>`).join('');const selQ=getSelectedQuality();
+  document.getElementById('q-protocol').innerHTML=(def.quality||[]).map(q=>{
+    const isSelected=selQ.includes(q);
+    return `<div class="qpl-item" style="${isSelected?'':'opacity:.4;text-decoration:line-through'}">${q}${isSelected?'':' <span style="font-size:10px;color:var(--muted)">(미선택)</span>'}</div>`;
+  }).join('');}
 
 /* ── PROGRESS ── */
 function updateProgress(){const def=FW[S.fw];const total=def.tags.length;const filled=def.tags.filter(t=>S.inputs[t]).length;document.getElementById('prog-wrap').style.display='block';document.getElementById('prog-text').textContent=`${filled}/${total}`;const pct=total?Math.round(filled/total*100):0;const bar=document.getElementById('prog-bar');bar.style.width=pct+'%';bar.classList.toggle('full',pct===100);const lbs=['입력을 시작하세요','조금 더 채워보세요','절반 완성!','거의 다 왔어요','모든 필드 완성 ✓'];const lbl=document.getElementById('prog-label');lbl.textContent=lbs[Math.min(Math.floor(pct/25),4)];lbl.style.color=pct===100?'var(--grn)':'var(--muted)';}
@@ -1054,7 +1071,7 @@ function updateRecFWByModel(){
 }
 function setRoleMode(mode){S.roleMode=mode;document.getElementById('tab-dept').classList.toggle('on',mode==='dept');document.getElementById('tab-free').classList.toggle('on',mode==='free');document.getElementById('mode-dept').style.display=mode==='dept'?'':'none';document.getElementById('mode-free').style.display=mode==='free'?'':'none';update();}
 function toggleDept(v,el){const idx=S.depts.indexOf(v);if(idx>=0){S.depts.splice(idx,1);el.classList.remove('on');}else{S.depts.push(v);el.classList.add('on');}updateRecFW();buildQEx();updateComboHint();update();}
-function setFW(fw,el){S.fw=fw;S.inputs={};document.querySelectorAll('#fw-grid .fwc').forEach(c=>c.classList.remove('on'));el.classList.add('on');buildDyn();buildQEx();updateQP();document.getElementById('qp-body').classList.remove('open');document.getElementById('qp-toggle').classList.remove('open');if(editMode)toggleEdit();update();}
+function setFW(fw,el){S.fw=fw;S.inputs={};document.querySelectorAll('#fw-grid .fwc').forEach(c=>c.classList.remove('on'));el.classList.add('on');buildDyn();buildQEx();updateQP();if(editMode)toggleEdit();update();}
 function buildDyn(){const def=FW[S.fw];const c=document.getElementById('dyn-inputs');c.innerHTML='';def.tags.forEach((tag,i)=>{const w=document.createElement('div');w.className='fwrap';const l=document.createElement('div');l.className='flbl';l.innerHTML=`${def.labels[i]} <span class="ftag">${tag.toUpperCase()}</span>`;const long=['Draft','Context','Instructions','Steps','Example','Action','Background','Features'].includes(tag);const el=document.createElement(long?'textarea':'input');el.className='field';el.type='text';if(long)el.style.height='68px';el.placeholder=def.ph[i]||'';el.oninput=e=>{S.inputs[tag]=e.target.value;el.classList.toggle('filled',!!e.target.value);update();};w.appendChild(l);w.appendChild(el);c.appendChild(w);});
   // Generative presets panel
   if(['image','scene','sonic'].includes(S.fw)) buildPresetPanel(c,S.fw);
@@ -1375,8 +1392,52 @@ function applyPreset(group,idx,presetData){
   }
   update();
 }
-function updateQP(){const qs=FW[S.fw].quality||[];document.getElementById('qp-count').textContent=`${qs.length}개`;document.getElementById('qp-items').innerHTML=qs.map(q=>`<div class="qp-item">${q}</div>`).join('');}
-function toggleQP(){document.getElementById('qp-body').classList.toggle('open');document.getElementById('qp-toggle').classList.toggle('open');}
+function updateQP(){
+  const qs=FW[S.fw].quality||[];
+  const container=document.getElementById('qp-items');
+  if(!container) return;
+  // Build checkboxes — default all checked
+  container.innerHTML=qs.map((q,i)=>`
+    <label class="qp-check-item on" id="qp-row-${i}" onclick="toggleQPItem(${i})">
+      <input type="checkbox" id="qpc-${i}" checked onchange="event.stopPropagation();toggleQPItem(${i})">
+      <span class="qp-check-text">${q}</span>
+    </label>`).join('');
+  updateQPCount();
+}
+function toggleQPItem(i){
+  const cb=document.getElementById('qpc-'+i);
+  const row=document.getElementById('qp-row-'+i);
+  if(!cb||!row) return;
+  // If click came from label (not checkbox itself), toggle manually
+  if(document.activeElement!==cb) cb.checked=!cb.checked;
+  row.classList.toggle('on',cb.checked);
+  updateQPCount();
+  update();
+}
+function updateQPCount(){
+  const all=document.querySelectorAll('#qp-items input[type=checkbox]');
+  const checked=[...all].filter(c=>c.checked).length;
+  const el=document.getElementById('qp-count');
+  if(el) el.textContent=`${checked}/${all.length}개`;
+}
+function selectAllQP(val){
+  document.querySelectorAll('#qp-items input[type=checkbox]').forEach((cb,i)=>{
+    cb.checked=val;
+    const row=document.getElementById('qp-row-'+i);
+    if(row) row.classList.toggle('on',val);
+  });
+  updateQPCount();
+  update();
+}
+function getSelectedQuality(){
+  const qs=FW[S.fw].quality||[];
+  const selected=[];
+  qs.forEach((q,i)=>{
+    const cb=document.getElementById('qpc-'+i);
+    if(cb&&cb.checked) selected.push(q);
+  });
+  return selected;
+}
 
 /* ── OPTIONS ── */
 function syncRow(rid,iid){document.getElementById(rid).classList.toggle('active',document.getElementById(iid).checked);}
@@ -1409,7 +1470,7 @@ function buildPrompt(){
 
   let manifest='';if(fileOn){const rows=document.querySelectorAll('#file-list .file-entry');if(rows.length){manifest='[FILE_MANIFEST]\n';rows.forEach(r=>{const n=r.querySelector('.f-n')?.value||'';const d=r.querySelector('.f-d')?.value||'';if(n)manifest+=`  • ${n}: ${d}\n`;});manifest+='\n';}}
   let body='';def.tags.forEach(t=>{body+=`[${t.toUpperCase()}]\n${S.inputs[t]||'(미입력)'}\n\n`;});
-  const qBlock=def.quality.map(q=>`  • ${q}`).join('\n');
+  const selectedQ=getSelectedQuality();const qBlock=selectedQ.map(q=>`  • ${q}`).join('\n');
   const FMT_MAP={markdown:'Markdown 형식',bullet:'불릿 리스트',table:'표(Table)',report:'보고서 형식',json:'JSON',slides:'슬라이드 구조'};
   const LEN_MAP={brief:'간결하게 300자 내외로 핵심만 작성할 것',mid:'800자 내외의 적정 분량으로 작성할 것',detail:'충분한 상세 설명 포함, 1,500자 이상으로 작성할 것'};
   const TONE_MAP={formal:'격식 있는 전문 문어체',casual:'친근하고 이해하기 쉬운 구어체',analytical:'논리적·분석적 문체',concise:'핵심만 담은 간결한 문체'};
