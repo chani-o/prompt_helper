@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>:: 프롬프트 도우미 (Prompt Helper) :: </title>
+<title>프롬프트 도우미 (Prompt Helper)</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f0f2f5;--surf:#fff;--bdr:#e4e8ef;--bdr2:#ccd3df;--text:#1a2232;--muted:#7b8899;--faint:#f7f9fc;--acc:#3b5bdb;--acc-lt:#eef1fd;--acc-dk:#2f4ac4;--grn:#0f9d6e;--grn-lt:#e5f7f2;--grn-bdr:#34d399;--amber:#d97706;--amber-lt:#fef3c7;--red:#e03e3e;--red-lt:#fee2e2;--purple:#7c3aed;--purple-lt:#f3f0ff;--r:10px;--rs:7px}
@@ -341,7 +341,6 @@ input:checked~.track::before{transform:translateX(16px)}
 <div class="hd">
   <span style="font-size:21px">✨</span>
   <h1>프롬프트 도우미 <sub>Prompt Helper</sub></h1>
-  <span class="badge">2026</span>
   <div class="hd-spacer"></div>
   <div class="hd-actions">
     <button class="guide-hd-btn" onclick="openGuide()">📖 사용 가이드</button>
@@ -631,7 +630,6 @@ input:checked~.track::before{transform:translateX(16px)}
       <h3>📖 프롬프트 도우미 사용 가이드</h3>
       <button class="guide-x" onclick="closeGuide()">✕</button>
     </div>
-    <div class="guide-subtitle">이 도우미의 모든 기능 사용법을 안내합니다. 처음 방문이라면 Step 1부터 따라해 보세요.</div>
     <div class="guide-sections-grid">
 
     <div class="guide-section">
@@ -956,7 +954,7 @@ function updateOpenRow(){
   const isGenModel=['sora','veo','midjourney','suno','lyria','nanobanana'].includes(S.model);
   let html='';
   if(url&&name) html+=`<a class="open-btn" href="${url}" target="_blank" rel="noopener">↗ ${name} 바로가기</a>`;
-  if(isGenModel) html+=`<a class="open-btn papago-btn" href="https://papago.naver.com" target="_blank" rel="noopener" title="한국어→영어 번역">🌐 파파고</a>`;
+  if(isGenModel) html+=`<a class="open-btn papago-btn" href="https://papago.naver.com" target="_blank" rel="noopener" title="한국어→영어 번역">🌐 영문 번역</a>`;
   gotoRow.innerHTML=html;
 }
 
@@ -1069,6 +1067,14 @@ const IMG_PRESETS={
 
 /* ── SCENE presets ── */
 const SCENE_PRESETS={
+  style_scene:[  // maps to Style tag via tagMap
+    {name:'시네마틱 4K',val:'cinematic quality, 4K resolution, film color grade',desc:'영화 같은 품질'},
+    {name:'다큐멘터리',val:'documentary style, realistic, handheld, natural light',desc:'사실적 다큐'},
+    {name:'광고 영상',val:'commercial style, clean, polished, brand-safe',desc:'깔끔한 광고'},
+    {name:'뮤직비디오',val:'music video style, artistic, colorful, dynamic',desc:'감각적인 뮤직비디오'},
+    {name:'애니메이션',val:'3D animation style, vibrant colors, smooth motion',desc:'3D 애니메이션'},
+    {name:'빈티지 필름',val:'vintage film look, grain, warm faded colors, 16mm',desc:'레트로 필름 느낌'},
+  ],
   movement:[
     {name:'천천히 패닝',val:'slow pan left to right, smooth camera movement',desc:'좌→우 부드럽게'},
     {name:'드론 하강',val:'drone slowly descending from above, aerial shot',desc:'하늘에서 내려오기'},
@@ -1084,14 +1090,6 @@ const SCENE_PRESETS={
     {name:'비 오는 날',val:'rainy day, wet streets, reflections on puddles',desc:'비와 반사 효과'},
     {name:'안개/미스트',val:'morning mist, foggy atmosphere, soft diffused light',desc:'몽환적인 안개'},
     {name:'드라마틱',val:'dramatic clouds, high contrast, moody lighting',desc:'극적인 분위기'},
-  ],
-  style:[
-    {name:'시네마틱 4K',val:'cinematic quality, 4K resolution, film color grade',desc:'영화 같은 품질'},
-    {name:'다큐멘터리',val:'documentary style, realistic, handheld, natural light',desc:'사실적 다큐'},
-    {name:'광고 영상',val:'commercial style, clean, polished, brand-safe',desc:'깔끔한 광고'},
-    {name:'뮤직비디오',val:'music video style, artistic, colorful, dynamic',desc:'감각적인 뮤직비디오'},
-    {name:'애니메이션',val:'3D animation style, vibrant colors, smooth motion',desc:'3D 애니메이션'},
-    {name:'빈티지 필름',val:'vintage film look, grain, warm faded colors, 16mm',desc:'레트로 필름 느낌'},
   ],
 };
 
