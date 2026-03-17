@@ -1174,7 +1174,7 @@ function buildPresetPanel(container,fw){
           </div></div>
         <div><div class="img-preset-group-label">🎥 영상 스타일</div>
           <div class="img-preset-row" id="preset-style_scene">
-            ${SCENE_PRESETS.style.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('style_scene',${i},SCENE_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+            ${SCENE_PRESETS.style_scene.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('style_scene',${i},SCENE_PRESETS)"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
           </div></div>
       </div>`;
   } else if(fw==='sonic'){
