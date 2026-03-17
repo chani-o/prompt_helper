@@ -79,6 +79,8 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .chip.on.midjourney{background:#f3f0ff;border-color:#7c3aed;color:#6d28d9}
 .chip.on.suno{background:#fdf4ff;border-color:#a21caf;color:#86198f}
 .chip.on.nanobanana{background:#fff7ed;border-color:#ea580c;color:#c2410c}
+.chip.on.veo{background:#e8f0fe;border-color:#1a73e8;color:#1558d3}
+.chip.on.lyria{background:#f3f0ff;border-color:#7c3aed;color:#6d28d9}
 .hint{margin-top:10px;padding:9px 12px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--bdr);font-size:12px;color:var(--muted);line-height:1.5}
 .hint code{font-family:'DM Mono',monospace;font-size:11px;color:var(--acc);background:var(--acc-lt);padding:1px 5px;border-radius:4px}
 
@@ -133,6 +135,18 @@ input,textarea,select,.out-box,.out-edit{user-select:text}
 .fw-example{font-size:10px;color:#9ba8b8;margin-top:4px;line-height:1.4;font-style:italic}
 /* ? and ! buttons side by side */
 .fw-icon-wrap{position:absolute;top:7px;right:7px;display:flex;gap:3px}
+/* ── Image presets ── */
+.img-presets{margin-top:14px;display:none}
+.img-presets.show{display:block}
+.img-presets-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.img-preset-groups{display:flex;flex-direction:column;gap:10px}
+.img-preset-group-label{font-size:11px;font-weight:700;color:var(--text);margin-bottom:5px}
+.img-preset-row{display:flex;flex-wrap:wrap;gap:6px}
+.img-preset-chip{padding:5px 11px;border-radius:var(--rs);border:1.5px solid var(--bdr);background:var(--surf);font-size:11.5px;cursor:pointer;transition:all .13s;font-family:"DM Sans",sans-serif;display:flex;flex-direction:column;gap:2px}
+.img-preset-chip:hover{border-color:var(--bdr2);background:var(--faint)}
+.img-preset-chip.sel{border-color:var(--purple,#7c3aed);background:#f3f0ff;color:#6d28d9}
+.img-preset-chip .pname{font-weight:600;font-size:12px}
+.img-preset-chip .pdesc{font-size:10.5px;color:var(--muted)}
 .fw-icon-btn{width:16px;height:16px;border-radius:50%;border:1px solid var(--bdr);font-size:9px;font-weight:800;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .13s;background:var(--faint)}
 .fw-icon-btn:hover,.fw-icon-btn.open{background:var(--acc-lt);border-color:var(--acc);color:var(--acc)}
 .fw-icon-btn.tip-btn:hover,.fw-icon-btn.tip-btn.open{background:var(--amber-lt);border-color:var(--amber);color:var(--amber)}
@@ -215,15 +229,14 @@ input:checked~.track::before{transform:translateX(16px)}
 
 /* output box with copy button inside */
 .out-wrap{position:relative}
-.out-box{background:#13192a;border-radius:var(--rs);border:1px solid #1e2740;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;white-space:pre-wrap;word-break:break-word;min-height:460px;max-height:680px;overflow-y:auto;line-height:1.78;user-select:text}
+.out-box{background:#13192a;border-radius:var(--rs);border:1px solid #1e2740;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;white-space:pre-wrap;word-break:break-word;min-height:320px;max-height:70vh;overflow-y:auto;line-height:1.78;user-select:text}
 .out-box::-webkit-scrollbar{width:4px}
 .out-box::-webkit-scrollbar-thumb{background:#2a3556;border-radius:4px}
-.out-edit{width:100%;resize:vertical;min-height:460px;max-height:680px;background:#13192a;color:#c8d5ef;caret-color:#c8d5ef;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;line-height:1.78;border-radius:var(--rs);border:1px solid #1e2740;outline:none;display:none;user-select:text}
+.out-edit{width:100%;resize:vertical;min-height:320px;max-height:70vh;background:#13192a;color:#c8d5ef;caret-color:#c8d5ef;font-family:'DM Mono',monospace;font-size:11.5px;padding:16px 18px 42px;line-height:1.78;border-radius:var(--rs);border:1px solid #1e2740;outline:none;display:none;user-select:text}
 .out-edit:focus{border-color:var(--amber)}
-/* copy button — absolute inside out-wrap */
-.copy-fab{position:absolute;bottom:10px;right:10px;padding:6px 14px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,transform .1s;z-index:10;display:flex;align-items:center;gap:5px}
-.copy-fab:hover{background:var(--acc-dk)}
-.copy-fab:active{transform:scale(.97)}
+.copy-fab-inline{padding:6px 14px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:12.5px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,transform .1s;display:inline-flex;align-items:center;gap:5px}
+.copy-fab-inline:hover{background:var(--acc-dk)}
+.copy-fab-inline:active{transform:scale(.97)}
 .sh-h1{color:#7dd3fc;font-weight:bold}
 .sh-h2{color:#93c5fd}
 .sh-tag{color:#fca5a5}
@@ -232,7 +245,7 @@ input:checked~.track::before{transform:translateX(16px)}
 .sh-cmt{color:#4a5980}
 
 /* open in platform row */
-.open-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.open-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
 .open-btn{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--surf);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
 .open-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-lt)}
 
@@ -275,11 +288,9 @@ input:checked~.track::before{transform:translateX(16px)}
 .qpl-item::before{content:'✦';position:absolute;left:0;color:var(--acc);font-size:9px;top:5px}
 
 .out-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted)}
-.out-grade{font-weight:700;transition:color .3s}
 
 /* ── Footer ── */
-.footer{max-width:1440px;margin:24px auto 0;padding:14px 0 24px;border-top:1px solid var(--bdr);text-align:center;font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
-.footer strong{color:var(--acc)}
+.footer{max-width:1440px;margin:24px auto 0;padding:14px 0 24px;border-top:1px solid var(--bdr);text-align:center;font-size:12px;color:var(--muted)}
 
 /* ── Toast ── */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(70px);background:#13192a;color:#fff;padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:transform .35s cubic-bezier(.175,.885,.32,1.275);z-index:999}
@@ -298,16 +309,20 @@ input:checked~.track::before{transform:translateX(16px)}
 .m-cancel{background:var(--surf);color:var(--muted);border:1px solid var(--bdr)}
 
 /* guide modal */
-.guide-modal{width:min(680px,100%)}
+.guide-modal{width:min(900px,96vw);max-height:88vh;overflow-y:auto}
 .guide-modal h3{font-size:17px;margin-bottom:6px}
-.guide-subtitle{font-size:13px;color:var(--muted);margin-bottom:20px}
-.guide-section{margin-bottom:20px}
-.guide-section h4{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--bdr)}
-.guide-row{display:flex;gap:10px;margin-bottom:7px;font-size:12.5px;align-items:flex-start}
-.guide-row .gkey{font-weight:700;min-width:90px;color:var(--text);flex-shrink:0}
-.guide-row .gval{color:var(--muted);line-height:1.5}
-.guide-tip{background:var(--amber-lt);border:1px solid #fcd34d;border-radius:var(--rs);padding:10px 13px;font-size:12px;color:#92400e;margin-top:10px}
-.guide-close{width:100%;padding:10px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif}
+.guide-subtitle{font-size:13px;color:var(--muted);margin-bottom:16px}
+.guide-sections-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+.guide-section{margin-bottom:16px}
+.guide-section h4{font-size:12.5px;font-weight:700;color:var(--acc);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--bdr)}
+.guide-row{display:flex;gap:8px;margin-bottom:6px;font-size:12px;align-items:flex-start}
+.guide-row .gkey{font-weight:700;min-width:110px;color:var(--text);flex-shrink:0;line-height:1.45}
+.guide-row .gval{color:var(--muted);line-height:1.45}
+.guide-tip{background:var(--amber-lt);border:1px solid #fcd34d;border-radius:var(--rs);padding:8px 12px;font-size:12px;color:#92400e;margin-top:8px}
+.guide-close{width:100%;padding:10px;background:var(--acc);color:#fff;border:none;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;margin-top:12px;font-family:'DM Sans',sans-serif}
+.guide-modal-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+.guide-x{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:0;line-height:1;transition:color .13s}
+.guide-x:hover{color:var(--red)}
 
 @media(max-width:1100px){.fw-grid{grid-template-columns:repeat(4,1fr)}.ben-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:860px){.grid{grid-template-columns:1fr}.fw-grid{grid-template-columns:repeat(3,1fr)}}
@@ -336,13 +351,13 @@ input:checked~.track::before{transform:translateX(16px)}
 </div>
 
 <div class="benefits-drawer" id="benefits-drawer">
-  <div class="ben-title">📊 구조화된 프롬프트 vs 자연어 입력 — 연구 기반 차이</div>
+  <div class="ben-title">💡 왜 구조화된 프롬프트가 더 좋은 결과를 만들까요?</div>
   <div class="ben-grid">
-    <div class="ben-card"><div class="ben-num">58가지</div><div class="ben-label">검증된 프롬프트 기법</div><div class="ben-sub">학술적으로 정리된 기법. 구조화할수록 AI가 의도를 더 정확히 파악합니다.</div></div>
-    <div class="ben-card"><div class="ben-num">∼20%p</div><div class="ben-label">정확도 향상</div><div class="ben-sub">Chain-of-Thought + 구조화 프롬프트 사용 시 복잡한 작업에서 평균 정확도 향상.</div></div>
-    <div class="ben-card"><div class="ben-num">역할 + 맥락 + 형식</div><div class="ben-label">완성도를 높이는 3요소</div><div class="ben-sub">AI에게 역할·배경·출력형식을 명시하면 재질문 없이 바로 활용 가능한 결과물이 나옵니다.</div></div>
+    <div class="ben-card"><div class="ben-num">❌ 자연어</div><div class="ben-label">"마케팅 전략 알려줘"</div><div class="ben-sub">AI가 맥락 없이 일반적인 답변을 생성합니다. 역할·목적·대상이 불분명해 재질문이 필요한 경우가 많습니다.</div></div>
+    <div class="ben-card"><div class="ben-num">✅ 구조화</div><div class="ben-label">역할 + 맥락 + 목표 + 형식</div><div class="ben-sub">AI가 내 상황에 맞는 전문가 역할을 수행합니다. 재질문 없이 바로 활용 가능한 결과물을 생성합니다.</div></div>
+    <div class="ben-card"><div class="ben-num">🔑 핵심 원칙</div><div class="ben-label">명확할수록 좋은 결과</div><div class="ben-sub">역할(Role) · 과제(Task) · 맥락(Context) · 형식(Format)을 명시할수록 AI의 답변 완성도가 높아집니다.</div></div>
   </div>
-  <div class="ben-src">📄 참고: <a href="https://arxiv.org/abs/2406.06608" target="_blank">The Prompt Report (Schulhoff et al., 2024)</a> · <a href="https://learnprompting.org" target="_blank">learnprompting.org</a></div>
+  <div class="ben-src">이 도우미는 프롬프트 엔지니어링의 검증된 Best Practice(RTF, CO-STAR, SCQA 등)를 적용해 누구나 쉽게 구조화된 프롬프트를 만들 수 있도록 돕습니다.</div>
 </div>
 
 <div class="grid">
@@ -386,9 +401,11 @@ input:checked~.track::before{transform:translateX(16px)}
     <div class="plat-cat">이미지·영상·음악 생성형</div>
     <div class="chip-row">
       <button class="chip sora"       data-m="sora"       data-url="https://sora.com"             onclick="setModel(this)"><span class="ci">🎬</span>Sora</button>
+      <button class="chip veo"        data-m="veo"        data-url="https://labs.google/flow"     onclick="setModel(this)"><span class="ci">🎥</span>Veo</button>
       <button class="chip midjourney" data-m="midjourney" data-url="https://www.midjourney.com"   onclick="setModel(this)"><span class="ci">🎨</span>Midjourney</button>
-      <button class="chip suno"       data-m="suno"       data-url="https://suno.com"             onclick="setModel(this)"><span class="ci">🎵</span>Suno</button>
       <button class="chip nanobanana" data-m="nanobanana" data-url="https://gemini.google.com"    onclick="setModel(this)"><span class="ci">🍌</span>Nano Banana</button>
+      <button class="chip suno"       data-m="suno"       data-url="https://suno.com"             onclick="setModel(this)"><span class="ci">🎵</span>Suno</button>
+      <button class="chip lyria"      data-m="lyria"      data-url="https://deepmind.google/lyria" onclick="setModel(this)"><span class="ci">🎼</span>Lyria</button>
     </div>
   </div>
   <div class="plat-group" style="margin-bottom:0">
@@ -516,7 +533,7 @@ input:checked~.track::before{transform:translateX(16px)}
   <div class="card">
     <div class="out-hd">
       <div class="out-hd-left">
-        <span class="out-hd-title">✨ 구조화 프롬프트</span>
+        <span class="out-hd-title">📋 프롬프트 미리보기</span>
         <button class="guide-btn" onclick="openGuide()">📖 사용 가이드</button>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
@@ -535,7 +552,6 @@ input:checked~.track::before{transform:translateX(16px)}
       <div class="out-wrap">
         <div class="out-box" id="out"></div>
         <textarea class="out-edit" id="out-edit" spellcheck="false"></textarea>
-        <button class="copy-fab" onclick="copyPrompt()">📋 복사</button>
       </div>
       <div id="edit-notice" style="display:none;font-size:11px;color:var(--amber);margin-top:5px">✏️ 편집 모드 — 수정 후 복사하거나 "완료"를 눌러 돌아가세요.</div>
       <div class="open-row" id="open-row"></div>
@@ -563,14 +579,12 @@ input:checked~.track::before{transform:translateX(16px)}
       </div>
     </div>
 
-    <div class="out-meta"><span id="tok">약 0 토큰</span><span class="out-grade" id="grade">설계를 시작하세요 →</span></div>
+    <div class="out-meta"><span id="tok">약 0 토큰</span></div>
   </div>
 </div>
 </div><!-- /grid -->
 
 <div class="footer">
-  <span>오늘 <strong id="today-count">–</strong>명 · 누적 <strong id="total-count">–</strong>명 방문</span>
-  &nbsp;|&nbsp;
   💬 건의 및 개선 사항은 <strong>인사총무팀 오세찬 과장</strong>에게 편하게 연락 주세요.
 </div>
 
@@ -592,8 +606,12 @@ input:checked~.track::before{transform:translateX(16px)}
 <!-- Usage guide modal -->
 <div class="overlay" id="guide-overlay">
   <div class="modal guide-modal">
-    <h3>📖 프롬프트 도우미 사용 가이드</h3>
+    <div class="guide-modal-hd">
+      <h3>📖 프롬프트 도우미 사용 가이드</h3>
+      <button class="guide-x" onclick="closeGuide()">✕</button>
+    </div>
     <div class="guide-subtitle">이 도우미의 모든 기능 사용법을 안내합니다. 처음 방문이라면 Step 1부터 따라해 보세요.</div>
+    <div class="guide-sections-grid">
 
     <div class="guide-section">
       <h4>🖥️ 상단 헤더 버튼 안내</h4>
@@ -654,6 +672,7 @@ input:checked~.track::before{transform:translateX(16px)}
       <div class="guide-row"><div class="gkey">답변 톤</div><div class="gval">격식체, 구어체, 분석적, 간결 등 AI의 문체를 조정합니다.</div></div>
     </div>
 
+    </div><!-- /guide-sections-grid -->
     <button class="guide-close" onclick="closeGuide()">✅ 확인했습니다</button>
   </div>
 </div>
@@ -691,19 +710,33 @@ const MHINTS={
   suno:     '💡 Suno (음악 생성): 장르, 분위기, 템포, 보컬 스타일, 가사 방향을 명시. 메타 태그([Verse], [Chorus]) 활용 가능. 영어 권장.',
   nanobanana:'💡 Nano Banana (Google Gemini 3.1 이미지): Google의 고효율 이미지 생성·편집 모델. 장면 묘사·스타일·색감을 구체적으로 명시. Gemini 앱에서 사용.',
   lovable:  '💡 Lovable: 앱 기능 명세(spec) 형식. 사용자 스토리·UI·데이터 구조를 포함한 상세 지시에 최적화',
-  cursor:   '💡 Cursor: 코드 생성 최적화. 기술 스택·타입·에지 케이스 명세 형식에 최적'
+  cursor:   '💡 Cursor: 코드 생성 최적화. 기술 스택·타입·에지 케이스 명세 형식에 최적',
+  veo:      '💡 Veo 3 (Google DeepMind): Google의 영상 생성 AI. 영화 촬영 용어와 장면 묘사로 구성. Google Flow 또는 Gemini 앱에서 사용. 영어 프롬프트를 권장합니다.',
+  lyria:    '💡 Lyria 2 (Google DeepMind): Google의 음악 생성 AI. 장르·분위기·악기·구조를 명시하는 SONIC 프레임워크로 최적화. Google Labs에서 사용 가능. 영어 프롬프트를 권장합니다.'
 };
 
 /* ── CREATIVE PLATFORM PROMPT BUILDERS ── */
 function buildCreativePrompt(m, role, body, def){
   // Only activate for generative frameworks
   const isGenerativeFW = ['image','scene','sonic'].includes(S.fw);
-  const isGenerativeModel = ['sora','midjourney','suno','nanobanana'].includes(m);
+  const isGenerativeModel = ['sora','veo','midjourney','suno','nanobanana','lyria'].includes(m);
   if(!isGenerativeModel) return null;
 
   const lang=document.getElementById('opt-lang').value;
   const langNote = lang==='en'?'// Prompt in English\n':(lang==='both'?'// 한국어 입력 후 영어로도 작성해주세요\n':'// 영어로 작성하면 품질이 크게 향상됩니다 (strongly recommended)\n');
 
+  if(m==='veo'){
+    if(isGenerativeFW){
+      return `[VEO VIDEO PROMPT]\n${langNote}\n${body}[QUALITY NOTES]\n  • Google Flow 또는 Gemini 앱에서 사용합니다\n  • 영어로 작성할수록 더 정확한 결과를 얻습니다\n  • 카메라 움직임은 영화 촬영 용어로 명시 (pan, tilt, zoom, dolly)\n`;
+    }
+    return `[VEO VIDEO PROMPT]\n${langNote}\n${body}[TIP] Google의 Veo는 사실적인 영상 생성에 강점이 있습니다. 구체적인 장면 묘사와 카메라 동작을 명시하세요.\n`;
+  }
+  if(m==='lyria'){
+    if(isGenerativeFW){
+      return `[LYRIA MUSIC PROMPT]\n${langNote}\n${body}[QUALITY NOTES]\n  • Google DeepMind의 음악 생성 AI입니다\n  • 영어 프롬프트를 권장합니다 (한국어도 지원)\n  • 구조 태그([Verse], [Chorus] 등)를 포함하여 곡의 흐름을 제어하세요\n`;
+    }
+    return `[LYRIA MUSIC PROMPT]\n${langNote}\n${body}[TIP] 장르·분위기·악기를 구체적으로 명시하면 더 원하는 결과를 얻습니다.\n`;
+  }
   if(m==='sora'){
     if(isGenerativeFW){
       return `[SORA VIDEO PROMPT]\n${langNote}\n${body}[QUALITY NOTES]\n  • 영어로 작성할수록 더 정확한 결과를 얻습니다\n  • 카메라 움직임은 영화 촬영 용어로 명시 (pan, tilt, zoom, dolly)\n  • 현실에서 촬영 가능한 장면처럼 서술하면 일관성이 높아집니다\n`;
@@ -842,8 +875,10 @@ const MODEL_REC_FW={
   perplexity:null,notebooklm:null,wrtn:null,genspark:null,
   notion:null,gamma:null,lovable:null,cursor:null,
   sora:['scene'],
+  veo:['scene'],
   midjourney:['image'],
   suno:['sonic'],
+  lyria:['sonic'],
   nanobanana:['image']
 };
 
@@ -889,7 +924,7 @@ document.addEventListener('click',e=>{
 });
 
 /* ── OPEN IN PLATFORM ── */
-function updateOpenRow(){const row=document.getElementById('open-row');row.innerHTML='';const url=document.querySelector(`.chip[data-m="${S.model}"]`)?.dataset?.url;const name=document.querySelector(`.chip[data-m="${S.model}"]`)?.textContent?.trim();if(url&&name){row.innerHTML=`<a class="open-btn" href="${url}" target="_blank" rel="noopener">↗ ${name}에서 열기</a><span style="font-size:11px;color:var(--muted);align-self:center">복사 후 클릭</span>`;}}
+function updateOpenRow(){const row=document.getElementById('open-row');row.innerHTML='';const url=document.querySelector(`.chip[data-m="${S.model}"]`)?.dataset?.url;const name=document.querySelector(`.chip[data-m="${S.model}"]`)?.textContent?.trim();if(url&&name){row.innerHTML=`<button class="copy-fab-inline" onclick="copyPrompt()">📋 복사</button><a class="open-btn" href="${url}" target="_blank" rel="noopener">↗ ${name} 바로가기</a>`;}}
 
 /* ── EDIT MODE ── */
 function toggleEdit(){editMode=!editMode;const btn=document.getElementById('edit-btn');const view=document.getElementById('out');const edit=document.getElementById('out-edit');const notice=document.getElementById('edit-notice');if(editMode){edit.value=promptText;view.style.display='none';edit.style.display='block';notice.style.display='block';btn.textContent='✅ 완료';btn.classList.add('active');}else{promptText=edit.value;view.innerHTML=highlight(promptText);view.style.display='block';edit.style.display='none';notice.style.display='none';btn.textContent='✏️ 편집';btn.classList.remove('active');}}
@@ -957,7 +992,100 @@ function updateRecFWByModel(){
 function setRoleMode(mode){S.roleMode=mode;document.getElementById('tab-dept').classList.toggle('on',mode==='dept');document.getElementById('tab-free').classList.toggle('on',mode==='free');document.getElementById('mode-dept').style.display=mode==='dept'?'':'none';document.getElementById('mode-free').style.display=mode==='free'?'':'none';update();}
 function toggleDept(v,el){const idx=S.depts.indexOf(v);if(idx>=0){S.depts.splice(idx,1);el.classList.remove('on');}else{S.depts.push(v);el.classList.add('on');}updateRecFW();buildQEx();updateComboHint();update();}
 function setFW(fw,el){S.fw=fw;S.inputs={};document.querySelectorAll('#fw-grid .fwc').forEach(c=>c.classList.remove('on'));el.classList.add('on');buildDyn();buildQEx();updateQP();document.getElementById('qp-body').classList.remove('open');document.getElementById('qp-toggle').classList.remove('open');if(editMode)toggleEdit();update();}
-function buildDyn(){const def=FW[S.fw];const c=document.getElementById('dyn-inputs');c.innerHTML='';def.tags.forEach((tag,i)=>{const w=document.createElement('div');w.className='fwrap';const l=document.createElement('div');l.className='flbl';l.innerHTML=`${def.labels[i]} <span class="ftag">${tag.toUpperCase()}</span>`;const long=['Draft','Context','Instructions','Steps','Example','Action','Background','Features'].includes(tag);const el=document.createElement(long?'textarea':'input');el.className='field';el.type='text';if(long)el.style.height='68px';el.placeholder=def.ph[i]||'';el.oninput=e=>{S.inputs[tag]=e.target.value;el.classList.toggle('filled',!!e.target.value);update();};w.appendChild(l);w.appendChild(el);c.appendChild(w);});}
+function buildDyn(){const def=FW[S.fw];const c=document.getElementById('dyn-inputs');c.innerHTML='';def.tags.forEach((tag,i)=>{const w=document.createElement('div');w.className='fwrap';const l=document.createElement('div');l.className='flbl';l.innerHTML=`${def.labels[i]} <span class="ftag">${tag.toUpperCase()}</span>`;const long=['Draft','Context','Instructions','Steps','Example','Action','Background','Features'].includes(tag);const el=document.createElement(long?'textarea':'input');el.className='field';el.type='text';if(long)el.style.height='68px';el.placeholder=def.ph[i]||'';el.oninput=e=>{S.inputs[tag]=e.target.value;el.classList.toggle('filled',!!e.target.value);update();};w.appendChild(l);w.appendChild(el);c.appendChild(w);});
+  // IMAGE presets panel
+  if(S.fw==='image') buildImagePresets(c);
+}
+
+const IMG_PRESETS={
+  style:[
+    {name:'사실적 사진',val:'photorealistic, ultra-detailed photography',desc:'실제 사진처럼'},
+    {name:'수채화',val:'watercolor painting, soft edges, pastel tones',desc:'부드러운 수채화'},
+    {name:'디지털 아트',val:'digital art, vibrant colors, sharp details',desc:'선명한 디지털'},
+    {name:'지브리 애니',val:'Studio Ghibli anime style, soft illustration',desc:'지브리 스타일'},
+    {name:'미니멀',val:'minimalist, clean design, white background',desc:'깔끔한 미니멀'},
+    {name:'시네마틱',val:'cinematic photography, film grain, dramatic',desc:'영화 같은 느낌'},
+  ],
+  lighting:[
+    {name:'황금빛 (Golden hour)',val:'golden hour lighting, warm sunset tones',desc:'오후 햇살'},
+    {name:'스튜디오',val:'studio lighting, softbox, even illumination',desc:'균일한 조명'},
+    {name:'자연광',val:'soft natural light, diffused daylight',desc:'자연스러운'},
+    {name:'야경/네온',val:'neon lights, night scene, urban glow',desc:'도시 야경'},
+    {name:'드라마틱',val:'dramatic side lighting, deep shadows',desc:'강렬한 대비'},
+  ],
+  params:[
+    {name:'정방형 1:1',val:'--ar 1:1 --v 7 --q 2',desc:'SNS 프로필·썸네일'},
+    {name:'와이드 16:9',val:'--ar 16:9 --v 7 --q 2',desc:'배너·배경화면'},
+    {name:'세로 9:16',val:'--ar 9:16 --v 7 --q 2',desc:'모바일·릴스'},
+    {name:'고품질',val:'--ar 16:9 --v 7 --q 2 --s 750',desc:'상세한 텍스처'},
+    {name:'빠른 생성',val:'--ar 1:1 --v 7 --q 1',desc:'빠른 시안 확인'},
+  ]
+};
+
+const IMG_PARAM_DESC={
+  '--ar':'화면비율 (aspect ratio). 1:1=정방형, 16:9=와이드, 9:16=세로',
+  '--v':'Midjourney 버전. 최신은 --v 7',
+  '--q':'품질 (quality). 1=빠름, 2=기본, 높을수록 시간 증가',
+  '--s':'스타일 강도 (stylize). 0~1000. 높을수록 AI 개성이 강해짐',
+  '--no':'제외할 요소. 예: --no text, watermark, blurry',
+};
+
+function buildImagePresets(container){
+  const panel=document.createElement('div');
+  panel.className='img-presets show';
+  panel.innerHTML=`
+    <div class="img-presets-title">🎛️ 파라미터 프리셋 — 클릭해서 바로 적용</div>
+    <div class="img-preset-groups">
+      <div>
+        <div class="img-preset-group-label">🎨 스타일</div>
+        <div class="img-preset-row" id="preset-style">
+          ${IMG_PRESETS.style.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('style',${i})"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+        </div>
+      </div>
+      <div>
+        <div class="img-preset-group-label">💡 조명</div>
+        <div class="img-preset-row" id="preset-lighting">
+          ${IMG_PRESETS.lighting.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('lighting',${i})"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+        </div>
+      </div>
+      <div>
+        <div class="img-preset-group-label">⚙️ 기술 파라미터 <span style="font-size:10.5px;font-weight:400;color:var(--muted)">(Midjourney용 — 뭔지 모르겠다면 아래에서 선택하세요)</span></div>
+        <div class="img-preset-row" id="preset-params">
+          ${IMG_PRESETS.params.map((p,i)=>`<button class="img-preset-chip" onclick="applyPreset('params',${i})"><span class="pname">${p.name}</span><span class="pdesc">${p.desc}</span></button>`).join('')}
+        </div>
+        <div style="margin-top:8px;padding:8px 10px;background:var(--faint);border-radius:var(--rs);border:1px solid var(--bdr)">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px">파라미터 설명</div>
+          ${Object.entries(IMG_PARAM_DESC).map(([k,v])=>`<div style="font-size:11px;color:var(--muted);margin-bottom:3px"><code style="font-family:DM Mono,monospace;color:var(--acc);background:var(--acc-lt);padding:1px 4px;border-radius:3px">${k}</code> ${v}</div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  container.appendChild(panel);
+}
+
+function applyPreset(group,idx){
+  const preset=IMG_PRESETS[group][idx];
+  // Map group to FW tag
+  const tagMap={style:'Style',lighting:'Lighting',params:'Params'};
+  const tag=tagMap[group];
+  if(!tag) return;
+  // Find the field for this tag
+  const def=FW[S.fw];
+  const tagIdx=def.tags.indexOf(tag);
+  if(tagIdx<0) return;
+  const fields=document.querySelectorAll('#dyn-inputs .field');
+  if(!fields[tagIdx]) return;
+  fields[tagIdx].value=preset.val;
+  fields[tagIdx].classList.add('filled');
+  S.inputs[tag]=preset.val;
+  // Highlight selected chip
+  const row=document.getElementById('preset-'+group);
+  if(row){
+    row.querySelectorAll('.img-preset-chip').forEach((c,i)=>{
+      c.classList.toggle('sel',i===idx);
+    });
+  }
+  update();
+}
 function updateQP(){const qs=FW[S.fw].quality||[];document.getElementById('qp-count').textContent=`${qs.length}개`;document.getElementById('qp-items').innerHTML=qs.map(q=>`<div class="qp-item">${q}</div>`).join('');}
 function toggleQP(){document.getElementById('qp-body').classList.toggle('open');document.getElementById('qp-toggle').classList.toggle('open');}
 
@@ -1028,7 +1156,7 @@ function buildPrompt(){
 }
 
 /* ── UPDATE ── */
-function update(){const{text,hasRole,hasTask,hasFmt,rag,cot}=buildPrompt();promptText=text;if(!editMode)document.getElementById('out').innerHTML=highlight(text);document.getElementById('qp-role').classList.toggle('on',hasRole);document.getElementById('qp-task').classList.toggle('on',hasTask);document.getElementById('qp-fmt2').classList.toggle('on',hasFmt);document.getElementById('qp-guard').classList.toggle('on',rag);document.getElementById('qp-cot2').classList.toggle('on',cot);const tok=Math.round(text.length/3.5);document.getElementById('tok').textContent=`약 ${tok.toLocaleString()} 토큰`;const score=[hasRole,hasTask,hasFmt,rag,cot].filter(Boolean).length;const grades=['설계를 시작하세요 →','기본 구성 완료','양호한 프롬프트','우수한 프롬프트','고품질 프롬프트 ⭐','전문가 수준 🏆'];const colors=['var(--muted)','var(--muted)','var(--acc)','var(--acc)','var(--grn)','var(--grn)'];const g=document.getElementById('grade');g.textContent=grades[score];g.style.color=colors[score];updateProgress();const activeTab=document.querySelector('.out-tab.on')?.id?.replace('otab-','');if(activeTab==='compare')renderCompare();if(activeTab==='quality')renderQuality();}
+function update(){const{text,hasRole,hasTask,hasFmt,rag,cot}=buildPrompt();promptText=text;if(!editMode)document.getElementById('out').innerHTML=highlight(text);document.getElementById('qp-role').classList.toggle('on',hasRole);document.getElementById('qp-task').classList.toggle('on',hasTask);document.getElementById('qp-fmt2').classList.toggle('on',hasFmt);document.getElementById('qp-guard').classList.toggle('on',rag);document.getElementById('qp-cot2').classList.toggle('on',cot);const tok=Math.round(text.length/3.5);document.getElementById('tok').textContent=`약 ${tok.toLocaleString()} 토큰`;updateProgress();const activeTab=document.querySelector('.out-tab.on')?.id?.replace('otab-','');if(activeTab==='compare')renderCompare();if(activeTab==='quality')renderQuality();}
 
 /* ── COPY ── */
 function copyPrompt(){const text=editMode?document.getElementById('out-edit').value:promptText;navigator.clipboard.writeText(text).then(()=>showToast('📋 프롬프트가 복사되었습니다!'));}
@@ -1052,31 +1180,7 @@ function renderTemplates(){const ts=getT();const list=document.getElementById('t
 document.addEventListener('DOMContentLoaded',()=>{document.getElementById('tmpl-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmSave();});});
 
 /* ── INIT ── */
-/* ── VISITOR COUNTER ── */
-async function updateVisitorCount() {
-  // Using CounterAPI (free, no signup needed)
-  // namespace: iscream-media, key: prompt-helper-visits
-  // Replace namespace with your own project name for production
-  try {
-    const [todayRes, totalRes] = await Promise.all([
-      fetch('https://api.counterapi.dev/v1/iscream-media-prompt/today/hit'),
-      fetch('https://api.counterapi.dev/v1/iscream-media-prompt/total/hit')
-    ]);
-    const todayData = await todayRes.json();
-    const totalData = await totalRes.json();
-    const todayEl = document.getElementById('today-count');
-    const totalEl = document.getElementById('total-count');
-    if(todayEl && todayData.count != null) todayEl.textContent = todayData.count.toLocaleString();
-    if(totalEl && totalData.count != null) totalEl.textContent = totalData.count.toLocaleString();
-  } catch(e) {
-    // Silently fail if counter API is unavailable
-    const todayEl = document.getElementById('today-count');
-    const totalEl = document.getElementById('total-count');
-    if(todayEl) todayEl.textContent = '–';
-    if(totalEl) totalEl.textContent = '–';
-  }
-}
-updateVisitorCount();
+
 
 initTooltips();
 syncRow('row-rag','opt-rag');
